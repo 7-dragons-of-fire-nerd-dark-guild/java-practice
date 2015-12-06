@@ -6,25 +6,18 @@ import java.util.Stack;
 
 public class Solution {
 
-	public static int	NUM_COURSE;
-	public Map<Integer,Set> accessibleNodes = new HashMap<Integer,Set>();
+	public static int NUM_COURSE;
+	public static Map<Integer,Set> accessibleNodes = new HashMap<Integer,Set>();
 
+	//numCourses : id of course (ex: 3)
+	//prerequesite: depencencies of course (ex: [[3,2],[2,1],[2,1]]) 
 	public boolean canFinish(int numCourses, int[][] prerequisites) {
 		NUM_COURSE = numCourses;
 		
 		// Init graph
 		int[][] graph = new int[numCourses][numCourses];
-
-		for (int i = 0; i < numCourses; i++) {
-			for (int j = 0; j < numCourses; j++) {
-				graph[i][j] = 0;
-			}
-		}
-
-		for (int i = 0; i < prerequisites.length; i++) {
-			for (int j = 0; j < prerequisites[i].length; j++) {
-				graph[prerequisites[i][0]][prerequisites[i][1]] = 1;
-			}
+		for (int[] pair : prerequisites) {
+			graph[pair[0]][pair[1]] = 1;
 		}
 
 		// Detect cycle
@@ -41,13 +34,12 @@ public class Solution {
 		Set<Integer> visitedNode = new HashSet<Integer>();
 		Stack<Integer> toVisit = new Stack<Integer>();
 
-		toVisit.add(Integer.valueOf(node));
-		
+		toVisit.add(node);
 
-		while (toVisit.size() > 0) {
+		while (!toVisit.isEmpty()) {
 			Integer toVisitNode = toVisit.pop();
 			visitedNode.add(toVisitNode);
-			if (accessibleNodes.get(toVisitNode)!=null){
+			if (accessibleNodes.get(toVisitNode) != null){
 			    if (accessibleNodes.get(toVisitNode).contains(node)){
 			        return true;
 			    } else {
@@ -56,11 +48,11 @@ public class Solution {
 			}
 			else{
 			   for (int j = 0; j < NUM_COURSE; j++) {
-				if (graph[toVisitNode.intValue()][j] == 1) {
-					if (visitedNode.contains(Integer.valueOf(j))) {
+				if (graph[toVisitNode][j] == 1) {
+					if (visitedNode.contains(j)) {
 						return true;
 					}
-					toVisit.add(Integer.valueOf(j));
+					toVisit.add(j);
 				}
 			    } 
 			}

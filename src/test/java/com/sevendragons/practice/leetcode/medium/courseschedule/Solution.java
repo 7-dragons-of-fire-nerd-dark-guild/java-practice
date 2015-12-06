@@ -1,63 +1,58 @@
 package com.sevendragons.practice.leetcode.medium.coursesschedule;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 public class Solution {
 
-	public static int NUM_COURSE;
-	public static Map<Integer,Set> accessibleNodes = new HashMap<Integer,Set>();
+    public static int NUM_COURSE;
 
-	//numCourses : id of course (ex: 3)
-	//prerequesite: depencencies of course (ex: [[3,2],[2,1],[2,1]]) 
-	public boolean canFinish(int numCourses, int[][] prerequisites) {
-		NUM_COURSE = numCourses;
-		
-		// Init graph
-		int[][] graph = new int[numCourses][numCourses];
-		for (int[] pair : prerequisites) {
-			graph[pair[0]][pair[1]] = 1;
-		}
 
-		// Detect cycle
-		for (int i = 0; i < numCourses; i++) {
-			if (isCyclic(graph, i)) {
-				return false;
-			}
-		}
+    //numCourses : id of course (ex: 3)
+    //prerequesite: depencencies of course (ex: [[3,2],[2,1],[1,2], [3,1]])
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        NUM_COURSE = numCourses;
 
-		return true;
-	}
+        // Init graph
+        Map<Integer, Set<Integer>> prerequisitePerCourse = new HashMap<>();
+        for (int[] pair : prerequisites) {
+            if (prerequisitePerCourse.get(pair[0]) == null) {
+                prerequisitePerCourse.put(pair[0], new HashSet<Integer>());
+            }
+            prerequisitePerCourse.get(pair[0]).add(pair[1]);
+        }
 
-	private static boolean isCyclic(int[][] graph, int node) {
-		Set<Integer> visitedNode = new HashSet<Integer>();
-		Stack<Integer> toVisit = new Stack<Integer>();
+        // Detect cycle
+        return !isCyclic(prerequisitePerCourse);
+    }
 
-		toVisit.add(node);
+    private static boolean isCyclic(Map<Integer, Set<Integer>> prerequisitePerCourse) {
 
-		while (!toVisit.isEmpty()) {
-			Integer toVisitNode = toVisit.pop();
-			visitedNode.add(toVisitNode);
-			if (accessibleNodes.get(toVisitNode) != null){
-			    if (accessibleNodes.get(toVisitNode).contains(node)){
-			        return true;
-			    } else {
-			        accessibleNodes.get(toVisitNode).add(node);
-			    }
-			}
-			else{
-			   for (int j = 0; j < NUM_COURSE; j++) {
-				if (graph[toVisitNode][j] == 1) {
-					if (visitedNode.contains(j)) {
-						return true;
-					}
-					toVisit.add(j);
-				}
-			    } 
-			}
-		}
-		accessibleNodes.put(node,visitedNode);
-		return false;
-	}
+        for (int course : prerequisitePerCourse.keySet()) {
+            if (isCourseContainedInPrerequisites(prerequisitePerCourse, course, new HashSet<Integer>()) == true) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static boolean isCourseContainedInPrerequisites(Map<Integer, Set<Integer>> prerequisitePerCourse, int course, Set<Integer> toCheck) {
+
+        for (int i : toCheck) {
+            if (prerequisitePerCourse.get(course) != null && prerequisitePerCourse.get(course).contains(i)) {
+                return true;
+            }
+        }
+
+        for (Integer prerequisite : prerequisitePerCourse.get(course)) {
+            if (prerequisite == null) {
+                break;
+            }
+            toCheck.add(prerequisite);
+            isCourseContainedInPrerequisites(prerequisitePerCourse, prerequisite, toCheck);
+        }
+
+        return false;
+    }
+
 }

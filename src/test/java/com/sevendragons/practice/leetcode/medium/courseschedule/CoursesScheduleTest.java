@@ -24,7 +24,8 @@ public class CoursesScheduleTest {
     @Test
     public void test_with_cycle() {
         int[][] values = {{0, 1}, {1, 0}};
-        assertTrue(solution.canFinish(1, values));
+        assertFalse(solution.canFinish(2, values));
     }
+
 
 }

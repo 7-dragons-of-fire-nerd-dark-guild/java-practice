@@ -4,13 +4,9 @@ import java.util.*;
 
 public class Solution {
 
-    public static int NUM_COURSE;
-
-
     //numCourses : id of course (ex: 3)
     //prerequesite: depencencies of course (ex: [[3,2],[2,1],[1,2], [3,1]])
-    public boolean canFinish(int numCourses, int[][] prerequisites) {
-        NUM_COURSE = numCourses;
+    public boolean canFinish(int numberOfCourse, int[][] prerequisites) {
 
         // Init graph
         Map<Integer, Set<Integer>> prerequisitePerCourse = new HashMap<>();
@@ -22,13 +18,15 @@ public class Solution {
         }
 
         // Detect cycle
-        return !isCyclic(prerequisitePerCourse);
+        return !isCyclic(numberOfCourse, prerequisitePerCourse);
     }
 
-    private static boolean isCyclic(Map<Integer, Set<Integer>> prerequisitePerCourse) {
+    private static boolean isCyclic(int numberOfCourse, Map<Integer, Set<Integer>> prerequisitePerCourse) {
 
-        for (int course : prerequisitePerCourse.keySet()) {
-            if (isCourseContainedInPrerequisites(prerequisitePerCourse, course, new HashSet<Integer>()) == true) {
+        for (int course = 0; course < numberOfCourse; course++) {
+            Set<Integer> targetCourses = new HashSet<Integer>();
+            targetCourses.add(course);
+            if (isCourseContainedInPrerequisites(prerequisitePerCourse, targetCourses, course) == true) {
                 return true;
             }
         }
@@ -36,21 +34,26 @@ public class Solution {
         return false;
     }
 
-    private static boolean isCourseContainedInPrerequisites(Map<Integer, Set<Integer>> prerequisitePerCourse, int course, Set<Integer> toCheck) {
+    private static boolean isCourseContainedInPrerequisites(Map<Integer, Set<Integer>> prerequisitePerCourse, Set<Integer> targetCourses, int prerequisiteToCheck) {
 
-        for (int i : toCheck) {
-            if (prerequisitePerCourse.get(course) != null && prerequisitePerCourse.get(course).contains(i)) {
+        for (int course : targetCourses) {
+            if (prerequisitePerCourse.get(prerequisiteToCheck) != null && prerequisitePerCourse.get(prerequisiteToCheck).contains(course)) {
                 return true;
             }
         }
 
-        for (Integer prerequisite : prerequisitePerCourse.get(course)) {
-            if (prerequisite == null) {
-                break;
-            }
-            toCheck.add(prerequisite);
-            isCourseContainedInPrerequisites(prerequisitePerCourse, prerequisite, toCheck);
-        }
+        Set<Integer> prerequisites = prerequisitePerCourse.get(prerequisiteToCheck);
+	if (prerequisites != null){
+	    for (Integer prerequisite : prerequisitePerCourse.get(prerequisiteToCheck)) {
+	        if (prerequisite != null){
+	            targetCourses.add(prerequisite);
+	            if (isCourseContainedInPrerequisites(prerequisitePerCourse, targetCourses, prerequisite)){
+		        return true;
+	            }
+		}
+	    }
+	}
+        
 
         return false;
     }

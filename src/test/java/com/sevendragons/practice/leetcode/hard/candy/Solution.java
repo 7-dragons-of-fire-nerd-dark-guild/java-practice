@@ -10,13 +10,13 @@ public class Solution {
     }
 
     public int[] calculate(int[] ratings) {
-        int[] candies = initArray(ratings.length);
+        int[] candies = createArrayOfOnes(ratings.length);
         calculateFromLeft(ratings, candies);
         calculateFromRight(ratings, candies);
         return candies;
     }
 
-    public int[] initArray(int length) {
+    public int[] createArrayOfOnes(int length) {
         int[] arr = new int[length];
         Arrays.fill(arr, 1);
         return arr;

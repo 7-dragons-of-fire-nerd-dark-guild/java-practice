@@ -24,40 +24,37 @@ public class CandyTest {
         assertArrayEquals(new int[]{1, 1}, solution.createArrayOfOnes(2));
     }
 
+    private int[] calculateFromLeft(int... ratings) {
+        return solution.calculateFromLeft(ratings, solution.createArrayOfOnes(ratings.length));
+    }
+
+    private int[] calculateFromRight(int... ratings) {
+        return solution.calculateFromRight(ratings, solution.createArrayOfOnes(ratings.length));
+    }
+
     @Test
     public void test_calculateFromLeft_2_2() {
-        int[] ratings = {2, 2};
-        assertArrayEquals(new int[]{1, 1}, solution.calculateFromLeft(ratings, solution.createArrayOfOnes(
-                ratings.length)));
+        assertArrayEquals(new int[]{1, 1}, calculateFromLeft(2, 2));
     }
 
     @Test
     public void test_calculateFromLeft_1_2_3() {
-        int[] ratings = {1, 2, 3};
-        assertArrayEquals(new int[]{1, 2, 3}, solution.calculateFromLeft(ratings, solution.createArrayOfOnes(
-                ratings.length)));
+        assertArrayEquals(new int[]{1, 2, 3}, calculateFromLeft(1, 2, 3));
     }
 
     @Test
     public void test_calculateFromLeft_3_2_1() {
-        int[] ratings = {3, 2, 1};
-        assertArrayEquals(new int[]{1, 1, 1}, solution.calculateFromLeft(ratings, solution.createArrayOfOnes(
-                ratings.length)));
-
+        assertArrayEquals(new int[]{1, 1, 1}, calculateFromLeft(3, 2, 1));
     }
 
     @Test
     public void test_calculateFromLeft_4_3_3_4() {
-        int[] ratings = {4, 3, 3, 4};
-        assertArrayEquals(new int[]{1, 1, 1, 2},
-                solution.calculateFromLeft(ratings, solution.createArrayOfOnes(ratings.length)));
+        assertArrayEquals(new int[]{1, 1, 1, 2}, calculateFromLeft(4, 3, 3, 4));
     }
 
     @Test
     public void test_calculateFromRight_4_3_3_4() {
-        int[] ratings = {4, 3, 3, 4};
-        assertArrayEquals(new int[]{2, 1, 1, 1},
-                solution.calculateFromRight(ratings, solution.createArrayOfOnes(ratings.length)));
+        assertArrayEquals(new int[]{2, 1, 1, 1}, calculateFromRight(4, 3, 3, 4));
     }
 
     @Test

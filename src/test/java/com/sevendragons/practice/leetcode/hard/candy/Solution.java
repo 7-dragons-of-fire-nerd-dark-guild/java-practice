@@ -9,7 +9,7 @@ public class Solution {
         return sum(calculate(ratings));
     }
 
-    public int[] calculate(int[] ratings) {
+    public int[] calculate(int... ratings) {
         int[] candies = createArrayOfOnes(ratings.length);
         calculateFromLeft(ratings, candies);
         calculateFromRight(ratings, candies);
@@ -40,7 +40,7 @@ public class Solution {
         return candies;
     }
 
-    public int sum(int[] ints) {
+    public int sum(int... ints) {
         return IntStream.of(ints).sum();
     }
 }

@@ -59,25 +59,21 @@ public class CandyTest {
 
     @Test
     public void test_calculate_4_3_3_4() {
-        int[] ratings = {4, 3, 3, 4};
-        assertArrayEquals(new int[]{2, 1, 1, 2}, solution.calculate(ratings));
+        assertArrayEquals(new int[]{2, 1, 1, 2}, solution.calculate(4, 3, 3, 4));
     }
 
     @Test
     public void test_calculate_3_4_6_6_5() {
-        int[] ratings = {3, 4, 6, 6, 5};
-        assertArrayEquals(new int[]{1, 2, 3, 2, 1}, solution.calculate(ratings));
+        assertArrayEquals(new int[]{1, 2, 3, 2, 1}, solution.calculate(3, 4, 6, 6, 5));
     }
 
     @Test
     public void test_calculate_4_2_3_4_1() {
-        int[] ratings = {4, 2, 3, 4, 1};
-        assertArrayEquals(new int[]{2, 1, 2, 3, 1}, solution.calculate(ratings));
+        assertArrayEquals(new int[]{2, 1, 2, 3, 1}, solution.calculate(4, 2, 3, 4, 1));
     }
 
     @Test
     public void test_sum_1_2_3() {
-        int[] ratings = {1, 2, 3};
-        assertEquals(6, solution.sum(ratings));
+        assertEquals(6, solution.sum(1, 2, 3));
     }
 }

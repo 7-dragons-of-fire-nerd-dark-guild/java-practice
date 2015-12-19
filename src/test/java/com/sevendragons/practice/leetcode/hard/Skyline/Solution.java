@@ -37,6 +37,11 @@ public class Solution {
         for (PointAndBuilding pointAndBuilding : leftRightPoints) {
             if (pointAndBuilding.point == pointAndBuilding.building.left) {
                 if (isHigher(pointAndBuilding.building, visibleBuildings)) {
+                    if (!skyline.isEmpty()) {
+                        if (skyline.get(skyline.size() - 1)[0] == pointAndBuilding.point) {
+                            skyline.remove(skyline.size() - 1);
+                        }
+                    }
                     skyline.add(new int[]{pointAndBuilding.point, pointAndBuilding.building.height});
                 }
                 visibleBuildings.add(pointAndBuilding.building);

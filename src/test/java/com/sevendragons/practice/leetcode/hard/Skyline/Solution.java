@@ -97,13 +97,14 @@ public class Solution {
 
 
     private List<PointAndBuilding> getLeftRightPoints(int[][] buildings) {
-
         List<PointAndBuilding> points = new ArrayList<>();
+
         for (int[] buildingData : buildings) {
             final Building building = new Building(buildingData[0], buildingData[1], buildingData[2]);
             points.add(new PointAndBuilding(building.left, building));
             points.add(new PointAndBuilding(building.right, building));
         }
+
         Collections.sort(points, new Comparator<PointAndBuilding>() {
             @Override
             public int compare(PointAndBuilding o1, PointAndBuilding o2) {

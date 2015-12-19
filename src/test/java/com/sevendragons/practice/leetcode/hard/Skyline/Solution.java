@@ -36,27 +36,37 @@ public class Solution {
 
         for (PointAndBuilding pointAndBuilding : leftRightPoints) {
             if (pointAndBuilding.point == pointAndBuilding.building.left) {
-                if (isHigher(pointAndBuilding.building, visibleBuildings)) {
-                    removeLastIfSameX(skyline, pointAndBuilding);
-                    if (!skyline.isEmpty()) {
-                        if (skyline.get(skyline.size() - 1)[1] != pointAndBuilding.building.height) {
-                            skyline.add(new int[]{pointAndBuilding.point, pointAndBuilding.building.height});
-                        }
-                    } else {
-                        skyline.add(new int[]{pointAndBuilding.point, pointAndBuilding.building.height});
-                    }
-                }
+                addKeyPointIfWeAreHigher(visibleBuildings, skyline, pointAndBuilding);
                 visibleBuildings.add(pointAndBuilding.building);
             } else {
                 visibleBuildings.remove(pointAndBuilding.building);
-                if (isHigher(pointAndBuilding.building, visibleBuildings)) {
-                    removeLastIfSameX(skyline, pointAndBuilding);
-                    skyline.add(new int[]{pointAndBuilding.point, getHighestOrZero(visibleBuildings)});
-                }
+                addKeyPointIfWeWereHighest(visibleBuildings, skyline, pointAndBuilding);
             }
         }
 
         return skyline;
+    }
+
+    private void addKeyPointIfWeWereHighest(PriorityQueue<Building> visibleBuildings, List<int[]> skyline,
+                                            PointAndBuilding pointAndBuilding) {
+        if (isHigher(pointAndBuilding.building, visibleBuildings)) {
+            removeLastIfSameX(skyline, pointAndBuilding);
+            skyline.add(new int[]{pointAndBuilding.point, getHighestOrZero(visibleBuildings)});
+        }
+    }
+
+    private void addKeyPointIfWeAreHigher(PriorityQueue<Building> visibleBuildings, List<int[]> skyline,
+                                          PointAndBuilding pointAndBuilding) {
+        if (isHigher(pointAndBuilding.building, visibleBuildings)) {
+            removeLastIfSameX(skyline, pointAndBuilding);
+            if (!skyline.isEmpty()) {
+                if (skyline.get(skyline.size() - 1)[1] != pointAndBuilding.building.height) {
+                    skyline.add(new int[]{pointAndBuilding.point, pointAndBuilding.building.height});
+                }
+            } else {
+                skyline.add(new int[]{pointAndBuilding.point, pointAndBuilding.building.height});
+            }
+        }
     }
 
     private void removeLastIfSameX(List<int[]> skyline, PointAndBuilding pointAndBuilding) {

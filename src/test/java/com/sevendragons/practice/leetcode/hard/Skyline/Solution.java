@@ -124,7 +124,7 @@ public class Solution {
         }
     }
 
-    private class Building {
+    private static class Building {
         final int left;
         final int right;
         final int height;
@@ -135,5 +135,4 @@ public class Solution {
             this.height = height;
         }
     }
-
 }

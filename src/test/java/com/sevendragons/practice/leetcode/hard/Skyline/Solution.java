@@ -37,11 +37,7 @@ public class Solution {
         for (PointAndBuilding pointAndBuilding : leftRightPoints) {
             if (pointAndBuilding.point == pointAndBuilding.building.left) {
                 if (isHigher(pointAndBuilding.building, visibleBuildings)) {
-                    if (!skyline.isEmpty()) {
-                        if (skyline.get(skyline.size() - 1)[0] == pointAndBuilding.point) {
-                            skyline.remove(skyline.size() - 1);
-                        }
-                    }
+                    removeLastIfSameX(skyline, pointAndBuilding);
                     if (!skyline.isEmpty()) {
                         if (skyline.get(skyline.size() - 1)[1] != pointAndBuilding.building.height) {
                             skyline.add(new int[]{pointAndBuilding.point, pointAndBuilding.building.height});
@@ -54,17 +50,21 @@ public class Solution {
             } else {
                 visibleBuildings.remove(pointAndBuilding.building);
                 if (isHigher(pointAndBuilding.building, visibleBuildings)) {
-                    if (!skyline.isEmpty()) {
-                        if (skyline.get(skyline.size() - 1)[0] == pointAndBuilding.point) {
-                            skyline.remove(skyline.size() - 1);
-                        }
-                    }
+                    removeLastIfSameX(skyline, pointAndBuilding);
                     skyline.add(new int[]{pointAndBuilding.point, getHighestOrZero(visibleBuildings)});
                 }
             }
         }
 
         return skyline;
+    }
+
+    private void removeLastIfSameX(List<int[]> skyline, PointAndBuilding pointAndBuilding) {
+        if (!skyline.isEmpty()) {
+            if (skyline.get(skyline.size() - 1)[0] == pointAndBuilding.point) {
+                skyline.remove(skyline.size() - 1);
+            }
+        }
     }
 
     private int getHighestOrZero(PriorityQueue<Building> visibleBuildings) {

@@ -25,12 +25,7 @@ public class Solution {
     }
 
     private List<int[]> getSkyline(List<PointAndBuilding> leftRightPoints) {
-        final PriorityQueue<Building> visibleBuildings = new PriorityQueue<>(Collections.reverseOrder(new Comparator<Building>() {
-            @Override
-            public int compare(Building o1, Building o2) {
-                return Integer.compare(o1.height, o2.height);
-            }
-        }));
+        final PriorityQueue<Building> visibleBuildings = makeHeapByDecreasingHeight();
 
         List<int[]> skyline = new ArrayList<>();
 
@@ -45,6 +40,15 @@ public class Solution {
         }
 
         return skyline;
+    }
+
+    private PriorityQueue<Building> makeHeapByDecreasingHeight() {
+        return new PriorityQueue<>(Collections.reverseOrder(new Comparator<Building>() {
+            @Override
+            public int compare(Building o1, Building o2) {
+                return Integer.compare(o1.height, o2.height);
+            }
+        }));
     }
 
     private void addKeyPointIfWeWereHighest(PriorityQueue<Building> visibleBuildings, List<int[]> skyline,

@@ -40,13 +40,34 @@ public class SkylineTest {
     }
 
     @Test
-    public void test_overlap_0_3_2__0_2_3() {
+    public void test_overlap_left_0_3_2__0_2_3() {
         assertListEquals(Arrays.asList(
                         new int[]{0, 3},
                         new int[]{2, 2},
                         new int[]{3, 0}
                 ),
                 solve(new int[][]{{0, 3, 2}, {0, 2, 3}})
+        );
+    }
+
+    @Test
+    public void test_overlap_left_0_2_3__0_3_2() {
+        assertListEquals(Arrays.asList(
+                        new int[]{0, 3},
+                        new int[]{2, 2},
+                        new int[]{3, 0}
+                ),
+                solve(new int[][]{{0, 2, 3}, {0, 3, 2}})
+        );
+    }
+
+    @Test
+    public void test_overlap_right_0_3_3__1_3_2() {
+        assertListEquals(Arrays.asList(
+                        new int[]{0, 3},
+                        new int[]{3, 0}
+                ),
+                solve(new int[][]{{0, 3, 3}, {1, 3, 2}})
         );
     }
 }

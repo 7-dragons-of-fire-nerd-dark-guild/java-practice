@@ -43,7 +43,7 @@ public class Solution {
             } else {
                 visibleBuildings.remove(pointAndBuilding.building);
                 if (isHigher(pointAndBuilding.building, visibleBuildings)) {
-                    skyline.add(new int[]{pointAndBuilding.point, visibleBuildings.peek().height});
+                    skyline.add(new int[]{pointAndBuilding.point, getHighestOrZero(visibleBuildings)});
                 }
             }
         }
@@ -51,8 +51,15 @@ public class Solution {
         return skyline;
     }
 
+    private int getHighestOrZero(PriorityQueue<Building> visibleBuildings) {
+        if (visibleBuildings.isEmpty()) {
+            return 0;
+        }
+        return visibleBuildings.peek().height;
+    }
+
     private boolean isHigher(Building building, PriorityQueue<Building> visibleBuildings) {
-        if ( visibleBuildings.isEmpty() ) {
+        if (visibleBuildings.isEmpty()) {
             return true;
         }
         return building.height > visibleBuildings.peek().height;

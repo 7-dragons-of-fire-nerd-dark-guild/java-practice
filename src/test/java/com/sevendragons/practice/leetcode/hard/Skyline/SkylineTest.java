@@ -70,4 +70,14 @@ public class SkylineTest {
                 solve(new int[][]{{0, 3, 3}, {1, 3, 2}})
         );
     }
+
+    @Test
+    public void test_overlap_side_0_2_3__2_5_3() {
+        assertListEquals(Arrays.asList(
+                        new int[]{0, 3},
+                        new int[]{5, 0}
+                ),
+                solve(new int[][]{{0, 2, 3}, {2, 5, 3}})
+        );
+    }
 }

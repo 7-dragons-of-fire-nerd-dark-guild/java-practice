@@ -42,7 +42,13 @@ public class Solution {
                             skyline.remove(skyline.size() - 1);
                         }
                     }
-                    skyline.add(new int[]{pointAndBuilding.point, pointAndBuilding.building.height});
+                    if (!skyline.isEmpty()) {
+                        if (skyline.get(skyline.size() - 1)[1] != pointAndBuilding.building.height) {
+                            skyline.add(new int[]{pointAndBuilding.point, pointAndBuilding.building.height});
+                        }
+                    } else {
+                        skyline.add(new int[]{pointAndBuilding.point, pointAndBuilding.building.height});
+                    }
                 }
                 visibleBuildings.add(pointAndBuilding.building);
             } else {

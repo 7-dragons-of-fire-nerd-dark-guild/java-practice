@@ -64,11 +64,11 @@ public class Solution {
     private void checkAndAppend(List<int[]> skyline, PriorityQueue<Building> visibleBuildings,
                                 PointAndBuilding pointAndBuilding) {
         if (pointAndBuilding.point == pointAndBuilding.building.left) {
-            addKeyPointIfAddedBuildingIsHigher(visibleBuildings, skyline, pointAndBuilding);
+            addKeyPointIfAddedBuildingIsHigher(skyline, visibleBuildings, pointAndBuilding);
             visibleBuildings.add(pointAndBuilding.building);
         } else {
             visibleBuildings.remove(pointAndBuilding.building);
-            addKeyPointIfRemovedBuildingWasHighest(visibleBuildings, skyline, pointAndBuilding);
+            addKeyPointIfRemovedBuildingWasHighest(skyline, visibleBuildings, pointAndBuilding);
         }
     }
 
@@ -81,7 +81,7 @@ public class Solution {
         }));
     }
 
-    private void addKeyPointIfRemovedBuildingWasHighest(PriorityQueue<Building> visibleBuildings, List<int[]> skyline,
+    private void addKeyPointIfRemovedBuildingWasHighest(List<int[]> skyline, PriorityQueue<Building> visibleBuildings,
                                                         PointAndBuilding pointAndBuilding) {
         if (isHigher(pointAndBuilding.building, visibleBuildings)) {
             removeLastIfSameX(skyline, pointAndBuilding);
@@ -89,7 +89,7 @@ public class Solution {
         }
     }
 
-    private void addKeyPointIfAddedBuildingIsHigher(PriorityQueue<Building> visibleBuildings, List<int[]> skyline,
+    private void addKeyPointIfAddedBuildingIsHigher(List<int[]> skyline, PriorityQueue<Building> visibleBuildings,
                                                     PointAndBuilding pointAndBuilding) {
         if (isHigher(pointAndBuilding.building, visibleBuildings)) {
             removeLastIfSameX(skyline, pointAndBuilding);

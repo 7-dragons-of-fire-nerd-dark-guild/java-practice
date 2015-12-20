@@ -93,18 +93,18 @@ public class Solution {
                                                     PointAndBuilding pointAndBuilding) {
         if (isHigher(pointAndBuilding.building, visibleBuildings)) {
             removeLastIfSameX(skyline, pointAndBuilding);
-            if (!skyline.isEmpty()) {
-                if (skyline.get(skyline.size() - 1)[1] != pointAndBuilding.building.height) {
-                    addKeyPoint(skyline, pointAndBuilding.point, pointAndBuilding.building.height);
-                }
-            } else {
-                addKeyPoint(skyline, pointAndBuilding.point, pointAndBuilding.building.height);
-            }
+            addKeyPointIfDifferentHeight(skyline, pointAndBuilding);
         }
     }
 
-    private void addKeyPoint(List<int[]> skyline, int x, int height) {
-        skyline.add(new int[]{x, height});
+    private void addKeyPointIfDifferentHeight(List<int[]> skyline, PointAndBuilding pointAndBuilding) {
+        if (!skyline.isEmpty()) {
+            if (skyline.get(skyline.size() - 1)[1] != pointAndBuilding.building.height) {
+                addKeyPoint(skyline, pointAndBuilding.point, pointAndBuilding.building.height);
+            }
+        } else {
+            addKeyPoint(skyline, pointAndBuilding.point, pointAndBuilding.building.height);
+        }
     }
 
     private void removeLastIfSameX(List<int[]> skyline, PointAndBuilding pointAndBuilding) {
@@ -113,6 +113,10 @@ public class Solution {
                 skyline.remove(skyline.size() - 1);
             }
         }
+    }
+
+    private void addKeyPoint(List<int[]> skyline, int x, int height) {
+        skyline.add(new int[]{x, height});
     }
 
     private int getHighestOrZero(PriorityQueue<Building> visibleBuildings) {

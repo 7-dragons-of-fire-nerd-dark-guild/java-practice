@@ -104,10 +104,8 @@ public class Solution {
     }
 
     private void removeLastIfSameX(List<int[]> skyline, PointAndBuilding pointAndBuilding) {
-        if (!skyline.isEmpty()) {
-            if (skyline.get(skyline.size() - 1)[0] == pointAndBuilding.point) {
-                skyline.remove(skyline.size() - 1);
-            }
+        if (!skyline.isEmpty() && skyline.get(skyline.size() - 1)[0] == pointAndBuilding.point) {
+            skyline.remove(skyline.size() - 1);
         }
     }
 

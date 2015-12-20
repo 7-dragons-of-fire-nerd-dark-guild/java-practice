@@ -98,15 +98,19 @@ public class Solution {
     }
 
     private void addKeyPointIfDifferentHeight(List<int[]> skyline, PointAndBuilding pointAndBuilding) {
-        if (skyline.isEmpty() || skyline.get(skyline.size() - 1)[1] != pointAndBuilding.building.height) {
+        if (skyline.isEmpty() || getLastKeyPoint(skyline)[1] != pointAndBuilding.building.height) {
             addKeyPoint(skyline, pointAndBuilding.point, pointAndBuilding.building.height);
         }
     }
 
     private void removeLastIfSameX(List<int[]> skyline, PointAndBuilding pointAndBuilding) {
-        if (!skyline.isEmpty() && skyline.get(skyline.size() - 1)[0] == pointAndBuilding.point) {
+        if (!skyline.isEmpty() && getLastKeyPoint(skyline)[0] == pointAndBuilding.point) {
             skyline.remove(skyline.size() - 1);
         }
+    }
+
+    private int[] getLastKeyPoint(List<int[]> skyline) {
+        return skyline.get(skyline.size() - 1);
     }
 
     private void addKeyPoint(List<int[]> skyline, int x, int height) {

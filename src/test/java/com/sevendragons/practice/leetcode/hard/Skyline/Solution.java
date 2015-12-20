@@ -47,7 +47,7 @@ public class Solution {
     }
 
     private List<int[]> getSkyline(List<PointAndBuilding> leftRightPoints) {
-        final PriorityQueue<Building> visibleBuildings = makeHeapByDecreasingHeight();
+        final PriorityQueue<Building> visibleBuildings = createMaxHeapByHeight();
 
         List<int[]> skyline = new ArrayList<>();
 
@@ -64,7 +64,7 @@ public class Solution {
         return skyline;
     }
 
-    private PriorityQueue<Building> makeHeapByDecreasingHeight() {
+    private PriorityQueue<Building> createMaxHeapByHeight() {
         return new PriorityQueue<>(Collections.reverseOrder(new Comparator<Building>() {
             @Override
             public int compare(Building o1, Building o2) {

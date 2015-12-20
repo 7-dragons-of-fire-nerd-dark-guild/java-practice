@@ -113,8 +113,8 @@ public class Solution {
         return skyline.get(skyline.size() - 1);
     }
 
-    private void addKeyPoint(List<int[]> skyline, int x, int height) {
-        skyline.add(new int[]{x, height});
+    private void addKeyPoint(List<int[]> skyline, int point, int height) {
+        skyline.add(new int[]{point, height});
     }
 
     private int getHighestOrZero(PriorityQueue<Building> visibleBuildings) {

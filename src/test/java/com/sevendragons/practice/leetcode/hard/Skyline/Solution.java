@@ -116,8 +116,8 @@ public class Solution {
     }
 
     private static class PointAndBuilding {
-        final int point;
-        final Building building;
+        private final int point;
+        private final Building building;
 
         private PointAndBuilding(int point, Building building) {
             this.point = point;
@@ -126,9 +126,9 @@ public class Solution {
     }
 
     private static class Building {
-        final int left;
-        final int right;
-        final int height;
+        private final int left;
+        private final int right;
+        private final int height;
 
         private Building(int left, int right, int height) {
             this.left = left;

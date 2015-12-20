@@ -52,16 +52,21 @@ public class Solution {
         List<int[]> skyline = new ArrayList<>();
 
         for (PointAndBuilding pointAndBuilding : leftRightPoints) {
-            if (pointAndBuilding.point == pointAndBuilding.building.left) {
-                addKeyPointIfWeAreHigher(visibleBuildings, skyline, pointAndBuilding);
-                visibleBuildings.add(pointAndBuilding.building);
-            } else {
-                visibleBuildings.remove(pointAndBuilding.building);
-                addKeyPointIfWeWereHighest(visibleBuildings, skyline, pointAndBuilding);
-            }
+            checkAndAppend(skyline, visibleBuildings, pointAndBuilding);
         }
 
         return skyline;
+    }
+
+    private void checkAndAppend(List<int[]> skyline, PriorityQueue<Building> visibleBuildings,
+                                PointAndBuilding pointAndBuilding) {
+        if (pointAndBuilding.point == pointAndBuilding.building.left) {
+            addKeyPointIfWeAreHigher(visibleBuildings, skyline, pointAndBuilding);
+            visibleBuildings.add(pointAndBuilding.building);
+        } else {
+            visibleBuildings.remove(pointAndBuilding.building);
+            addKeyPointIfWeWereHighest(visibleBuildings, skyline, pointAndBuilding);
+        }
     }
 
     private PriorityQueue<Building> createMaxHeapByHeight() {

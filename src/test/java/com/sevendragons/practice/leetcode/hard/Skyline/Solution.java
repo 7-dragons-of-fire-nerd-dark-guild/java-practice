@@ -65,6 +65,7 @@ public class Solution {
         return new PriorityQueue<>(new Comparator<Building>() {
             @Override
             public int compare(Building o1, Building o2) {
+                //noinspection SuspiciousNameCombination
                 return -Integer.compare(o1.height, o2.height);
             }
         });

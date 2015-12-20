@@ -48,7 +48,10 @@ public class Solution {
 
     private List<int[]> getSkyline(List<PointAndBuilding> leftRightPoints) {
         final PriorityQueue<Building> visibleBuildings = createMaxHeapByHeight();
+        return getSkyline(leftRightPoints, visibleBuildings);
+    }
 
+    private List<int[]> getSkyline(List<PointAndBuilding> leftRightPoints, PriorityQueue<Building> visibleBuildings) {
         List<int[]> skyline = new ArrayList<>();
 
         for (PointAndBuilding pointAndBuilding : leftRightPoints) {

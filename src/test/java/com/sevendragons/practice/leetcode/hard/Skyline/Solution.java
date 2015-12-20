@@ -19,6 +19,28 @@ public class Solution {
     // number of buildings: [0, 10000]
     //
 
+    private static class Building {
+        private final int left;
+        private final int right;
+        private final int height;
+
+        private Building(int left, int right, int height) {
+            this.left = left;
+            this.right = right;
+            this.height = height;
+        }
+    }
+
+    private static class PointAndBuilding {
+        private final int point;
+        private final Building building;
+
+        private PointAndBuilding(int point, Building building) {
+            this.point = point;
+            this.building = building;
+        }
+    }
+
     public List<int[]> getSkyline(int[][] buildings) {
         final List<PointAndBuilding> leftRightPoints = getLeftRightPoints(buildings);
         return getSkyline(leftRightPoints);
@@ -95,7 +117,6 @@ public class Solution {
         return building.height > visibleBuildings.peek().height;
     }
 
-
     private List<PointAndBuilding> getLeftRightPoints(int[][] buildings) {
         List<PointAndBuilding> points = new ArrayList<>();
 
@@ -113,27 +134,5 @@ public class Solution {
         });
 
         return points;
-    }
-
-    private static class PointAndBuilding {
-        private final int point;
-        private final Building building;
-
-        private PointAndBuilding(int point, Building building) {
-            this.point = point;
-            this.building = building;
-        }
-    }
-
-    private static class Building {
-        private final int left;
-        private final int right;
-        private final int height;
-
-        private Building(int left, int right, int height) {
-            this.left = left;
-            this.right = right;
-            this.height = height;
-        }
     }
 }

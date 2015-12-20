@@ -126,10 +126,7 @@ public class Solution {
     }
 
     private boolean isHigher(Building building, PriorityQueue<Building> visibleBuildings) {
-        if (visibleBuildings.isEmpty()) {
-            return true;
-        }
-        return building.height > visibleBuildings.peek().height;
+        return visibleBuildings.isEmpty() || building.height > visibleBuildings.peek().height;
     }
 
     private List<PointAndBuilding> getLeftRightPoints(int[][] buildings) {

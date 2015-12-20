@@ -64,11 +64,11 @@ public class Solution {
     private void checkAndAppend(List<int[]> skyline, PriorityQueue<Building> visibleBuildings,
                                 PointAndBuilding pointAndBuilding) {
         if (pointAndBuilding.point == pointAndBuilding.building.left) {
-            addKeyPointIfWeAreHigher(visibleBuildings, skyline, pointAndBuilding);
+            addKeyPointIfAddedBuildingIsHigher(visibleBuildings, skyline, pointAndBuilding);
             visibleBuildings.add(pointAndBuilding.building);
         } else {
             visibleBuildings.remove(pointAndBuilding.building);
-            addKeyPointIfWeWereHighest(visibleBuildings, skyline, pointAndBuilding);
+            addKeyPointIfRemovedBuildingWasHighest(visibleBuildings, skyline, pointAndBuilding);
         }
     }
 
@@ -81,16 +81,16 @@ public class Solution {
         }));
     }
 
-    private void addKeyPointIfWeWereHighest(PriorityQueue<Building> visibleBuildings, List<int[]> skyline,
-                                            PointAndBuilding pointAndBuilding) {
+    private void addKeyPointIfRemovedBuildingWasHighest(PriorityQueue<Building> visibleBuildings, List<int[]> skyline,
+                                                        PointAndBuilding pointAndBuilding) {
         if (isHigher(pointAndBuilding.building, visibleBuildings)) {
             removeLastIfSameX(skyline, pointAndBuilding);
             addKeyPoint(skyline, pointAndBuilding.point, getHighestOrZero(visibleBuildings));
         }
     }
 
-    private void addKeyPointIfWeAreHigher(PriorityQueue<Building> visibleBuildings, List<int[]> skyline,
-                                          PointAndBuilding pointAndBuilding) {
+    private void addKeyPointIfAddedBuildingIsHigher(PriorityQueue<Building> visibleBuildings, List<int[]> skyline,
+                                                    PointAndBuilding pointAndBuilding) {
         if (isHigher(pointAndBuilding.building, visibleBuildings)) {
             removeLastIfSameX(skyline, pointAndBuilding);
             if (!skyline.isEmpty()) {

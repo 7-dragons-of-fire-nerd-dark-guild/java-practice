@@ -62,12 +62,12 @@ public class Solution {
     }
 
     private PriorityQueue<Building> createMaxHeapByHeight() {
-        return new PriorityQueue<>(Collections.reverseOrder(new Comparator<Building>() {
+        return new PriorityQueue<>(new Comparator<Building>() {
             @Override
             public int compare(Building o1, Building o2) {
-                return Integer.compare(o1.height, o2.height);
+                return -Integer.compare(o1.height, o2.height);
             }
-        }));
+        });
     }
 
     private void checkAndAppend(List<int[]> skyline, PriorityQueue<Building> visibleBuildings,

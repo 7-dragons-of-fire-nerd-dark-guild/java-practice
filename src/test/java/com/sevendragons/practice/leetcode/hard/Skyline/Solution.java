@@ -132,6 +132,21 @@ public class Solution {
     }
 
     private List<PointAndBuilding> getLeftRightPoints(int[][] buildings) {
+        List<PointAndBuilding> pointAndBuildingList = createPointAndBuildingList(buildings);
+        sortByPoint(pointAndBuildingList);
+        return pointAndBuildingList;
+    }
+
+    private void sortByPoint(List<PointAndBuilding> points) {
+        Collections.sort(points, new Comparator<PointAndBuilding>() {
+            @Override
+            public int compare(PointAndBuilding o1, PointAndBuilding o2) {
+                return Integer.compare(o1.point, o2.point);
+            }
+        });
+    }
+
+    private List<PointAndBuilding> createPointAndBuildingList(int[][] buildings) {
         List<PointAndBuilding> points = new ArrayList<>();
 
         for (int[] buildingData : buildings) {
@@ -139,14 +154,6 @@ public class Solution {
             points.add(new PointAndBuilding(building.left, building));
             points.add(new PointAndBuilding(building.right, building));
         }
-
-        Collections.sort(points, new Comparator<PointAndBuilding>() {
-            @Override
-            public int compare(PointAndBuilding o1, PointAndBuilding o2) {
-                return Integer.compare(o1.point, o2.point);
-            }
-        });
-
         return points;
     }
 }

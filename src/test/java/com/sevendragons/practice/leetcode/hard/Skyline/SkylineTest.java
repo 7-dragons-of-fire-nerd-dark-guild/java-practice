@@ -23,12 +23,12 @@ public class SkylineTest {
     }
 
     @Test
-    public void test_2_9_10() {
+    public void test_single_building_2_9_10() {
         assertListEquals(Arrays.asList(new int[]{2, 10}, new int[]{9, 0}), solve(new int[][]{{2, 9, 10}}));
     }
 
     @Test
-    public void test_2_9_10__3_7_15__5_12_12() {
+    public void test_single_group_of_buildings_2_9_10__3_7_15__5_12_12() {
         assertListEquals(Arrays.asList(
                         new int[]{2, 10},
                         new int[]{3, 15},
@@ -40,7 +40,7 @@ public class SkylineTest {
     }
 
     @Test
-    public void test_overlap_left_0_3_2__0_2_3() {
+    public void test_overlap_left_lower_first() {
         assertListEquals(Arrays.asList(
                         new int[]{0, 3},
                         new int[]{2, 2},
@@ -51,7 +51,7 @@ public class SkylineTest {
     }
 
     @Test
-    public void test_overlap_left_0_2_3__0_3_2() {
+    public void test_overlap_left_higher_first() {
         assertListEquals(Arrays.asList(
                         new int[]{0, 3},
                         new int[]{2, 2},
@@ -62,7 +62,7 @@ public class SkylineTest {
     }
 
     @Test
-    public void test_overlap_right_0_3_3__1_3_2() {
+    public void test_overlap_right_higher_first() {
         assertListEquals(Arrays.asList(
                         new int[]{0, 3},
                         new int[]{3, 0}
@@ -72,7 +72,7 @@ public class SkylineTest {
     }
 
     @Test
-    public void test_overlap_side_0_2_3__2_5_3() {
+    public void test_same_height_touching() {
         assertListEquals(Arrays.asList(
                         new int[]{0, 3},
                         new int[]{5, 0}

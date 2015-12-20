@@ -98,11 +98,7 @@ public class Solution {
     }
 
     private void addKeyPointIfDifferentHeight(List<int[]> skyline, PointAndBuilding pointAndBuilding) {
-        if (!skyline.isEmpty()) {
-            if (skyline.get(skyline.size() - 1)[1] != pointAndBuilding.building.height) {
-                addKeyPoint(skyline, pointAndBuilding.point, pointAndBuilding.building.height);
-            }
-        } else {
+        if (skyline.isEmpty() || skyline.get(skyline.size() - 1)[1] != pointAndBuilding.building.height) {
             addKeyPoint(skyline, pointAndBuilding.point, pointAndBuilding.building.height);
         }
     }

@@ -61,6 +61,15 @@ public class Solution {
         return skyline;
     }
 
+    private PriorityQueue<Building> createMaxHeapByHeight() {
+        return new PriorityQueue<>(Collections.reverseOrder(new Comparator<Building>() {
+            @Override
+            public int compare(Building o1, Building o2) {
+                return Integer.compare(o1.height, o2.height);
+            }
+        }));
+    }
+
     private void checkAndAppend(List<int[]> skyline, PriorityQueue<Building> visibleBuildings,
                                 PointAndBuilding pointAndBuilding) {
         if (pointAndBuilding.point == pointAndBuilding.building.left) {
@@ -70,15 +79,6 @@ public class Solution {
             visibleBuildings.remove(pointAndBuilding.building);
             addKeyPointIfRemovedBuildingWasHighest(skyline, visibleBuildings, pointAndBuilding);
         }
-    }
-
-    private PriorityQueue<Building> createMaxHeapByHeight() {
-        return new PriorityQueue<>(Collections.reverseOrder(new Comparator<Building>() {
-            @Override
-            public int compare(Building o1, Building o2) {
-                return Integer.compare(o1.height, o2.height);
-            }
-        }));
     }
 
     private void addKeyPointIfRemovedBuildingWasHighest(List<int[]> skyline, PriorityQueue<Building> visibleBuildings,

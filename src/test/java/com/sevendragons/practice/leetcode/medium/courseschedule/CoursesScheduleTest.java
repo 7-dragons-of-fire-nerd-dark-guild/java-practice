@@ -28,6 +28,12 @@ public class CoursesScheduleTest {
         assertFalse(solution.canFinish(2, values));
     }
 
+    @Test
+    public void test_with_cycle_with_3_courses() {
+        int[][] values = {{0, 1}, {1, 2}, {2, 0}};
+        assertFalse(solution.canFinish(3, values));
+    }
+
     @Ignore
     @Test
     public void test_tle_2000() {

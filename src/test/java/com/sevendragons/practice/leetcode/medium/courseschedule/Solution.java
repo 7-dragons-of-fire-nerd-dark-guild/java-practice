@@ -1,4 +1,4 @@
-package com.sevendragons.practice.leetcode.medium.coursesschedule;
+package com.sevendragons.practice.leetcode.medium.courseschedule;
 
 import java.util.*;
 

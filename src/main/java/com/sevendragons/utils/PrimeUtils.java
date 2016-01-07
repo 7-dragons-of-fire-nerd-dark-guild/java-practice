@@ -27,31 +27,31 @@ public class PrimeUtils {
      * @return the prime factors
      */
     public static List<Integer> primeFactors(int num) {
-        int[] maxPrimeFactors = findMaxPrimeFactors(num);
-        return findFactors(num, maxPrimeFactors);
+        int[] minPrimeDivisors = findMinPrimeDivisors(num);
+        return findFactors(num, minPrimeDivisors);
     }
 
-    private static List<Integer> findFactors(int num, int[] maxPrimeFactor) {
+    private static List<Integer> findFactors(int num, int[] minPrimeDivisors) {
         List<Integer> factors = new ArrayList<>();
         int x = num;
-        for (; maxPrimeFactor[x] > 0; x /= maxPrimeFactor[x]) {
-            factors.add(maxPrimeFactor[x]);
+        for (; minPrimeDivisors[x] > 0; x /= minPrimeDivisors[x]) {
+            factors.add(minPrimeDivisors[x]);
         }
         factors.add(x);
         return factors;
     }
 
-    private static int[] findMaxPrimeFactors(int num) {
-        int[] maxPrimeFactors = new int[num + 1];
+    private static int[] findMinPrimeDivisors(int num) {
+        int[] minPrimeDivisors = new int[num + 1];
         for (int divisor = 2; divisor * divisor <= num; ++divisor) {
-            if (maxPrimeFactors[divisor] == 0) {
+            if (minPrimeDivisors[divisor] == 0) {
                 for (int k = divisor * divisor; k <= num; k += divisor) {
-                    if (maxPrimeFactors[k] == 0) {
-                        maxPrimeFactors[k] = divisor;
+                    if (minPrimeDivisors[k] == 0) {
+                        minPrimeDivisors[k] = divisor;
                     }
                 }
             }
         }
-        return maxPrimeFactors;
+        return minPrimeDivisors;
     }
 }

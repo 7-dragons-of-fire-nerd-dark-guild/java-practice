@@ -26,8 +26,8 @@ public class VisualizeGraph {
 
     private final static Logger logger = LoggerFactory.getLogger(VisualizeGraph.class);
     /**
-     * Thid method is kind of crazy but fun :)
-     * I did it beceause of cross request when javascript getting json file.
+     * This method is kind of crazy but fun :)
+     * I did it because of cross request when javascript getting json file.
      * and yes i could create the right html file with data embded :)
      * @param json
      */

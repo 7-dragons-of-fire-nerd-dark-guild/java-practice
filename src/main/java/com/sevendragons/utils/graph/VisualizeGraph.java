@@ -28,7 +28,6 @@ public class VisualizeGraph {
     /**
      * This method is kind of crazy but fun :)
      * I did it because of cross request when javascript getting json file.
-     * and yes i could create the right html file with data embded :)
      * @param json
      */
     private void display(String json) {

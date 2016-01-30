@@ -174,9 +174,26 @@ public class Airport {
         return new ArrayList<>(sortedAlloc.values());
     }
 
-    public static void allocateToClosest(Map<Integer, Integer> allocations, TransitEdge transit,
-                                          List<DistanceEdge> distanceEdges) {
+    public static void allocateToClosest(
+            Map<Integer, Integer> allocations, TransitEdge transit, List<DistanceEdge> distanceEdges) {
+        // assumption: distanceEdges is sorted ascending by distance,
+        // so the first entry is the closes pair of gates
+        DistanceEdge distanceEdge = distanceEdges.remove(0);
+        allocations.put(transit.startFlight(), distanceEdge.startGate());
+        allocations.put(transit.endFlight(), distanceEdge.endGate());
 
+        // remove all other connected edges
+        Iterator<DistanceEdge> iterator = distanceEdges.iterator();
+        while (iterator.hasNext()) {
+            DistanceEdge edge = iterator.next();
+            if (edge.startGate() == transit.startFlight()
+                    || edge.startGate() == transit.endFlight()
+                    || edge.endGate() == transit.startFlight()
+                    || edge.endGate() == transit.endFlight()
+                    ) {
+                iterator.remove();
+            }
+        }
     }
 
     public static void allocateToClosest(Map<Integer, Integer> allocations, int start, int[][] distanceMatrix,

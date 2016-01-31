@@ -37,6 +37,9 @@ public class AirportTest_pierre extends Airport{
         executeAlgoAverage(scanner);
     }
 
+
+    //worst algo ever
+    //3 876 330 :'(
     private void executeAlgoAverage(Scanner scanner) {
         int dimensions = readDimensions(scanner);
         int[][] distanceMatrix = readMatrix(scanner, dimensions);
@@ -73,7 +76,7 @@ public class AirportTest_pierre extends Airport{
     private List<Map.Entry<Integer, OptionalDouble>> getSortedData(Map<Integer, OptionalDouble> distanceAverage) {
 
         ArrayList<Map.Entry<Integer, OptionalDouble>> entries = new ArrayList<>(distanceAverage.entrySet());
-        Collections.sort(entries,(o1, o2) -> {
+        Collections.sort(entries, (o1, o2) -> {
             return Double.compare(o1.getValue().getAsDouble(), o2.getValue().getAsDouble());
         });
 

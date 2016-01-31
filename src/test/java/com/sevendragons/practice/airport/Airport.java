@@ -148,9 +148,13 @@ public class Airport {
                 // allocate transit.end -> edge.end
                 // remove edge from list, and all edges where start == edge.start or .end
             } else if (!isAllocated(allocations, transit.start)) { // end was allocated
-                allocateToClosest(allocations, transit.start, distanceMatrix, distanceEdges);
+                int flight = transit.startFlight();
+                int gate = allocations.get(transit.endFlight());
+                allocateToClosest(allocations, flight, gate, distanceMatrix, distanceEdges);
             } else if (!isAllocated(allocations, transit.end)) { // start was allocated
-                allocateToClosest(allocations, transit.end, distanceMatrix, distanceEdges);
+                int flight = transit.endFlight();
+                int gate = allocations.get(transit.startFlight());
+                allocateToClosest(allocations, flight, gate, distanceMatrix, distanceEdges);
             } else {
                 // both start and end have been allocated, cannot do anything anymore for this transit
             }
@@ -178,6 +182,16 @@ public class Airport {
         return allocations.containsKey(flight);
     }
 
+    private static void removeConnectedDistanceEdges(List<DistanceEdge> distanceEdges, Collection<Integer> gates) {
+        Iterator<DistanceEdge> iterator = distanceEdges.iterator();
+        while (iterator.hasNext()) {
+            DistanceEdge edge = iterator.next();
+            if (gates.contains(edge.startGate()) || gates.contains(edge.endGate())) {
+                iterator.remove();
+            }
+        }
+    }
+
     public static void allocateToClosest(
             Map<Integer, Integer> allocations, TransitEdge transit, List<DistanceEdge> distanceEdges) {
         // assumption: distanceEdges is sorted ascending by distance,
@@ -186,22 +200,36 @@ public class Airport {
         allocations.put(transit.startFlight(), distanceEdge.startGate());
         allocations.put(transit.endFlight(), distanceEdge.endGate());
 
-        // remove all other connected edges
-        Iterator<DistanceEdge> iterator = distanceEdges.iterator();
-        while (iterator.hasNext()) {
-            DistanceEdge edge = iterator.next();
-            if (edge.startGate() == transit.startFlight()
-                    || edge.startGate() == transit.endFlight()
-                    || edge.endGate() == transit.startFlight()
-                    || edge.endGate() == transit.endFlight()
-                    ) {
-                iterator.remove();
-            }
-        }
+        removeConnectedDistanceEdges(distanceEdges, Arrays.asList(transit.startFlight(), transit.endFlight()));
     }
 
-    public static void allocateToClosest(Map<Integer, Integer> allocations, int start, int[][] distanceMatrix,
-                                          List<DistanceEdge> distanceEdges) {
+    public static void allocateToClosest(
+            Map<Integer, Integer> allocations, int flight, int gate,
+            int[][] distanceMatrix, List<DistanceEdge> distanceEdges) {
+
+        int closestGate = findClosestGate(distanceMatrix, gate, allocations);
+        allocations.put(flight, closestGate);
+
+        removeConnectedDistanceEdges(distanceEdges, Collections.singleton(closestGate));
+    }
+
+    private static int findClosestGate(int[][] distanceMatrix, int gate, Map<Integer, Integer> allocations) {
+        int minDistance = Integer.MAX_VALUE;
+        int minDistanceGate = 0;
+        for (int otherGate = 0; otherGate < distanceMatrix.length; ++otherGate) {
+            if (otherGate != gate && !isAllocatedGate(allocations, otherGate)) {
+                int distance = distanceMatrix[gate][otherGate];
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    minDistanceGate = otherGate;
+                }
+            }
+        }
+        return minDistanceGate;
+    }
+
+    private static boolean isAllocatedGate(Map<Integer, Integer> allocations, int gate) {
+        return allocations.containsValue(gate);
     }
 
     public static int[][] toSymmetric(int[][] matrix) {

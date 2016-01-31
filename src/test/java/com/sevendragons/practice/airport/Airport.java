@@ -174,6 +174,10 @@ public class Airport {
         return new ArrayList<>(sortedAlloc.values());
     }
 
+    public static boolean isAllocated(Map<Integer, Integer> allocations, int flight) {
+        return allocations.containsKey(flight);
+    }
+
     public static void allocateToClosest(
             Map<Integer, Integer> allocations, TransitEdge transit, List<DistanceEdge> distanceEdges) {
         // assumption: distanceEdges is sorted ascending by distance,
@@ -230,10 +234,6 @@ public class Airport {
 
     public static int readDimensions(Scanner scanner) {
         return Integer.valueOf(scanner.nextLine());
-    }
-
-    public static boolean isAllocated(Map<Integer, Integer> allocations, int start) {
-        return false;
     }
 
     public static int totalDistanceWalked(

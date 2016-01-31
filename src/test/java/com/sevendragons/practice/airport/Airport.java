@@ -118,7 +118,6 @@ public class Airport {
     }
 
     public static void main(String[] args) {
-        // Pierre-Jean
         Scanner scanner = new Scanner("3\n" +
                 "0,10,12\n" +
                 "10,0,5\n" +
@@ -129,10 +128,8 @@ public class Airport {
         int dimensions = readDimensions(scanner);
         int[][] distanceMatrix = readMatrix(scanner, dimensions);
 
-        // Pierre
         int[][] transitMatrix = toSymmetric(readMatrix(scanner, dimensions));
 
-        // Janos
         List<TransitEdge> transitEdges = toTransitEdges(transitMatrix);
         sortByPassengersDescending(transitEdges);
 
@@ -143,41 +140,100 @@ public class Airport {
         for (TransitEdge transit : transitEdges) {
             if (!isAllocated(allocations, transit.start) && !isAllocated(allocations, transit.end)) {
                 allocateToClosest(allocations, transit, distanceEdges);
-                // take the first distance edge
-                // allocate transit.start -> edge.start
-                // allocate transit.end -> edge.end
-                // remove edge from list, and all edges where start == edge.start or .end
-            } else if (!isAllocated(allocations, transit.start)) { // end was allocated
-                allocateToClosest(allocations, transit.start, distanceMatrix, distanceEdges);
-            } else if (!isAllocated(allocations, transit.end)) { // start was allocated
-                allocateToClosest(allocations, transit.end, distanceMatrix, distanceEdges);
-            } else {
-                // both start and end have been allocated, cannot do anything anymore for this transit
+            } else if (!isAllocated(allocations, transit.start)) {
+                int flight = transit.startFlight();
+                int gate = allocations.get(transit.endFlight());
+                allocateToClosest(allocations, flight, gate, distanceMatrix, distanceEdges);
+            } else if (!isAllocated(allocations, transit.end)) {
+                int flight = transit.endFlight();
+                int gate = allocations.get(transit.startFlight());
+                allocateToClosest(allocations, flight, gate, distanceMatrix, distanceEdges);
             }
         }
         assert allocations.size() == dimensions;
 
-        // Martin
-        List<Integer> output = toOutputList(allocations);
+        List<Integer> output = toOutputList(dimensions, allocations);
         writeOutput(output);
     }
 
     public static void writeOutput(List<Integer> output) {
-
+        output.forEach(System.out::println);
     }
 
-    public static List<Integer> toOutputList(Map<Integer, Integer> allocations) {
-        return null;
+    public static List<Integer> toOutputList(int gates, Map<Integer, Integer> allocations) {
+        Map<Integer, Integer> inverted = invert(allocations);
+        List<Integer> output = new ArrayList<>();
+        for (int gate = 0; gate < gates; ++gate) {
+            Integer flight = inverted.get(gate);
+            if (flight != null) {
+                output.add(flight + 1);
+            } else {
+                output.add(null);
+            }
+        }
+        return output;
     }
 
-
-    public static void allocateToClosest(Map<Integer, Integer> allocations, TransitEdge transit,
-                                          List<DistanceEdge> distanceEdges) {
-
+    private static Map<Integer, Integer> invert(Map<Integer, Integer> allocations) {
+        Map<Integer, Integer> inverted = new HashMap<>();
+        for (Map.Entry<Integer, Integer> allocation : allocations.entrySet()) {
+            inverted.put(allocation.getValue(), allocation.getKey());
+        }
+        return inverted;
     }
 
-    public static void allocateToClosest(Map<Integer, Integer> allocations, int start, int[][] distanceMatrix,
-                                          List<DistanceEdge> distanceEdges) {
+    public static boolean isAllocated(Map<Integer, Integer> allocations, int flight) {
+        return allocations.containsKey(flight);
+    }
+
+    private static void removeConnectedDistanceEdges(List<DistanceEdge> distanceEdges, Collection<Integer> gates) {
+        Iterator<DistanceEdge> iterator = distanceEdges.iterator();
+        while (iterator.hasNext()) {
+            DistanceEdge edge = iterator.next();
+            if (gates.contains(edge.startGate()) || gates.contains(edge.endGate())) {
+                iterator.remove();
+            }
+        }
+    }
+
+    public static void allocateToClosest(
+            Map<Integer, Integer> allocations, TransitEdge transit, List<DistanceEdge> distanceEdges) {
+        // assumption: distanceEdges is sorted ascending by distance,
+        // so the first entry is the closes pair of gates
+        DistanceEdge distanceEdge = distanceEdges.remove(0);
+        allocations.put(transit.startFlight(), distanceEdge.startGate());
+        allocations.put(transit.endFlight(), distanceEdge.endGate());
+
+        removeConnectedDistanceEdges(distanceEdges, Arrays.asList(transit.startFlight(), transit.endFlight()));
+    }
+
+    public static void allocateToClosest(
+            Map<Integer, Integer> allocations, int flight, int gate,
+            int[][] distanceMatrix, List<DistanceEdge> distanceEdges) {
+
+        int closestGate = findClosestGate(distanceMatrix, gate, allocations);
+        allocations.put(flight, closestGate);
+
+        removeConnectedDistanceEdges(distanceEdges, Collections.singleton(closestGate));
+    }
+
+    private static int findClosestGate(int[][] distanceMatrix, int gate, Map<Integer, Integer> allocations) {
+        int minDistance = Integer.MAX_VALUE;
+        int minDistanceGate = 0;
+        for (int otherGate = 0; otherGate < distanceMatrix.length; ++otherGate) {
+            if (otherGate != gate && !isAllocatedGate(allocations, otherGate)) {
+                int distance = distanceMatrix[gate][otherGate];
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    minDistanceGate = otherGate;
+                }
+            }
+        }
+        return minDistanceGate;
+    }
+
+    private static boolean isAllocatedGate(Map<Integer, Integer> allocations, int gate) {
+        return allocations.containsValue(gate);
     }
 
     public static int[][] toSymmetric(int[][] matrix) {
@@ -210,10 +266,6 @@ public class Airport {
 
     public static int readDimensions(Scanner scanner) {
         return Integer.valueOf(scanner.nextLine());
-    }
-
-    public static boolean isAllocated(Map<Integer, Integer> allocations, int start) {
-        return false;
     }
 
     public static int totalDistanceWalked(

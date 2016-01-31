@@ -1,14 +1,11 @@
 package com.sevendragons.practice.airport;
 
-import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.sevendragons.practice.airport.Airport.*;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class AirportTest {
@@ -77,18 +74,79 @@ public class AirportTest {
     }
 
     @Test
+    public void test_allocate_to_closest() {
+        Map<Integer, Integer> allocations = new HashMap<>();
+
+        TransitEdge transitEdge = new TransitEdge(0, 1, 160);
+
+        DistanceEdge distanceEdge1 = new DistanceEdge(1, 2, 1);
+        DistanceEdge distanceEdge2 = new DistanceEdge(3, 4, 2);
+        DistanceEdge distanceEdge5 = new DistanceEdge(5, 6, 5);
+        DistanceEdge distanceEdge1_9 = new DistanceEdge(1, 9, 15);
+
+        List<DistanceEdge> distanceEdges = new ArrayList<>(Arrays.asList(
+                distanceEdge1,
+                distanceEdge2,
+                distanceEdge5,
+                distanceEdge1_9
+        ));
+
+        allocateToClosest(allocations, transitEdge, distanceEdges);
+
+        // transitEdge.start -> distanceEdge1.start
+        // transitEdge.end -> distanceEdge1.end
+        assertEquals(2, allocations.size());
+        assertEquals(distanceEdge1.startGate(), (int) allocations.get(transitEdge.startFlight()));
+        assertEquals(distanceEdge1.endGate(), (int) allocations.get(transitEdge.endFlight()));
+
+        // distanceEdge and connected edges removed
+        List<DistanceEdge> distanceEdgeRemoved = Arrays.asList(distanceEdge2, distanceEdge5);
+        assertEquals(distanceEdgeRemoved, distanceEdges);
+    }
+
+    @Test
+    public void test_allocate_to_closest_from_gate() {
+        Map<Integer, Integer> allocations = new HashMap<>();
+
+        DistanceEdge distanceEdge1 = new DistanceEdge(1, 2, 1);
+        DistanceEdge distanceEdge2 = new DistanceEdge(3, 4, 2);
+        DistanceEdge distanceEdge5 = new DistanceEdge(5, 1, 5);
+        DistanceEdge distanceEdge10 = new DistanceEdge(5, 3, 10);
+
+        List<DistanceEdge> distanceEdges = new ArrayList<>(Arrays.asList(
+                distanceEdge1,
+                distanceEdge2,
+                distanceEdge5,
+                distanceEdge10
+        ));
+
+        int flight = 0;
+        int gate = 0;
+        int closestGate = 1;
+        allocateToClosest(allocations, flight, gate, exampleDistanceMatrix, distanceEdges);
+
+        // flight allocated to closest gate
+        assertEquals(1, allocations.size());
+        assertEquals(closestGate, (int) allocations.get(flight));
+
+        // edges connected to selected gate removed
+        List<DistanceEdge> distanceEdgesWithGateRemoved = Arrays.asList(distanceEdge2, distanceEdge10);
+        assertEquals(distanceEdgesWithGateRemoved, distanceEdges);
+    }
+
+    @Test
     public void test_toSymmetric_example() throws Exception {
         int[][] transitMatrix = {{0, 100, 6}, {60, 0, 8}, {4, 2, 0}};
         int[][] transitMatrixExpected = {{0, 160, 10}, {160, 0, 10}, {10, 10, 0}};
 
-        Assert.assertArrayEquals(transitMatrixExpected, toSymmetric(transitMatrix));
+        assertArrayEquals(transitMatrixExpected, toSymmetric(transitMatrix));
     }
 
     @Test
     public void test_toSymmetric_alreadySymmetric() throws Exception {
         int[][] transitMatrix = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
 
-        Assert.assertArrayEquals(transitMatrix, toSymmetric(transitMatrix));
+        assertArrayEquals(transitMatrix, toSymmetric(transitMatrix));
     }
 
     @Test
@@ -99,5 +157,31 @@ public class AirportTest {
         allocations.put(1, 2);
 
         assertEquals(1020, totalDistanceWalked(allocations, exampleDistanceMatrix, exampleTransitMatrix));
+    }
+
+    @Test
+    public void test_toOutputList() {
+        Map<Integer, Integer> allocations = new HashMap<>();
+        allocations.put(1, 2);
+        allocations.put(2, 0);
+        allocations.put(0, 1);
+        allocations.put(3, 3);
+
+        List<Integer> expected = Arrays.asList(2 + 1, 1, 1 + 1, 3 + 1);
+        assertEquals(expected, toOutputList(allocations.size(), allocations));
+    }
+
+    @Test
+    public void readDimensions(){
+        Scanner scanner = new Scanner("3\n" +
+                "0,10,12\n" +
+                "10,0,5\n" +
+                "12,5,0\n" +
+                "0,100,6\n" +
+                "60,0,8\n" +
+                "4,2,0");
+        assertEquals(Airport.readDimensions(scanner), 3);
+        assertArrayEquals(Airport.readMatrix(scanner, 3),new int[][]{{0,10,12},{10,0,5},{12,5,0}});
+        assertArrayEquals(Airport.readMatrix(scanner, 3),new int[][]{{0,100,6},{60,0,8},{4,2,0}});
     }
 }

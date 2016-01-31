@@ -1,5 +1,6 @@
 package com.sevendragons.practice.airport;
 
+import com.sevendragons.utils.graph.VisualizeGraph;
 import org.junit.Test;
 
 import java.io.File;
@@ -23,7 +24,22 @@ public class AirportTest_pierre extends Airport{
         }
 
     }
+    @Test
+    public void visualize_real_data() throws InterruptedException {
+        try {
+            File file = new File(AirportTest_pierre.class.getResource("data.txt").toURI());
+            Scanner scanner = new Scanner(file);
+            int dimensions = readDimensions(scanner);
+            int[][] distanceMatrix = readMatrix(scanner, dimensions);
+            VisualizeGraph.visualize(distanceMatrix,null);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        Thread.sleep(10000);
 
+    }
 
     @Test
     public void test(){

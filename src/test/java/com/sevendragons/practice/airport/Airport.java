@@ -173,7 +173,7 @@ public class Airport {
     public static List<Integer> toOutputList(Map<Integer, Integer> allocations){
         Map<Integer, Integer> sortedAlloc = new TreeMap<>();
         for (Map.Entry<Integer, Integer> allocation : allocations.entrySet()) {
-            sortedAlloc.put(allocation.getValue(), allocation.getKey());
+            sortedAlloc.put(allocation.getValue(), allocation.getKey() + 1);
         }
         return new ArrayList<>(sortedAlloc.values());
     }

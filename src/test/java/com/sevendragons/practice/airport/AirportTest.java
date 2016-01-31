@@ -1,9 +1,8 @@
 package com.sevendragons.practice.airport;
 
-import java.util.*;
-
-import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.*;
 
 import static com.sevendragons.practice.airport.Airport.*;
 import static org.junit.Assert.assertArrayEquals;
@@ -162,15 +161,14 @@ public class AirportTest {
 
     @Test
     public void test_toOutputList() {
-        List<Integer> output = Arrays.asList(3,1,2,4);
-
         Map<Integer, Integer> allocations = new HashMap<>();
-        allocations.put(1,2);
-        allocations.put(4,4);
-        allocations.put(3,1);
-        allocations.put(2,3);
+        allocations.put(2, 3);
+        allocations.put(3, 1);
+        allocations.put(1, 2);
+        allocations.put(4, 4);
 
-        assertEquals(toOutputList(allocations), output);
+        List<Integer> expected = Arrays.asList(3 + 1, 1 + 1, 2 + 1, 4 + 1);
+        assertEquals(expected, toOutputList(allocations));
     }
 
     @Test

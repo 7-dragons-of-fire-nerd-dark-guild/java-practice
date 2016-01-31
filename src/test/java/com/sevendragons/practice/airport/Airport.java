@@ -152,7 +152,7 @@ public class Airport {
         }
         assert allocations.size() == dimensions;
 
-        List<Integer> output = toOutputList(allocations);
+        List<Integer> output = toOutputList(dimensions, allocations);
         writeOutput(output);
     }
 
@@ -160,12 +160,26 @@ public class Airport {
         output.forEach(System.out::println);
     }
 
-    public static List<Integer> toOutputList(Map<Integer, Integer> allocations) {
-        Map<Integer, Integer> sortedAlloc = new TreeMap<>();
-        for (Map.Entry<Integer, Integer> allocation : allocations.entrySet()) {
-            sortedAlloc.put(allocation.getValue(), allocation.getKey() + 1);
+    public static List<Integer> toOutputList(int gates, Map<Integer, Integer> allocations) {
+        Map<Integer, Integer> inverted = invert(allocations);
+        List<Integer> output = new ArrayList<>();
+        for (int gate = 0; gate < gates; ++gate) {
+            Integer flight = inverted.get(gate);
+            if (flight != null) {
+                output.add(flight + 1);
+            } else {
+                output.add(null);
+            }
         }
-        return new ArrayList<>(sortedAlloc.values());
+        return output;
+    }
+
+    private static Map<Integer, Integer> invert(Map<Integer, Integer> allocations) {
+        Map<Integer, Integer> inverted = new HashMap<>();
+        for (Map.Entry<Integer, Integer> allocation : allocations.entrySet()) {
+            inverted.put(allocation.getValue(), allocation.getKey());
+        }
+        return inverted;
     }
 
     public static boolean isAllocated(Map<Integer, Integer> allocations, int flight) {

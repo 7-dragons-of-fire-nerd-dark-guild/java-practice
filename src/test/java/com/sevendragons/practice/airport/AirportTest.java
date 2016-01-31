@@ -162,13 +162,13 @@ public class AirportTest {
     @Test
     public void test_toOutputList() {
         Map<Integer, Integer> allocations = new HashMap<>();
-        allocations.put(2, 3);
-        allocations.put(3, 1);
         allocations.put(1, 2);
-        allocations.put(4, 4);
+        allocations.put(2, 0);
+        allocations.put(0, 1);
+        allocations.put(3, 3);
 
-        List<Integer> expected = Arrays.asList(3 + 1, 1 + 1, 2 + 1, 4 + 1);
-        assertEquals(expected, toOutputList(allocations));
+        List<Integer> expected = Arrays.asList(2 + 1, 1, 1 + 1, 3 + 1);
+        assertEquals(expected, toOutputList(allocations.size(), allocations));
     }
 
     @Test

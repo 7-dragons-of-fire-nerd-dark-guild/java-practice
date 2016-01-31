@@ -118,7 +118,6 @@ public class Airport {
     }
 
     public static void main(String[] args) {
-        // Pierre-Jean
         Scanner scanner = new Scanner("3\n" +
                 "0,10,12\n" +
                 "10,0,5\n" +
@@ -129,10 +128,8 @@ public class Airport {
         int dimensions = readDimensions(scanner);
         int[][] distanceMatrix = readMatrix(scanner, dimensions);
 
-        // Pierre
         int[][] transitMatrix = toSymmetric(readMatrix(scanner, dimensions));
 
-        // Janos
         List<TransitEdge> transitEdges = toTransitEdges(transitMatrix);
         sortByPassengersDescending(transitEdges);
 
@@ -143,25 +140,18 @@ public class Airport {
         for (TransitEdge transit : transitEdges) {
             if (!isAllocated(allocations, transit.start) && !isAllocated(allocations, transit.end)) {
                 allocateToClosest(allocations, transit, distanceEdges);
-                // take the first distance edge
-                // allocate transit.start -> edge.start
-                // allocate transit.end -> edge.end
-                // remove edge from list, and all edges where start == edge.start or .end
-            } else if (!isAllocated(allocations, transit.start)) { // end was allocated
+            } else if (!isAllocated(allocations, transit.start)) {
                 int flight = transit.startFlight();
                 int gate = allocations.get(transit.endFlight());
                 allocateToClosest(allocations, flight, gate, distanceMatrix, distanceEdges);
-            } else if (!isAllocated(allocations, transit.end)) { // start was allocated
+            } else if (!isAllocated(allocations, transit.end)) {
                 int flight = transit.endFlight();
                 int gate = allocations.get(transit.startFlight());
                 allocateToClosest(allocations, flight, gate, distanceMatrix, distanceEdges);
-            } else {
-                // both start and end have been allocated, cannot do anything anymore for this transit
             }
         }
         assert allocations.size() == dimensions;
 
-        // Martin
         List<Integer> output = toOutputList(allocations);
         writeOutput(output);
     }
@@ -170,7 +160,7 @@ public class Airport {
         output.forEach(System.out::println);
     }
 
-    public static List<Integer> toOutputList(Map<Integer, Integer> allocations){
+    public static List<Integer> toOutputList(Map<Integer, Integer> allocations) {
         Map<Integer, Integer> sortedAlloc = new TreeMap<>();
         for (Map.Entry<Integer, Integer> allocation : allocations.entrySet()) {
             sortedAlloc.put(allocation.getValue(), allocation.getKey() + 1);

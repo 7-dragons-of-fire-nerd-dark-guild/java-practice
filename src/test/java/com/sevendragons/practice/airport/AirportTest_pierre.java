@@ -2,11 +2,27 @@ package com.sevendragons.practice.airport;
 
 import org.junit.Test;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
 import java.util.*;
 import java.util.stream.IntStream;
 
 public class AirportTest_pierre extends Airport{
 
+    @Test
+    public void test_with_real_data(){
+        try {
+            File file = new File(AirportTest_pierre.class.getResource("data.txt").toURI());
+            Scanner scanner = new Scanner(file);
+            executeAlgoAverage(scanner);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
     @Test
@@ -18,49 +34,58 @@ public class AirportTest_pierre extends Airport{
                 "0,100,6\n" +
                 "60,0,8\n" +
                 "4,2,0");
+        executeAlgoAverage(scanner);
+    }
+
+    private void executeAlgoAverage(Scanner scanner) {
         int dimensions = readDimensions(scanner);
         int[][] distanceMatrix = readMatrix(scanner, dimensions);
+        int[][] transitMatrix = readMatrix(scanner, dimensions);
 
         //getting average
-        SortedMap<Integer, OptionalDouble> distanceAverage = new TreeMap<>();
-        for (int i = 0; i<dimensions;i++){
-            distanceAverage.put(i, Arrays.stream(distanceMatrix[i]).average());
-        }
-
-        SortedMap<Integer, OptionalDouble> transitAverage = new TreeMap<>();
-        int[][] transitMatrix = readMatrix(scanner, dimensions);
-        for (int i = 0; i<dimensions;i++){
-            transitAverage.put(i,Arrays.stream(transitMatrix[i]).average());
-        }
+        Map<Integer, OptionalDouble> distanceAverage = calculateAverage(dimensions, distanceMatrix);
+        Map<Integer, OptionalDouble> transitAverage = calculateAverage(dimensions, transitMatrix);
 
 
         //sort result
 
-        TreeSet<Map.Entry<Integer,OptionalDouble>> sortedSetdistance = new TreeSet<>((o1, o2) -> {
-            return Double.compare(o1.getValue().getAsDouble(), o2.getValue().getAsDouble());
-        });
-        sortedSetdistance.addAll(distanceAverage.entrySet());
-        TreeSet<Map.Entry<Integer,OptionalDouble>> sortedSetTransit = new TreeSet<>((o1, o2) -> {
-            return Double.compare(o1.getValue().getAsDouble(), o2.getValue().getAsDouble());
-        });
-        sortedSetTransit.addAll(transitAverage.entrySet());
+        List<Map.Entry<Integer, OptionalDouble>> sortedSetdistanceList = getSortedData(distanceAverage);
+        List<Map.Entry<Integer,OptionalDouble>>sortedSetTransitList = getSortedData(transitAverage);
+
 
         // associate big transit with min
-        Map<Integer, Integer> allocations = new HashMap<>();
-        List<Map.Entry<Integer,OptionalDouble>>sortedSetdistanceList = new ArrayList<>(sortedSetdistance);
-        List<Map.Entry<Integer,OptionalDouble>>sortedSetTransitList = new ArrayList<>(sortedSetTransit);
-        for (int i = 0; i < dimensions ; i++){
-            allocations.put(sortedSetTransitList.get(dimensions-1-i).getKey(),sortedSetdistanceList.get(i).getKey());
-        }
-
-
-
-
-
-
-        assert allocations.size() == dimensions;
+        Map<Integer, Integer> allocations = getAllocations(dimensions, sortedSetdistanceList, sortedSetTransitList);
 
         List<Integer> output = toOutputList(dimensions,allocations);
         writeOutput(output);
+    }
+
+    private Map<Integer, Integer> getAllocations(int dimensions, List<Map.Entry<Integer, OptionalDouble>> sortedSetdistanceList, List<Map.Entry<Integer, OptionalDouble>> sortedSetTransitList) {
+        Map<Integer, Integer> allocations = new HashMap<>();
+
+        for (int i = 0; i < dimensions ; i++){
+            allocations.put(sortedSetTransitList.get(dimensions-1-i).getKey(),sortedSetdistanceList.get(i).getKey());
+        }
+        assert allocations.size() == dimensions;
+        return allocations;
+    }
+
+    private List<Map.Entry<Integer, OptionalDouble>> getSortedData(Map<Integer, OptionalDouble> distanceAverage) {
+
+        ArrayList<Map.Entry<Integer, OptionalDouble>> entries = new ArrayList<>(distanceAverage.entrySet());
+        Collections.sort(entries,(o1, o2) -> {
+            return Double.compare(o1.getValue().getAsDouble(), o2.getValue().getAsDouble());
+        });
+
+
+        return entries;
+    }
+
+    private Map<Integer, OptionalDouble> calculateAverage(int dimensions, int[][] distanceMatrix) {
+        HashMap<Integer, OptionalDouble> distanceAverage = new HashMap<>();
+        for (int i = 0; i<dimensions;i++){
+            distanceAverage.put(i, Arrays.stream(distanceMatrix[i]).average());
+        }
+        return distanceAverage;
     }
 }

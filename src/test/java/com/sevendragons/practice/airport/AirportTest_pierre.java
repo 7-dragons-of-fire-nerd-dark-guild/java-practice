@@ -32,6 +32,9 @@ public class AirportTest_pierre extends Airport{
             int dimensions = readDimensions(scanner);
             int[][] distanceMatrix = readMatrix(scanner, dimensions);
             VisualizeGraph.visualize(distanceMatrix,null);
+            Thread.sleep(10000);
+            int[][] transitMatrix = readMatrix(scanner, dimensions);
+            VisualizeGraph.visualize(toSymmetric(transitMatrix),null);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {

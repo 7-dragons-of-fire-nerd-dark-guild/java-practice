@@ -31,8 +31,9 @@ public class VisualizeGraph {
      * @param json
      */
     private void display(String json) {
+        HttpServer server = null;
         try {
-            HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
+            server = HttpServer.create(new InetSocketAddress(8000), 0);
             server.createContext("/", new HttpHandler() {
                 @Override
                 public void handle(HttpExchange httpExchange) throws IOException {
@@ -44,7 +45,7 @@ public class VisualizeGraph {
                         os.write(response.getBytes());
                         os.close();
                     } catch (URISyntaxException e) {
-                        logger.error("unable create response page",e);
+                        logger.error("unable create response page", e);
                     }
                 }
             });
@@ -66,7 +67,16 @@ public class VisualizeGraph {
         try {
             Desktop.getDesktop().browse(URI.create("http://localhost:8000/"));
         } catch (IOException e) {
-            logger.error("unable to launch browser",e);
+            logger.error("unable to launch browser", e);
+        }
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if(server!=null){
+            server.stop(1);
+
         }
     }
 

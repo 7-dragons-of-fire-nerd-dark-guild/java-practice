@@ -9,15 +9,74 @@ import java.net.URISyntaxException;
 import java.util.*;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class AirportTest_pierre extends Airport {
 
     @Test
-    public void test_with_real_data() {
+    public void test_revert() {
+        int[][] exampleDistanceMatrix = {
+                {0, 10, 12},
+                {10, 0, 5},
+                {12, 5, 0}
+        };
+        int[][] exampleDistanceMatrixExpected = {
+                {0, 10, 5},
+                {10, 0, 12},
+                {5, 12, 0}
+        };
+        assertArrayEquals(exampleDistanceMatrixExpected, revertMatrix(exampleDistanceMatrix));
+    }
+
+    @Test
+    public void test_Average() {
+        Scanner scanner = new Scanner("3\n" +
+                "0,10,12\n" +
+                "10,0,5\n" +
+                "12,5,0\n" +
+                "0,100,6\n" +
+                "60,0,8\n" +
+                "4,2,0");
+        ;
+        int[][] exampleDistanceMatrix = {
+                {0, 10, 12},
+                {10, 0, 5},
+                {12, 5, 0}
+        };
+        int[][] exampleTransitMatrix = {
+                {0, 100, 6},
+                {60, 0, 8},
+                {4, 2, 0}
+        };
+        assertEquals(1020, calculateScore(exampleDistanceMatrix, exampleTransitMatrix, executeAlgoAverage(scanner)));
+    }
+    @Test
+    public void test_score(){
+        int[][] exampleDistanceMatrix = {
+                {0, 10, 12},
+                {10, 0, 5},
+                {12, 5, 0}
+        };
+        int[][] exampleTransitMatrix = {
+                {0, 100, 6},
+                {60, 0, 8},
+                {4, 2, 0}
+        };
+        List<Integer> result = Arrays.asList(3,1, 2);
+        assertEquals(1020,calculateScore(exampleDistanceMatrix,exampleTransitMatrix,result));
+
+
+    }
+
+
+    @Test
+    public void test_Average_with_real_data() {
         try {
             File file = new File(AirportTest_pierre.class.getResource("data.txt").toURI());
             Scanner scanner = new Scanner(file);
-            executeAlgoAverage(scanner);
+            List<Integer> integers = executeAlgoAverage(scanner);
+            scanner = new Scanner(file);
+            assertEquals(3876330,calculateScore(scanner, integers));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (URISyntaxException e) {
@@ -25,6 +84,8 @@ public class AirportTest_pierre extends Airport {
         }
 
     }
+
+
 
     @Test
     public void visualize_real_data_distance() throws InterruptedException {
@@ -57,6 +118,9 @@ public class AirportTest_pierre extends Airport {
         }
     }
 
+
+
+
     @Test
     public void visualize_real_data_transit_with_revert() throws InterruptedException {
         try {
@@ -72,6 +136,9 @@ public class AirportTest_pierre extends Airport {
             e.printStackTrace();
         }
     }
+
+
+
 
     private int[][] revertMatrix(int[][] matrix) {
         int dimensions = matrix.length;
@@ -96,37 +163,31 @@ public class AirportTest_pierre extends Airport {
         return matrixReversed;
     }
 
-    @Test
-    public void test_revert() {
-        int[][] exampleDistanceMatrix = {
-                {0, 10, 12},
-                {10, 0, 5},
-                {12, 5, 0}
-        };
-        int[][] exampleDistanceMatrixExpected = {
-                {0, 10, 5},
-                {10, 0, 12},
-                {5, 12, 0}
-        };
-        assertArrayEquals(exampleDistanceMatrixExpected,revertMatrix(exampleDistanceMatrix));
+
+    private int calculateScore(Scanner scanner, List<Integer> integers) {
+        int dimensions = readDimensions(scanner);
+        int[][] matrixDistance = readMatrix(scanner, dimensions);
+        int[][] matrixTransit = readMatrix(scanner, dimensions);
+        return calculateScore(matrixDistance,matrixTransit,integers);
     }
 
-    @Test
-    public void test_Average() {
-        Scanner scanner = new Scanner("3\n" +
-                "0,10,12\n" +
-                "10,0,5\n" +
-                "12,5,0\n" +
-                "0,100,6\n" +
-                "60,0,8\n" +
-                "4,2,0");
-        executeAlgoAverage(scanner);
-    }
+     private int calculateScore(int[][] exampleDistanceMatrix, int[][] exampleTransitMatrix, List<Integer> result) {
+         exampleTransitMatrix = toSymmetric(exampleTransitMatrix);
+         int sum = 0;
+         for (int i = 0; i < result.size();i++){
+             for (int j = 1+i; j < result.size();j++) {
+                sum += exampleTransitMatrix[i][j]*exampleDistanceMatrix[result.indexOf(i+1)][result.indexOf(j+1)];
+             }
+         }
+
+         return sum;
+     }
+
 
 
     //worst algo ever
     //3 876 330 :'(
-    private void executeAlgoAverage(Scanner scanner) {
+    private List<Integer> executeAlgoAverage(Scanner scanner) {
         int dimensions = readDimensions(scanner);
         int[][] distanceMatrix = readMatrix(scanner, dimensions);
         int[][] transitMatrix = readMatrix(scanner, dimensions);
@@ -145,8 +206,7 @@ public class AirportTest_pierre extends Airport {
         // associate big transit with min
         Map<Integer, Integer> allocations = getAllocations(dimensions, sortedSetdistanceList, sortedSetTransitList);
 
-        List<Integer> output = toOutputList(dimensions, allocations);
-        writeOutput(output);
+        return toOutputList(dimensions, allocations);
     }
 
     private Map<Integer, Integer> getAllocations(int dimensions, List<Map.Entry<Integer, OptionalDouble>> sortedSetdistanceList, List<Map.Entry<Integer, OptionalDouble>> sortedSetTransitList) {

@@ -103,4 +103,18 @@ public class FacadeTest {
                 "...\n");
         assertEquals(0, grid.findBestBrush(0, 0));
     }
+
+    @Test
+    public void test_generateCommands_2() {
+        Scanner scanner = new Scanner("5 7\n" +
+                ".......\n" +
+                "..###..\n" +
+                "..#.#..\n" +
+                "..###..\n" +
+                ".......\n");
+        Facade.Grid grid = Facade.Grid.fromScanner(scanner);
+        List<Facade.Command> commands = grid.generateCommands(1,2,1);
+        List<Facade.Command> expected = Arrays.asList(new Facade.PaintSquare(2,3,1), new Facade.EraseCell(2,3));
+        Assert.assertEquals(expected, commands);
+    }
 }

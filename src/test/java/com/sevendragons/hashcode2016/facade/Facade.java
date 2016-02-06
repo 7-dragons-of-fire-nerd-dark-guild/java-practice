@@ -82,16 +82,33 @@ public class Facade {
             return count > dim * dim / 2 + 1;
         }
 
-        public List<Command> generateCommands(Grid grid, int row, int col, int size) {
-            // TODO: generate commands using given coordinates and brush size
-            // note: watch out for correct coordinates for paint: must use center of brush
-            // note: don't forget the ERASE commands
-            return null;
+        public List<Command> generateCommands(int row, int col, int size) {
+            List<Command> commands = new ArrayList<>();
+
+            commands.add(new PaintSquare((size + row), (size + col), size));
+
+            int dim = 2 * size + 1;
+            int height = Math.min(dim, cells.length - row);
+            int width = Math.min(dim, cells[row].length - col);
+            for (int i = row; i < row + height; i++) {
+                for (int j = col; j < col + width; j++) {
+                    if (cells[i][j] == MARKER_EMPTY) {
+                        commands.add(new EraseCell(i, j));
+                    }
+                }
+            }
+
+            return commands;
         }
 
         public void clearArea(int row, int col, int size) {
-            // TODO: clear the specified area in the grid (remove painting)
+            for (int i = row; i < row + size; i++) {
+                for (int j = col; j < col + size; j++) {
+                    cells[i][j] = MARKER_DONE;
+                }
+            }
         }
+
     }
 
     public interface Command {
@@ -155,6 +172,25 @@ public class Facade {
         }
 
         @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            EraseCell eraseCell = (EraseCell) o;
+
+            if (row != eraseCell.row) return false;
+            return col == eraseCell.col;
+
+        }
+
+        @Override
+        public int hashCode() {
+            int result = row;
+            result = 31 * result + col;
+            return result;
+        }
+
+        @Override
         public String toString() {
             return String.format("ERASE_CELL %s %s", row, col);
         }
@@ -214,7 +250,7 @@ public class Facade {
         for (int row = 0; row < grid.cells.length; ++row) {
             for (int col = 0; col < grid.cells[row].length; ++col) {
                 int size = grid.findBestBrush(row, col);
-                grid.generateCommands(grid, row, col, size);
+                grid.generateCommands(row, col, size);
                 grid.clearArea(row, col, size);
             }
         }

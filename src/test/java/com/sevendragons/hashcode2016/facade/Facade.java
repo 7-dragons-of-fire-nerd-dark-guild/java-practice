@@ -199,6 +199,25 @@ public class Facade {
         public void apply(Grid grid) {
             grid.cells[row][col] = 0;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            EraseCell that = (EraseCell) o;
+
+            if (row != that.row) return false;
+            if (col != that.col) return false;
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = row;
+            result = 31 * result + col;
+            return result;
+        }
     }
 
     public static class PaintLine implements Command {
@@ -227,6 +246,29 @@ public class Facade {
                 }
             }
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            PaintLine that = (PaintLine) o;
+
+            if (rowBegin != that.rowBegin) return false;
+            if (colBegin != that.colBegin) return false;
+            if (rowEnd != that.rowEnd) return false;
+            if (colEnd != that.colEnd) return false;
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = rowBegin;
+            result = 31 * result + colBegin;
+            result = 31 * result + rowBegin;
+            result = 31 * result + colEnd;
+            return result;
+        }
     }
 
     public static List<Command> generateCommands(Grid grid) {
@@ -236,11 +278,38 @@ public class Facade {
     public static List<Command> generateCommands_dumest(Grid grid) {
 
         List<Command> commands = new ArrayList<>();
-
-        for (int i = 0 ; i < grid.cells.length ; i++) {
-            for (int j = 0 ; j < grid.cells[i].length ; j++) {
+        int height = grid.cells.length;
+        int width = grid.cells[0].length;
+        Grid copy = grid.copy();
+        for (int i = 0 ; i < height ; i++) {
+            for (int j = 0 ; j < width ; j++) {
                 if (grid.cells[i][j] == '#') {
-                    commands.add(new PaintSquare(i,j,0));
+                    //checking if line
+                    int colJ = j;
+                    while (grid.cells[i][colJ] == '#'){
+                        colJ++;
+                        if(colJ == width){
+                            break;
+                        }
+                    }
+                    //checking if col
+                    int rowI = i;
+                    while (grid.cells[rowI][j] == '#'){
+                        rowI++;
+                        if(rowI == width){
+                            break;
+                        }
+                    }
+                    if(colJ-j>1 && rowI-i <colJ-j){
+                        colJ--;
+                        PaintLine paintLine = new PaintLine(i, j, i, colJ);
+                        paintLine.apply(copy);
+                        commands.add(paintLine);
+                        j = colJ;
+                    } else{
+                        commands.add(new PaintSquare(i,j,0));
+                    }
+
                 }
             }
         }

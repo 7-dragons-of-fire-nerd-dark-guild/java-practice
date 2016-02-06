@@ -1,5 +1,6 @@
 package com.sevendragons.hashcode2016.facade;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -103,7 +104,16 @@ public class FacadeTest {
                 "...\n");
         assertEquals(0, grid.findBestBrush(0, 0));
     }
-
+    @Test
+    public void test_generateCommnandwithLine() {
+        Scanner scanner = new Scanner("2 9\n" +
+                "...##.##\n" +
+                "...#....\n");
+        Facade.Grid grid = Facade.Grid.fromScanner(scanner);
+        List<Facade.Command> commands = Facade.generateCommands(grid);
+        List<Facade.Command> expected = Arrays.asList(new Facade.PaintLine(0,3,0,4),new Facade.PaintLine(0,6,0,7), new Facade.PaintSquare(1,3,0));
+        Assert.assertEquals(expected, commands);
+    }
     @Test
     public void test_generateCommands_2() {
         Scanner scanner = new Scanner("5 7\n" +

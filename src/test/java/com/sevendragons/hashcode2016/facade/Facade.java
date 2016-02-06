@@ -1,9 +1,12 @@
 package com.sevendragons.hashcode2016.facade;
 
 public class Facade {
-    
-    public static class Grid {
 
+    public static class Grid {
+        public Grid copy() {
+            // TODO
+            return null;
+        }
     }
 
     public interface Command {

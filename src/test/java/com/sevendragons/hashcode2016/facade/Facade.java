@@ -20,7 +20,7 @@ public class Facade {
         public Grid copy() {
             int height=cells.length;
             int with = cells[0].length;
-            int[][]cellsCopy = new int[height][with];
+            char[][]cellsCopy = new char[height][with];
             for (int i = 0; i < height ; i ++){
                 for (int j = 0 ; j < with ; j ++){
                     cellsCopy[i][j] = cells[i][j];
@@ -46,7 +46,7 @@ public class Facade {
             return fromScanner(new Scanner(text));
         }
 
-        public int[][] getCells(){
+        public char[][] getCells(){
             return this.cells;
         }
     }

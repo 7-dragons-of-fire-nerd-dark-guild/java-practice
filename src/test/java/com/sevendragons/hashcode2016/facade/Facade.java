@@ -6,6 +6,12 @@ import java.util.Scanner;
 public class Facade {
 
     public static class Grid {
+        private final int[][] cells;
+
+        public Grid(int[][] cells) {
+            this.cells = cells;
+        }
+
         public Grid copy() {
             // TODO
             return null;

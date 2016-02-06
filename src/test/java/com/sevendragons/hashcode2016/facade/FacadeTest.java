@@ -117,4 +117,18 @@ public class FacadeTest {
         List<Facade.Command> expected = Arrays.asList(new Facade.PaintSquare(2,3,1), new Facade.EraseCell(2,3));
         Assert.assertEquals(expected, commands);
     }
+
+    @Test
+    public void test_generateCommands_withSquare() {
+        Scanner scanner = new Scanner("5 7\n" +
+                ".......\n" +
+                "..###..\n" +
+                "..#.#..\n" +
+                "..###..\n" +
+                ".......\n");
+        Facade.Grid grid = Facade.Grid.fromScanner(scanner);
+        List<Facade.Command> commands = grid.generateCommands(1,2,0);
+        List<Facade.Command> expected = Arrays.asList(new Facade.PaintSquare(1,2,0));
+        Assert.assertEquals(expected, commands);
+    }
 }

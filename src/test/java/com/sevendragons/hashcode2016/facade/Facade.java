@@ -230,6 +230,10 @@ public class Facade {
     }
 
     public static List<Command> generateCommands(Grid grid) {
+        return generateCommandsFromSquares(grid);
+    }
+
+    public static List<Command> generateCommands_dumest(Grid grid) {
 
         List<Command> commands = new ArrayList<>();
 
@@ -250,7 +254,7 @@ public class Facade {
         for (int row = 0; row < grid.cells.length; ++row) {
             for (int col = 0; col < grid.cells[row].length; ++col) {
                 int size = grid.findBestBrush(row, col);
-                grid.generateCommands(row, col, size);
+                commands.addAll(grid.generateCommands(row, col, size));
                 grid.clearArea(row, col, size);
             }
         }

@@ -280,7 +280,7 @@ public class Facade {
         List<Command> commands = new ArrayList<>();
         int height = grid.cells.length;
         int width = grid.cells[0].length;
-        Grid copy = grid.copy();
+        Grid gridCopy = grid.copy();
         for (int i = 0 ; i < height ; i++) {
             for (int j = 0 ; j < width ; j++) {
                 if (grid.cells[i][j] == '#') {
@@ -288,7 +288,7 @@ public class Facade {
                     int colJ = j;
                     while (grid.cells[i][colJ] == '#'){
                         colJ++;
-                        if(colJ == width){
+                        if(colJ == width ){
                             break;
                         }
                     }
@@ -296,14 +296,14 @@ public class Facade {
                     int rowI = i;
                     while (grid.cells[rowI][j] == '#'){
                         rowI++;
-                        if(rowI == width){
+                        if(rowI == height){
                             break;
                         }
                     }
-                    if(colJ-j>1 && rowI-i <colJ-j){
+                    if(colJ-j>1){
                         colJ--;
                         PaintLine paintLine = new PaintLine(i, j, i, colJ);
-                        paintLine.apply(copy);
+                        paintLine.apply(gridCopy);
                         commands.add(paintLine);
                         j = colJ;
                     } else{

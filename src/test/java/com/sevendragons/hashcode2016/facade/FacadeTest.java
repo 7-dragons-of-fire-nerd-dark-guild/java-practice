@@ -27,15 +27,16 @@ public class FacadeTest {
     //  => mvn clean test -Dtest=FacadeTest
     //
 
+    Facade.Grid exampleGrid1 = Facade.Grid.fromString("5 7\n" +
+            "....#..\n" +
+            "..###..\n" +
+            "..#.#..\n" +
+            "..###..\n" +
+            "..#....\n");
+
     @Test
     public void test_fromGrid() {
-        Scanner scanner = new Scanner("5 7\n" +
-                "....#..\n" +
-                "..###..\n" +
-                "..#.#..\n" +
-                "..###..\n" +
-                "..#....\n");
-        Facade.Grid grid = Facade.Grid.fromScanner(scanner);
+        Facade.Grid grid = exampleGrid1;
         Assert.assertEquals(5, grid.cells.length);
         Assert.assertEquals("....#..", new String(grid.cells[0]));
         Assert.assertEquals("..###..", new String(grid.cells[3]));
@@ -54,13 +55,7 @@ public class FacadeTest {
 
     @Test
     public void test_countCellsToPaint() {
-        Scanner scanner = new Scanner("5 7\n" +
-                "....#..\n" +
-                "..###..\n" +
-                "..#.#..\n" +
-                "..###..\n" +
-                "..#....\n");
-        Facade.Grid grid = Facade.Grid.fromScanner(scanner);
+        Facade.Grid grid = exampleGrid1;
         Assert.assertEquals(10, grid.countCellsToPaint(0,0,5,7));
     }
 }

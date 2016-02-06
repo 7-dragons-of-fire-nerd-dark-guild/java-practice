@@ -7,6 +7,8 @@ import java.util.Scanner;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 public class FacadeTest {
     // Tips:
     //
@@ -37,9 +39,9 @@ public class FacadeTest {
     @Test
     public void test_fromGrid() {
         Facade.Grid grid = exampleGrid1;
-        Assert.assertEquals(5, grid.cells.length);
-        Assert.assertEquals("....#..", new String(grid.cells[0]));
-        Assert.assertEquals("..###..", new String(grid.cells[3]));
+        assertEquals(5, grid.cells.length);
+        assertEquals("....#..", new String(grid.cells[0]));
+        assertEquals("..###..", new String(grid.cells[3]));
     }
 
     @Test
@@ -50,12 +52,55 @@ public class FacadeTest {
         Facade.Grid grid = Facade.Grid.fromScanner(scanner);
         List<Facade.Command> commands = Facade.generateCommands(grid);
         List<Facade.Command> expected = Arrays.asList(new Facade.PaintSquare(0,4,0), new Facade.PaintSquare(1,2,0));
-        Assert.assertEquals(expected, commands);
+        assertEquals(expected, commands);
     }
 
     @Test
     public void test_countCellsToPaint() {
         Facade.Grid grid = exampleGrid1;
-        Assert.assertEquals(10, grid.countCellsToPaint(0,0,5,7));
+        assertEquals(10, grid.countCellsToPaint(0,0,5,7));
+    }
+
+    @Test
+    public void test_findBestBrush_on_empty_cell_is_0() {
+        Facade.Grid grid = Facade.Grid.fromString("2 3\n" +
+                        "...\n" +
+                        "...\n" );
+        assertEquals(0, grid.findBestBrush(0, 0));
+    }
+
+    @Test
+    public void test_findBestBrush_on_solitary_cell_is_0() {
+        Facade.Grid grid = Facade.Grid.fromString("2 3\n" +
+                        "#..\n" +
+                        "...\n" );
+        assertEquals(0, grid.findBestBrush(0, 0));
+    }
+
+    @Test
+    public void test_findBestBrush_on_complete_3block_is_1() {
+        Facade.Grid grid = Facade.Grid.fromString("3 3\n" +
+                "###\n" +
+                "###\n" +
+                "###\n");
+        assertEquals(1, grid.findBestBrush(0, 0));
+    }
+
+    @Test
+    public void test_findBestBrush_on_3block_with_hole_is_1() {
+        Facade.Grid grid = Facade.Grid.fromString("3 3\n" +
+                "###\n" +
+                "#.#\n" +
+                "###\n");
+        assertEquals(1, grid.findBestBrush(0, 0));
+    }
+
+    @Test
+    public void test_findBestBrush_on_complete_2block_is_0() {
+        Facade.Grid grid = Facade.Grid.fromString("3 3\n" +
+                "##.\n" +
+                "##.\n" +
+                "...\n");
+        assertEquals(0, grid.findBestBrush(0, 0));
     }
 }

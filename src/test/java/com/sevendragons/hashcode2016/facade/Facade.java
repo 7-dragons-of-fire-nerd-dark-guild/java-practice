@@ -67,8 +67,19 @@ public class Facade {
         }
 
         public int findBestBrush(int row, int col) {
-            // TODO: explore squares of size 1, 3, 5, 7, ... and return the biggest that's worth using
-            return 0;
+            int size = 0;
+            while (isGoodSize(row, col, size + 1)) {
+                ++size;
+            }
+            return size;
+        }
+
+        private boolean isGoodSize(int row, int col, int size) {
+            int dim = 2 * size + 1;
+            int height = Math.min(dim, cells.length - row);
+            int width = Math.min(dim, cells[row].length - col);
+            int count = countCellsToPaint(row, col, height, width);
+            return count > dim * dim / 2 + 1;
         }
 
         public List<Command> generateCommands(Grid grid, int row, int col, int size) {

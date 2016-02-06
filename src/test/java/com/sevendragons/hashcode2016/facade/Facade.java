@@ -378,7 +378,7 @@ public class Facade {
 
     public static void solveForFile(String inputPath, String outputPath) throws IOException {
         Grid grid = Grid.fromScanner(new Scanner(new File(inputPath)));
-        writeCommands(outputPath, generateCommands(grid));
+        writeCommands(outputPath, generateCommands_dumest(grid));
     }
 
     private static void writeCommands(String outputPath, List<Command> commands) throws IOException {

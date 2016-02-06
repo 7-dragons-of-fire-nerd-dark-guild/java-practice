@@ -264,7 +264,7 @@ public class Facade {
         Grid gridCopy = grid.copy();
         for (int i = 0 ; i < height ; i++) {
             for (int j = 0 ; j < width ; j++) {
-                if (grid.cells[i][j] == MARKER_PAINTED) {
+                if (grid.cells[i][j] == MARKER_PAINTED && gridCopy.cells[i][j] != MARKER_DONE) {
                     //checking if line
                     int colJ = j;
                     while (grid.cells[i][colJ] == MARKER_PAINTED){
@@ -281,12 +281,17 @@ public class Facade {
                             break;
                         }
                     }
-                    if(colJ-j>1){
+                    if(colJ-j>1 && colJ-j>=rowI-i){
                         colJ--;
                         PaintLine paintLine = new PaintLine(i, j, i, colJ);
                         paintLine.apply(gridCopy);
                         commands.add(paintLine);
                         j = colJ;
+                    }else if(rowI-i>1){
+                        rowI--;
+                        PaintLine paintLine = new PaintLine(i, j, rowI, j);
+                        paintLine.apply(gridCopy);
+                        commands.add(paintLine);
                     } else{
                         commands.add(new PaintSquare(i,j,0));
                     }

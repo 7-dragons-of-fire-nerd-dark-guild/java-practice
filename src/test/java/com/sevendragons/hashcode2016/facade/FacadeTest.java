@@ -115,6 +115,17 @@ public class FacadeTest {
         Assert.assertEquals(expected, commands);
     }
     @Test
+    public void test_generateCommnandwithCol() {
+        Scanner scanner = new Scanner("3 9\n" +
+                "...##.##\n" +
+                "...#....\n" +
+                "...#....\n");
+        Facade.Grid grid = Facade.Grid.fromScanner(scanner);
+        List<Facade.Command> commands = Facade.generateCommands_dumest(grid);
+        List<Facade.Command> expected = Arrays.asList(new Facade.PaintLine(0,3,2,3),new Facade.PaintSquare(0,4,0),new Facade.PaintLine(0,6,0,7));
+        Assert.assertEquals(expected, commands);
+    }
+    @Test
     public void test_generateCommands_2() {
         Scanner scanner = new Scanner("5 7\n" +
                 ".......\n" +

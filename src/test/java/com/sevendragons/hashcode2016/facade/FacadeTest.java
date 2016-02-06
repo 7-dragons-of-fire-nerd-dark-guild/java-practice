@@ -1,5 +1,7 @@
 package com.sevendragons.hashcode2016.facade;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 import org.junit.Assert;
@@ -37,5 +39,16 @@ public class FacadeTest {
         Assert.assertEquals(5, grid.cells.length);
         Assert.assertEquals("....#..", new String(grid.cells[0]));
         Assert.assertEquals("..###..", new String(grid.cells[3]));
+    }
+
+    @Test
+    public void test_generateCommnand() {
+        Scanner scanner = new Scanner("2 7\n" +
+                "....#..\n" +
+                "..#....\n");
+        Facade.Grid grid = Facade.Grid.fromScanner(scanner);
+        List<Facade.Command> commands = Facade.generateCommands(grid);
+        List<Facade.Command> expected = Arrays.asList(new Facade.PaintSquare(0,4,0), new Facade.PaintSquare(1,2,0));
+        Assert.assertEquals(expected, commands);
     }
 }

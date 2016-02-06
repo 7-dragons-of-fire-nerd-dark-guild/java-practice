@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -63,6 +64,27 @@ public class Facade {
         public void apply(Grid grid) {
             // TODO
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            PaintSquare that = (PaintSquare) o;
+
+            if (row != that.row) return false;
+            if (col != that.col) return false;
+            return size == that.size;
+
+        }
+
+        @Override
+        public int hashCode() {
+            int result = row;
+            result = 31 * result + col;
+            result = 31 * result + size;
+            return result;
+        }
     }
 
     public static class EraseCell implements Command {
@@ -86,8 +108,18 @@ public class Facade {
     }
 
     public static List<Command> generateCommands(Grid grid) {
-        // TODO
-        return null;
+
+        List<Command> commands = new ArrayList<>();
+
+        for (int i = 0 ; i < grid.cells.length ; i++) {
+            for (int j = 0 ; j < grid.cells[i].length ; j++) {
+                if (grid.cells[i][j] == '#') {
+                    commands.add(new PaintSquare(i,j,0));
+                }
+            }
+        }
+
+        return commands;
     }
 
     public static void solveForFile(String inputPath, String outputPath) throws IOException {

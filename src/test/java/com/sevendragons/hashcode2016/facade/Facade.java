@@ -1,5 +1,6 @@
 package com.sevendragons.hashcode2016.facade;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Facade {
@@ -64,5 +65,10 @@ public class Facade {
         public void apply(Grid grid) {
             // TODO
         }
+    }
+
+    public static List<Command> generateCommands(Grid grid) {
+        // TODO
+        return null;
     }
 }

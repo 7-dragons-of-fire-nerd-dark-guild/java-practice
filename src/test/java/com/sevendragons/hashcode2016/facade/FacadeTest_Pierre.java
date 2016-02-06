@@ -2,6 +2,7 @@ package com.sevendragons.hashcode2016.facade;
 
 import org.junit.Test;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -44,7 +45,7 @@ public class FacadeTest_Pierre {
         char[][] expected = {{1, 2}, {2, 1}};
         grid = new Facade.Grid(expected);
         Facade.Grid copy = grid.copy();
-        assertArrayEquals(expected,copy.getCells());
+        assertArrayEquals(expected, copy.getCells());
 
     }
 
@@ -62,7 +63,7 @@ public class FacadeTest_Pierre {
     @Test
     public void testToString_line() throws Exception {
         Facade.PaintLine line = new Facade.PaintLine(0,0,1,1);
-        assertEquals("PAINT_LINE 0 0 1 1",line.toString());
+        assertEquals("PAINT_LINE 0 0 1 1", line.toString());
     }
 
     @Test
@@ -72,7 +73,7 @@ public class FacadeTest_Pierre {
         char[][] expected = {{Facade.MARKER_DONE, Facade.MARKER_EMPTY}, {Facade.MARKER_DONE, Facade.MARKER_EMPTY}, {Facade.MARKER_EMPTY, Facade.MARKER_EMPTY}};
         Facade.Grid grid1 = new Facade.Grid(grid);
         line.apply(grid1);
-        assertArrayEquals(expected,grid1.getCells());
+        assertArrayEquals(expected, grid1.getCells());
 
     }
     @Test
@@ -88,7 +89,7 @@ public class FacadeTest_Pierre {
     @Test
     public void testToString_erase() throws Exception {
         Facade.EraseCell eraseCell = new Facade.EraseCell(0,0);
-        assertEquals("ERASE_CELL 0 0",eraseCell.toString());
+        assertEquals("ERASE_CELL 0 0", eraseCell.toString());
     }
 
     @Test
@@ -98,13 +99,13 @@ public class FacadeTest_Pierre {
         char[][] expected = {{Facade.MARKER_EMPTY, Facade.MARKER_DONE}, {Facade.MARKER_DONE, Facade.MARKER_EMPTY}, {Facade.MARKER_EMPTY, Facade.MARKER_EMPTY}};
         Facade.Grid grid1 = new Facade.Grid(grid);
         eraseCell.apply(grid1);
-        assertArrayEquals(expected,grid1.getCells());
+        assertArrayEquals(expected, grid1.getCells());
 
     }
     @Test
     public void testToString_square() throws Exception {
         Facade.PaintSquare paintSquare = new Facade.PaintSquare(0,0,1);
-        assertEquals("PAINT_SQUARE 0 0 1",paintSquare.toString());
+        assertEquals("PAINT_SQUARE 0 0 1", paintSquare.toString());
     }
 
     @Test
@@ -114,7 +115,7 @@ public class FacadeTest_Pierre {
         char[][] expected = {{Facade.MARKER_DONE, Facade.MARKER_EMPTY}, {Facade.MARKER_EMPTY, Facade.MARKER_EMPTY}, {Facade.MARKER_EMPTY, Facade.MARKER_EMPTY}};
         Facade.Grid grid1 = new Facade.Grid(grid);
         paintSquare.apply(grid1);
-        assertArrayEquals(expected,grid1.getCells());
+        assertArrayEquals(expected, grid1.getCells());
 
     }
     @Test
@@ -126,5 +127,25 @@ public class FacadeTest_Pierre {
         paintSquare.apply(grid1);
         assertArrayEquals(expected,grid1.getCells());
 
+    }
+
+    @Test
+    public void testMainLogo() throws Exception {
+        URL resource = this.getClass().getClassLoader().getResource("facade2016/logo.in");
+        String res = resource.getPath().toString();
+        Facade.solveForFile(res, "logo.out");
+    }
+
+    @Test
+    public void testMainRightAngle() throws Exception {
+        URL resource = this.getClass().getClassLoader().getResource("facade2016/right_angle.in");
+        String res = resource.getPath().toString();
+        Facade.solveForFile(res, "right_angle.out");
+    }
+    @Test
+    public void testMainBig() throws Exception {
+        URL resource = this.getClass().getClassLoader().getResource("facade2016/learn_and_teach.in");
+        String res = resource.getPath().toString();
+        Facade.solveForFile(res, "learn_and_teach.out");
     }
 }

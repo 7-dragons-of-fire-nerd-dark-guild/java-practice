@@ -10,6 +10,10 @@ import java.util.Scanner;
 
 public class Facade {
 
+    private static char MARKER_DONE = 'D';
+    private static char MARKER_EMPTY = '.';
+    private static char MARKER_PAINTED = '#';
+
     public static class Grid {
         protected final char[][] cells;
 
@@ -48,6 +52,18 @@ public class Facade {
 
         public char[][] getCells(){
             return this.cells;
+        }
+
+        public int countCellsToPaint(int row, int column, int length, int width) {
+            int count = 0;
+            for (int i = row ; i < row + length ; i ++) {
+                for (int j = column ; j < column + width ; j++) {
+                    if (cells[i][j] == MARKER_PAINTED) {
+                        count++;
+                    }
+                }
+            }
+            return count;
         }
     }
 

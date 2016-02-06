@@ -51,4 +51,16 @@ public class FacadeTest {
         List<Facade.Command> expected = Arrays.asList(new Facade.PaintSquare(0,4,0), new Facade.PaintSquare(1,2,0));
         Assert.assertEquals(expected, commands);
     }
+
+    @Test
+    public void test_countCellsToPaint() {
+        Scanner scanner = new Scanner("5 7\n" +
+                "....#..\n" +
+                "..###..\n" +
+                "..#.#..\n" +
+                "..###..\n" +
+                "..#....\n");
+        Facade.Grid grid = Facade.Grid.fromScanner(scanner);
+        Assert.assertEquals(10, grid.countCellsToPaint(0,0,5,7));
+    }
 }

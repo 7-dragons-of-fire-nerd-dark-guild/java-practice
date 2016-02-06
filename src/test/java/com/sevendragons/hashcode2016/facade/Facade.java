@@ -1,10 +1,16 @@
 package com.sevendragons.hashcode2016.facade;
 
+import java.util.Scanner;
+
 public class Facade {
 
     public static class Grid {
         public Grid copy() {
             // TODO
+            return null;
+        }
+
+        public static Grid fromScanner(Scanner scanner) {
             return null;
         }
     }

@@ -10,9 +10,9 @@ import java.util.Scanner;
 
 public class Facade {
 
-    private static char MARKER_DONE = 'D';
-    private static char MARKER_EMPTY = '.';
-    private static char MARKER_PAINTED = '#';
+    private static final char MARKER_DONE = 'D';
+    private static final char MARKER_EMPTY = '.';
+    private static final char MARKER_PAINTED = '#';
 
     public static class Grid {
         protected final char[][] cells;

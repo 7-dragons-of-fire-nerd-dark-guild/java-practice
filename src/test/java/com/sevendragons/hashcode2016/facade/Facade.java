@@ -172,25 +172,6 @@ public class Facade {
         }
 
         @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            EraseCell eraseCell = (EraseCell) o;
-
-            if (row != eraseCell.row) return false;
-            return col == eraseCell.col;
-
-        }
-
-        @Override
-        public int hashCode() {
-            int result = row;
-            result = 31 * result + col;
-            return result;
-        }
-
-        @Override
         public String toString() {
             return String.format("ERASE_CELL %s %s", row, col);
         }

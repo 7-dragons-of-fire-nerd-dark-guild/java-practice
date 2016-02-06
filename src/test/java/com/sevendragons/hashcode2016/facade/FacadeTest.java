@@ -51,7 +51,7 @@ public class FacadeTest {
                 "....#..\n" +
                 "..#....\n");
         Facade.Grid grid = Facade.Grid.fromScanner(scanner);
-        List<Facade.Command> commands = Facade.generateCommands(grid);
+        List<Facade.Command> commands = Facade.generateCommands_dumest(grid);
         List<Facade.Command> expected = Arrays.asList(new Facade.PaintSquare(0,4,0), new Facade.PaintSquare(1,2,0));
         assertEquals(expected, commands);
     }
@@ -110,7 +110,7 @@ public class FacadeTest {
                 "...##.##\n" +
                 "...#....\n");
         Facade.Grid grid = Facade.Grid.fromScanner(scanner);
-        List<Facade.Command> commands = Facade.generateCommands(grid);
+        List<Facade.Command> commands = Facade.generateCommands_dumest(grid);
         List<Facade.Command> expected = Arrays.asList(new Facade.PaintLine(0,3,0,4),new Facade.PaintLine(0,6,0,7), new Facade.PaintSquare(1,3,0));
         Assert.assertEquals(expected, commands);
     }

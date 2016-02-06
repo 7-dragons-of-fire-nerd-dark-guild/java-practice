@@ -65,6 +65,22 @@ public class Facade {
             }
             return count;
         }
+
+        public int findBestBrush(int row, int col) {
+            // TODO: explore squares of size 1, 3, 5, 7, ... and return the biggest that's worth using
+            return 0;
+        }
+
+        public List<Command> generateCommands(Grid grid, int row, int col, int size) {
+            // TODO: generate commands using given coordinates and brush size
+            // note: watch out for correct coordinates for paint: must use center of brush
+            // note: don't forget the ERASE commands
+            return null;
+        }
+
+        public void clearArea(int row, int col, int size) {
+            // TODO: clear the specified area in the grid (remove painting)
+        }
     }
 
     public interface Command {
@@ -178,6 +194,19 @@ public class Facade {
             }
         }
 
+        return commands;
+    }
+
+    public static List<Facade.Command> generateCommandsFromSquares(Facade.Grid grid) {
+        List<Facade.Command> commands = new ArrayList<>();
+
+        for (int row = 0; row < grid.cells.length; ++row) {
+            for (int col = 0; col < grid.cells[row].length; ++col) {
+                int size = grid.findBestBrush(row, col);
+                grid.generateCommands(grid, row, col, size);
+                grid.clearArea(row, col, size);
+            }
+        }
         return commands;
     }
 

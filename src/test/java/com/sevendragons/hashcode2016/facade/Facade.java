@@ -10,9 +10,9 @@ import java.util.Scanner;
 
 public class Facade {
 
-    private static final char MARKER_DONE = 'D';
-    private static final char MARKER_EMPTY = '.';
-    private static final char MARKER_PAINTED = '#';
+    public static final char MARKER_DONE = 'D';
+    public static final char MARKER_EMPTY = '.';
+    public static final char MARKER_PAINTED = '#';
 
     public static class Grid {
         protected final char[][] cells;
@@ -135,7 +135,7 @@ public class Facade {
         public void apply(Grid grid) {
             for (int i = 0; i < size ; i++){
                 for (int j = 0 ; j < size ; j++ ){
-                    grid.cells[row+i][col+j]=1;
+                    grid.cells[row+i][col+j]= MARKER_DONE;
                 }
             }
         }
@@ -197,7 +197,7 @@ public class Facade {
 
         @Override
         public void apply(Grid grid) {
-            grid.cells[row][col] = 0;
+            grid.cells[row][col] = MARKER_EMPTY;
         }
 
         @Override
@@ -242,7 +242,7 @@ public class Facade {
         public void apply(Grid grid) {
             for (int i = rowBegin; i <= rowBegin + ( rowEnd - rowBegin ) ; i ++){
                 for (int j = colBegin; j <= colBegin + ( colEnd - colBegin ) ; j ++){
-                    grid.cells[i][j] = 1;
+                    grid.cells[i][j] = MARKER_DONE;
                 }
             }
         }
@@ -283,10 +283,10 @@ public class Facade {
         Grid gridCopy = grid.copy();
         for (int i = 0 ; i < height ; i++) {
             for (int j = 0 ; j < width ; j++) {
-                if (grid.cells[i][j] == '#') {
+                if (grid.cells[i][j] == MARKER_PAINTED) {
                     //checking if line
                     int colJ = j;
-                    while (grid.cells[i][colJ] == '#'){
+                    while (grid.cells[i][colJ] == MARKER_PAINTED){
                         colJ++;
                         if(colJ == width ){
                             break;
@@ -294,7 +294,7 @@ public class Facade {
                     }
                     //checking if col
                     int rowI = i;
-                    while (grid.cells[rowI][j] == '#'){
+                    while (grid.cells[rowI][j] == MARKER_PAINTED){
                         rowI++;
                         if(rowI == height){
                             break;

@@ -68,8 +68,8 @@ public class FacadeTest_Pierre {
     @Test
     public void testApply_line() throws Exception {
         Facade.PaintLine line = new Facade.PaintLine(0,0,1,0);
-        char[][] grid = {{0, 0}, {0, 0}, {0, 0}};
-        char[][] expected = {{1, 0}, {1, 0}, {0, 0}};
+        char[][] grid = {{Facade.MARKER_EMPTY, Facade.MARKER_EMPTY}, {Facade.MARKER_EMPTY, Facade.MARKER_EMPTY}, {Facade.MARKER_EMPTY, Facade.MARKER_EMPTY}};
+        char[][] expected = {{Facade.MARKER_DONE, Facade.MARKER_EMPTY}, {Facade.MARKER_DONE, Facade.MARKER_EMPTY}, {Facade.MARKER_EMPTY, Facade.MARKER_EMPTY}};
         Facade.Grid grid1 = new Facade.Grid(grid);
         line.apply(grid1);
         assertArrayEquals(expected,grid1.getCells());
@@ -78,8 +78,8 @@ public class FacadeTest_Pierre {
     @Test
     public void testApply_line_all() throws Exception {
         Facade.PaintLine line = new Facade.PaintLine(0,0,2,0);
-        char[][] grid = {{0, 0}, {0, 0}, {0, 0}};
-        char[][] expected = {{1, 0}, {1, 0}, {1, 0}};
+        char[][] grid = {{Facade.MARKER_EMPTY, Facade.MARKER_EMPTY}, {Facade.MARKER_EMPTY, Facade.MARKER_EMPTY}, {Facade.MARKER_EMPTY, Facade.MARKER_EMPTY}};
+        char[][] expected = {{Facade.MARKER_DONE, Facade.MARKER_EMPTY}, {Facade.MARKER_DONE, Facade.MARKER_EMPTY}, {Facade.MARKER_DONE, Facade.MARKER_EMPTY}};
         Facade.Grid grid1 = new Facade.Grid(grid);
         line.apply(grid1);
         assertArrayEquals(expected,grid1.getCells());
@@ -94,8 +94,8 @@ public class FacadeTest_Pierre {
     @Test
     public void testApply_erase() throws Exception {
         Facade.EraseCell eraseCell = new Facade.EraseCell(0,0);
-        char[][] grid = {{1, 1}, {1, 0}, {0, 0}};
-        char[][] expected = {{0, 1}, {1, 0}, {0, 0}};
+        char[][] grid = {{Facade.MARKER_EMPTY, Facade.MARKER_DONE}, {Facade.MARKER_DONE, Facade.MARKER_EMPTY}, {Facade.MARKER_EMPTY, Facade.MARKER_EMPTY}};
+        char[][] expected = {{Facade.MARKER_EMPTY, Facade.MARKER_DONE}, {Facade.MARKER_DONE, Facade.MARKER_EMPTY}, {Facade.MARKER_EMPTY, Facade.MARKER_EMPTY}};
         Facade.Grid grid1 = new Facade.Grid(grid);
         eraseCell.apply(grid1);
         assertArrayEquals(expected,grid1.getCells());
@@ -110,8 +110,8 @@ public class FacadeTest_Pierre {
     @Test
     public void testApply_sqare() throws Exception {
         Facade.PaintSquare paintSquare = new Facade.PaintSquare(0,0,1);
-        char[][] grid = {{0, 0}, {0, 0}, {0, 0}};
-        char[][] expected = {{1, 0}, {0, 0}, {0, 0}};
+        char[][] grid = {{Facade.MARKER_EMPTY, Facade.MARKER_EMPTY}, {Facade.MARKER_EMPTY, Facade.MARKER_EMPTY}, {Facade.MARKER_EMPTY, Facade.MARKER_EMPTY}};
+        char[][] expected = {{Facade.MARKER_DONE, Facade.MARKER_EMPTY}, {Facade.MARKER_EMPTY, Facade.MARKER_EMPTY}, {Facade.MARKER_EMPTY, Facade.MARKER_EMPTY}};
         Facade.Grid grid1 = new Facade.Grid(grid);
         paintSquare.apply(grid1);
         assertArrayEquals(expected,grid1.getCells());
@@ -120,8 +120,8 @@ public class FacadeTest_Pierre {
     @Test
     public void testApply_sqare_allgrid() throws Exception {
         Facade.PaintSquare paintSquare = new Facade.PaintSquare(0,0,3);
-        char[][] grid = {{0, 0, 0}, {0, 0, 0}, {0, 0 , 0}};
-        char[][] expected = {{1, 1, 1}, {1, 1, 1}, {1, 1 , 1}};
+        char[][] grid = {{Facade.MARKER_EMPTY, Facade.MARKER_EMPTY, Facade.MARKER_EMPTY}, {Facade.MARKER_EMPTY, Facade.MARKER_EMPTY, Facade.MARKER_EMPTY}, {Facade.MARKER_EMPTY, Facade.MARKER_EMPTY , Facade.MARKER_EMPTY}};
+        char[][] expected = {{Facade.MARKER_DONE, Facade.MARKER_DONE, Facade.MARKER_DONE}, {Facade.MARKER_DONE, Facade.MARKER_DONE, Facade.MARKER_DONE}, {Facade.MARKER_DONE, Facade.MARKER_DONE , Facade.MARKER_DONE}};
         Facade.Grid grid1 = new Facade.Grid(grid);
         paintSquare.apply(grid1);
         assertArrayEquals(expected,grid1.getCells());

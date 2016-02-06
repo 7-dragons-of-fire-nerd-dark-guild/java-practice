@@ -125,6 +125,7 @@ public class FacadeTest {
         List<Facade.Command> expected = Arrays.asList(new Facade.PaintLine(0,3,2,3),new Facade.PaintSquare(0,4,0),new Facade.PaintLine(0,6,0,7));
         Assert.assertEquals(expected, commands);
     }
+
     @Test
     public void test_generateCommands_2() {
         Scanner scanner = new Scanner("5 7\n" +
@@ -150,6 +151,34 @@ public class FacadeTest {
         Facade.Grid grid = Facade.Grid.fromScanner(scanner);
         List<Facade.Command> commands = grid.generateCommands(1,2,0);
         List<Facade.Command> expected = Arrays.asList(new Facade.PaintSquare(1,2,0));
+        Assert.assertEquals(expected, commands);
+    }
+
+    @Test
+    public void testOptimiseAlgoLine() throws Exception {
+        Scanner scanner = new Scanner("5 7\n" +
+                ".......\n" +
+                "..###..\n" +
+                "...#...\n" +
+                "..#.#..\n" +
+                "...#...\n");
+        Facade.Grid grid = Facade.Grid.fromScanner(scanner);
+        List<Facade.Command> commands = new ArrayList<>();
+        Facade.Grid grid1 = Facade.optimiseAlgoLine(commands, grid);
+        List<Facade.Command> expected = Arrays.asList(new Facade.PaintLine(1,3,4,3),new Facade.PaintLine(3,2,3,4),new Facade.EraseCell(3,3));
+        Assert.assertEquals(expected, commands);
+    }
+    @Test
+    public void test_generateCommand_withOptimiseAlgoLine() throws Exception {
+        Scanner scanner = new Scanner("5 7\n" +
+                ".......\n" +
+                "..###..\n" +
+                "...#...\n" +
+                "..#.#..\n" +
+                "...#...\n");
+        Facade.Grid grid = Facade.Grid.fromScanner(scanner);
+        List<Facade.Command> commands = Facade.generateCommands_dumest(grid);
+        List<Facade.Command> expected = Arrays.asList(new Facade.PaintLine(1,3,4,3),new Facade.PaintLine(3,2,3,4),new Facade.EraseCell(3,3),new Facade.PaintLine(1,2,1,4));
         Assert.assertEquals(expected, commands);
     }
 }

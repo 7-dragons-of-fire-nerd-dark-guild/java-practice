@@ -1,8 +1,13 @@
 package com.sevendragons.hashcode2016.facade;
 
 public class Facade {
-    public interface Command {
+    
+    public static class Grid {
 
+    }
+
+    public interface Command {
+        void apply(Grid grid);
     }
 
     public static class PaintSquare implements Command {
@@ -20,6 +25,11 @@ public class Facade {
         public String toString() {
             return String.format("PAINT_SQUARE %s %s %s", row, col, size);
         }
+
+        @Override
+        public void apply(Grid grid) {
+            // TODO
+        }
     }
 
     public static class EraseCell implements Command {
@@ -34,6 +44,11 @@ public class Facade {
         @Override
         public String toString() {
             return String.format("ERASE_CELL %s %s", row, col);
+        }
+
+        @Override
+        public void apply(Grid grid) {
+            // TODO
         }
     }
 }

@@ -1,16 +1,18 @@
 package com.sevendragons.hashcode2016.facade;
 
-import java.io.*;
-import java.util.Arrays;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
 public class Facade {
 
     public static class Grid {
-        private final int[][] cells;
+        protected final char[][] cells;
 
-        public Grid(int[][] cells) {
+        public Grid(char[][] cells) {
             this.cells = cells;
         }
 
@@ -20,8 +22,16 @@ public class Facade {
         }
 
         public static Grid fromScanner(Scanner scanner) {
-            // TODO
-            return null;
+            int rows = scanner.nextInt();
+            int columns = scanner.nextInt();
+            scanner.nextLine();
+            char[][] cellz = new char[rows][columns];
+            int row = 0;
+            while(scanner.hasNextLine()) {
+                cellz[row] = scanner.nextLine().toCharArray();
+                row++;
+            }
+            return new Grid(cellz);
         }
 
         public static Grid fromString(String text) {

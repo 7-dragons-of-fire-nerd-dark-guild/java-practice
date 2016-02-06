@@ -1,13 +1,9 @@
 package com.sevendragons.hashcode2016.facade;
 
+import java.util.Scanner;
+
+import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 public class FacadeTest {
     // Tips:
@@ -30,10 +26,16 @@ public class FacadeTest {
     //
 
     @Test
-    public void test_something_gives_something() {
-        // just to have some static imports ready to use
-        // delete when you have actual meaningful tests
-        assertEquals(Arrays.asList(1, 2), new ArrayList<>(Arrays.asList(1, 2)));
-        assertNotEquals(Collections.emptyList(), Collections.emptySet());
+    public void test_fromGrid() {
+        Scanner scanner = new Scanner("5 7\n" +
+                "....#..\n" +
+                "..###..\n" +
+                "..#.#..\n" +
+                "..###..\n" +
+                "..#....\n");
+        Facade.Grid grid = Facade.Grid.fromScanner(scanner);
+        Assert.assertEquals(5, grid.cells.length);
+        Assert.assertEquals("....#..", new String(grid.cells[0]));
+        Assert.assertEquals("..###..", new String(grid.cells[3]));
     }
 }

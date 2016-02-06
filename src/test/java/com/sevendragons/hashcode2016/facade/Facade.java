@@ -18,8 +18,15 @@ public class Facade {
         }
 
         public Grid copy() {
-            // TODO
-            return null;
+            int height=cells.length;
+            int with = cells[0].length;
+            int[][]cellsCopy = new int[height][with];
+            for (int i = 0; i < height ; i ++){
+                for (int j = 0 ; j < with ; j ++){
+                    cellsCopy[i][j] = cells[i][j];
+                }
+            }
+            return new Grid(cellsCopy);
         }
 
         public static Grid fromScanner(Scanner scanner) {
@@ -37,6 +44,10 @@ public class Facade {
 
         public static Grid fromString(String text) {
             return fromScanner(new Scanner(text));
+        }
+
+        public int[][] getCells(){
+            return this.cells;
         }
     }
 
@@ -62,7 +73,11 @@ public class Facade {
 
         @Override
         public void apply(Grid grid) {
-            // TODO
+            for (int i = 0; i < size ; i++){
+                for (int j = 0 ; j < size ; j++ ){
+                    grid.cells[row+i][col+j]=1;
+                }
+            }
         }
 
         @Override
@@ -103,7 +118,35 @@ public class Facade {
 
         @Override
         public void apply(Grid grid) {
-            // TODO
+            grid.cells[row][col] = 0;
+        }
+    }
+
+    public static class PaintLine implements Command {
+        final int rowBegin;
+        final int colBegin;
+        final int rowEnd;
+        final int colEnd;
+
+        public PaintLine(int rowBegin, int colBegin,int rowEnd, int colEnd) {
+            this.rowBegin = rowBegin;
+            this.colBegin = colBegin;
+            this.rowEnd = rowEnd;
+            this.colEnd = colEnd;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("PAINT_LINE %s %s %s %s", rowBegin, colBegin , rowEnd , colEnd);
+        }
+
+        @Override
+        public void apply(Grid grid) {
+            for (int i = rowBegin; i <= rowBegin + ( rowEnd - rowBegin ) ; i ++){
+                for (int j = colBegin; j <= colBegin + ( colEnd - colBegin ) ; j ++){
+                    grid.cells[i][j] = 1;
+                }
+            }
         }
     }
 

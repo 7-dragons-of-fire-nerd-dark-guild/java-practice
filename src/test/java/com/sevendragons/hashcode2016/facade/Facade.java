@@ -1,5 +1,7 @@
 package com.sevendragons.hashcode2016.facade;
 
+import java.io.*;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -76,5 +78,23 @@ public class Facade {
     public static List<Command> generateCommands(Grid grid) {
         // TODO
         return null;
+    }
+
+    public static void solveForFile(String inputPath, String outputPath) throws IOException {
+        Grid grid = Grid.fromScanner(new Scanner(new File(inputPath)));
+        writeCommands(outputPath, generateCommands(grid));
+    }
+
+    private static void writeCommands(String outputPath, List<Command> commands) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(outputPath)))) {
+            writer.write(String.format("%s\n", commands.size()));
+            for (Command command : commands) {
+                writer.write(String.format("%s\n", command));
+            }
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        solveForFile(args[0], args[1]);
     }
 }

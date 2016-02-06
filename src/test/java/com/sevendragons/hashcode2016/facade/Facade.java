@@ -11,7 +11,12 @@ public class Facade {
         }
 
         public static Grid fromScanner(Scanner scanner) {
+            // TODO
             return null;
+        }
+
+        public static Grid fromString(String text) {
+            return fromScanner(new Scanner(text));
         }
     }
 

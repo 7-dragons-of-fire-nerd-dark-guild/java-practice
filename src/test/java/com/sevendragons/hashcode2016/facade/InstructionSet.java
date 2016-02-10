@@ -15,16 +15,16 @@ public class InstructionSet  {
 
     private TYPE type;
     private int size;
-    private int xCoord;
-    private int yCoord;
+    private int line;
+    private int column;
     private int cells_covered;
     private int numberOfInstructions;
 
-    public InstructionSet(TYPE type, int size, int xCoord, int yCoord, int cells_covered, int numberOfInstructions) {
+    public InstructionSet(TYPE type, int size, int line, int column, int cells_covered, int numberOfInstructions) {
         this.type = type;
         this.size = size;
-        this.xCoord = xCoord;
-        this.yCoord = yCoord;
+        this.line = line;
+        this.column = column;
         this.cells_covered = cells_covered;
         this.numberOfInstructions = numberOfInstructions;
     }
@@ -37,12 +37,12 @@ public class InstructionSet  {
         return size;
     }
 
-    public int getxCoord() {
-        return xCoord;
+    public int getLine() {
+        return line;
     }
 
-    public int getyCoord() {
-        return yCoord;
+    public int getColumn() {
+        return column;
     }
 
     public int getCells_covered() {
@@ -65,5 +65,22 @@ public class InstructionSet  {
             return  size;
         }
         return 1;
+    }
+
+    @Override
+    public String toString() {
+        switch (type){
+            case SQUARE:
+                return "PAINT_SQUARE "+(line + (size - 1) / 2 )+" "+(column+ (size - 1) / 2 )+" "+ (size - 1) / 2;
+            case LINE_HORIZONTAL:
+                return "PAINT_LINE "+ line+" "+column+" "+ line+" "+ (column + size - 1);
+            case LINE_VERTICAL:
+                return "PAINT_LINE "+line+" "+ column +" "+ (line + size - 1) +" "+column;
+            case NOTHING:
+                return "NOTHING";
+            case CLEAR:
+                return "ERASE_CELL "+line+" "+column;
+        }
+        return "";
     }
 }

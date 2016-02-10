@@ -5,7 +5,9 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Scanner;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
@@ -29,11 +31,31 @@ public class FacadeTest_PJ {
     //  => mvn clean test -Dtest=FacadeTest
     //
 
+   String exampleGrid1 = "5 7\n" +
+            "....#..\n" +
+            "..###..\n" +
+            "..#.#..\n" +
+            "..###..\n" +
+            "..#....\n";
+
     @Test
-    public void test_something_gives_something() {
-        // just to have some static imports ready to use
-        // delete when you have actual meaningful tests
-        assertEquals(Arrays.asList(1, 2), new ArrayList<>(Arrays.asList(1, 2)));
-        assertNotEquals(Collections.emptyList(), Collections.emptySet());
+    public void testGridParsing() {
+        Facade_PJ facade = new Facade_PJ(new Scanner(exampleGrid1));
+        assertArrayEquals(new int[]{0,0,1,1,1,0,0}, facade.getOriginalGrid()[1]);
     }
+
+    @Test
+    public void testSumMatrix() {
+        Facade_PJ facade = new Facade_PJ(new Scanner(exampleGrid1));
+        assertEquals(10, facade.getCornerSumGrid()[0][0]);
+    }
+
+//    @Test
+//    public void testSolution() {
+//        Facade_PJ facade = new Facade_PJ(new Scanner(exampleGrid1));
+//        facade.resolve();
+//        assertArrayEquals(facade.getOriginalGrid()[0], facade.getResultGrid()[0]);
+//    }
+
+
 }

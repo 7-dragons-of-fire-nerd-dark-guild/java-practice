@@ -36,37 +36,39 @@ public class Facade_PJ_Utils {
         }
     };
 
-    //-------- Sum Matrix --------/
+    ///////////////////////////////
+    //---- Matrix operations -----/
+    ///////////////////////////////
 
     public static int[][] computeSumMatrixVertical(int[][] originalMatrix){
-        return computeSumMatrixGeneric(originalMatrix, true);
+        return computeSumMatrixGeneric(originalMatrix, SUM_TYPE.VERTICAL);
     }
 
     public static int[][] computeSumMatrixHorizontal(int[][] originalMatrix) {
-        return computeSumMatrixGeneric(originalMatrix, false);
+        return computeSumMatrixGeneric(originalMatrix, SUM_TYPE.HORIZONTAL);
     }
 
     public static int[][] computeSumCornerMatrixFromHorizontalSum(int[][] originalMatrix){
-        return computeSumMatrixGeneric(originalMatrix, true);
+        return computeSumMatrixGeneric(originalMatrix, SUM_TYPE.VERTICAL);
     }
 
     public static int[][] computeSumCornerMatrixFromVerticalSum(int[][] originalMatrix){
-        return computeSumMatrixGeneric(originalMatrix, false);
+        return computeSumMatrixGeneric(originalMatrix, SUM_TYPE.HORIZONTAL);
     }
 
     /**
      * Compute a prefix sum for each column (if vertical is true) or line (if vertical is false) of the matrix
      * It compute starting from the end of the array to the beginning of the array
      * @param originalGrid the matrix from where compute the prefix sum
-     * @param isVertical if true, compute a prefix sum for each column, if false for each line.
+     * @param sumType if SUM_TYPE.VERTICAL, compute a prefix sum for each column, if SUM_TYPE.HORIZONTAL for each line.
      * @return a sum matrix with prefix sum of each line or column of the input matrix
      */
-    private static int[][] computeSumMatrixGeneric(int[][] originalGrid, boolean isVertical){
+    private static int[][] computeSumMatrixGeneric(int[][] originalGrid, SUM_TYPE sumType){
         int lines = originalGrid.length;
         int columns = originalGrid[0].length;
         int[][] resultGrid = new int[lines][columns];
-        if (isVertical){
-            for (int j = columns; j >= 0; j--){
+        if (SUM_TYPE.VERTICAL.equals(sumType)){
+            for (int j = columns - 1; j >= 0; j--){
                 for (int i = lines - 1; i >= 0; i--){
                     if (i == lines - 1){
                         resultGrid[i][j] = originalGrid[i][j];
@@ -79,7 +81,7 @@ public class Facade_PJ_Utils {
         }
         else{
             for (int i = lines - 1; i >= 0; i--) {
-                for (int j = columns; j >= 0; j--) {
+                for (int j = columns - 1; j >= 0; j--) {
                     if (j == columns - 1) {
                         resultGrid[i][j] = originalGrid[i][j];
                     } else {
@@ -132,7 +134,9 @@ public class Facade_PJ_Utils {
         }
     }
 
-    //------- Parsing Input -------------
+    ///////////////////////////////////
+    //------- Parsing Input ----------/
+    ///////////////////////////////////
 
     /**
      * Parse input and produce a matrix with
@@ -168,7 +172,9 @@ public class Facade_PJ_Utils {
         return result;
     }
 
-    //------- Applying output ------------------
+    //////////////////////////////////
+    //------- Applying output -------/
+    //////////////////////////////////
 
     /**
      * Apply the best scenario starting from left top corner of the Grid
@@ -224,8 +230,8 @@ public class Facade_PJ_Utils {
     private static int applyInstruction(InstructionSet instruction, int[][] originalGrid, int[][] resultGrid){
         int cellCovered = 0;
         if (!InstructionSet.TYPE.NOTHING.equals(instruction.getType())){
-            for (int i = instruction.getyCoord(); i < instruction.getyCoord() + instruction.getHeigth(); i++){
-                for (int j = instruction.getxCoord(); j < instruction.getxCoord() + instruction.getWidth(); i++){
+            for (int i = instruction.getLine(); i < instruction.getLine() + instruction.getHeigth(); i++){
+                for (int j = instruction.getCells_covered(); j < instruction.getColumn() + instruction.getWidth(); j++){
                     if (resultGrid[i][j] == 0 && originalGrid[i][j] == 1){
                         if (LOG_COVERAGE_ONLY_CELL_TO_PAINT){
                             cellCovered ++;
@@ -272,7 +278,9 @@ public class Facade_PJ_Utils {
     }
 
 
-    //-------- Compute Solution --------------
+    ///////////////////////////////////
+    //-------- Compute Solution ------/
+    ///////////////////////////////////
 
     /**
      * Generate the best Instructions to do for each coordinates to fill the matrix to the bottom right.
@@ -285,7 +293,7 @@ public class Facade_PJ_Utils {
         InstructionSet[][] toReturn = new InstructionSet[lines][columns];
         logger.info("Computing Instructions Ranking...");
         for (int i = lines - 1; i >= 0; i--){
-            for (int j = columns; j >= 0; j--){
+            for (int j = columns - 1; j >= 0; j--){
                 logger.fine(" --> Computing ["+i+","+j+"]...");
                 InstructionSet instructionSet = chooseBestInstruction( i, j, cornerSumGrid, toReturn);
                 toReturn[i][j] = instructionSet;
@@ -374,6 +382,9 @@ public class Facade_PJ_Utils {
                 computedInstructions.add(new InstructionSet(type, size, i, j, numberOfCoveredCells, instructionsRank));
             }
         }
+        if (computedInstructions.isEmpty()){
+            return null;
+        }
         return computedInstructions.first();
     }
 
@@ -399,8 +410,5 @@ public class Facade_PJ_Utils {
         }
         return instructionsRankGrid[i][j];
     }
-
-
-
 
 }

@@ -24,7 +24,6 @@ public class Facade_PJ {
 
     public Facade_PJ (Scanner scanner){
         init(scanner);
-        resolve();
     }
 
     public void init(Scanner scanner){
@@ -32,8 +31,7 @@ public class Facade_PJ {
         originalGrid = Facade_PJ_Utils.parseMatrix(scanner);
         logger.fine(" --> Computing original matrix [ " +lines+" x "+columns+" ]: Done!");
         lines = originalGrid.length;
-        columns = originalGrid.length;
-        originalGrid = new int[lines][columns];
+        columns = originalGrid[0].length;
         horizontalGrid = new int[lines][columns];
         verticalSumGrid = new int[lines][columns];
         cornerSumGrid = new int[lines][columns];
@@ -64,5 +62,17 @@ public class Facade_PJ {
         logger.fine(" --> Computing corner sum matrix [ " +lines+" x "+columns+" ]: Done!");
         logger.info("Computing Sum Matrices: Done!");
         totalCellsToCover = cornerSumGrid[0][0];
+    }
+
+    public int[][] getOriginalGrid() {
+        return originalGrid;
+    }
+
+    public int[][] getCornerSumGrid() {
+        return cornerSumGrid;
+    }
+
+    public int[][] getResultGrid() {
+        return resultGrid;
     }
 }

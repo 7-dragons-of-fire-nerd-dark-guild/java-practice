@@ -186,7 +186,7 @@ public class Facade_PJ_Utils {
     public static Collection<InstructionSet> applyBestInstructions(InstructionSet[][] bestInstructionsGrids,
                                                              int[][] originalGrid, int[][] resultGrid, int totalCellsToCover){
         logger.info("Applying Instructions...");
-        SortedSet<InstructionSet> instructions = new TreeSet<>(coveredCellsComparator);
+        List<InstructionSet> instructions = new ArrayList<>();
         instructions.addAll(applyBestInstruction(0,0, bestInstructionsGrids));
         int cellsCovered = 0;
         for (InstructionSet instruction : instructions) {
@@ -205,10 +205,10 @@ public class Facade_PJ_Utils {
      * @param bestInstructionsGrids the precomputed set of best instructions per coordinates
      * @return the list of needed instruction to fill the rest of the matrix to the bottom right end
      */
-    private static SortedSet<InstructionSet> applyBestInstruction(int i, int j, InstructionSet[][] bestInstructionsGrids){
+    private static Collection<InstructionSet> applyBestInstruction(int i, int j, InstructionSet[][] bestInstructionsGrids){
         int lines = bestInstructionsGrids.length;
         int columns = bestInstructionsGrids[0].length;
-        SortedSet<InstructionSet> toReturn =  new TreeSet<>(coveredCellsComparator);
+        List<InstructionSet> toReturn =  new ArrayList<>();
         InstructionSet instruction = bestInstructionsGrids[i][j];
         toReturn.add(instruction);
         if (j + instruction.getWidth() < columns){
@@ -237,7 +237,12 @@ public class Facade_PJ_Utils {
                             cellCovered ++;
                         }
                     }
-                    resultGrid[i][j] = 1;
+                    if (InstructionSet.TYPE.CLEAR.equals(instruction.getType())){
+                        resultGrid[i][j] = 0;
+                    }
+                    else{
+                        resultGrid[i][j] = 1;
+                    }
                     if (!LOG_COVERAGE_ONLY_CELL_TO_PAINT){
                         cellCovered ++;
                     }
@@ -273,7 +278,9 @@ public class Facade_PJ_Utils {
     //TODO PJ
     public static void printInstructions(Collection<InstructionSet> instructionSets){
         for (InstructionSet instruction : instructionSets){
-            logger.info(instruction.toString());
+            if (!InstructionSet.TYPE.NOTHING.equals(instruction)){
+                logger.info(instruction.toString());
+            }
         }
     }
 

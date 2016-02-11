@@ -1,5 +1,7 @@
 package com.sevendragons.hashcode2016.qualification;
 
+import com.sun.org.apache.xpath.internal.operations.Or;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -275,13 +277,29 @@ public class Qualification {
         }
 
         Pair<Order, Warehouse> findNextOrderWarehouse() {
+            Order closestOrder = null;
+            Warehouse closestWarehouse = null;
 
-            Warehouse nextWarehouse = null;
-            Order nextOrder = null;
+            int minDistance = Integer.MAX_VALUE;
 
-            // TODO
+            for (Order order : orderMap.values()) {
+                int distanceToOrder = calcDistanceToOrder(order);
 
-            return new Pair<>(nextOrder, nextWarehouse);
+                for (Warehouse warehouse : order.findWarehouses()) {
+                    int distance = distanceToOrder + order2warehouse[order.id][warehouse.id];
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        closestOrder = order;
+                        closestWarehouse = warehouse;
+                    }
+                }
+            }
+
+            if (closestOrder == null) {
+                return null;
+            }
+
+            return new Pair<>(closestOrder, closestWarehouse);
         }
 
     }
@@ -307,8 +325,6 @@ public class Qualification {
                 }
                 if (satisfying) {
                     warehouses.add(warehouse);
-                    // Only one warehouse for now
-                    break;
                 }
             }
 

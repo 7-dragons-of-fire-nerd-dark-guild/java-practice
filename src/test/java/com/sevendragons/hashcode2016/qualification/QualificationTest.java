@@ -51,6 +51,24 @@ public class QualificationTest {
     }
 
     @Test
+    public void test_createMatrix_3x3() {
+        Map<Integer, MapItem> orderMap = new HashMap<>();
+        orderMap.put(0, new Order(0, 1, 1));
+        orderMap.put(1, new Order(1, 3, 4));
+        orderMap.put(2, new Order(2, 4, 5));
+
+        int[][] matrix = Qualification.createMatrix(orderMap);
+        int[][] expected = {
+                {0, 4, 5},
+                {4, 0, 2},
+                {5, 2, 0}
+        };
+        assertArrayEquals(expected[0], matrix[0]);
+        assertArrayEquals(expected[1], matrix[1]);
+        assertArrayEquals(expected[2], matrix[2]);
+    }
+
+    @Test
     public void test_calculateDistance() {
         // root(2*2 + 3*3) -> root(13)
         assertEquals(4, Qualification.calculateDistance(new Order(0, 1, 1), new Order(0, 3, 4)));

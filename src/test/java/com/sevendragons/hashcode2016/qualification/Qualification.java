@@ -1,57 +1,75 @@
 package com.sevendragons.hashcode2016.qualification;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Qualification {
 
     static class Input {
 
-        private static int rowNumber;
-        private static int columnNumber;
-        private static int droneNumber;
-        private static int numberOfTurn;
-        private static int maxPayload;
-        private static int numberOfProductType;
-        private static int numberOfWareHouse;
-        private static Map<Integer, Warehouse> warehouseMap = new HashMap<>();
-        private static Map<Integer, Product> productMap = new HashMap<>();
-        private static Map<Integer, Order> orderMap = new HashMap<>();
-        private static int numberOfCommand;
+        private final int rowNumber;
+        private final int columnNumber;
+        private final int droneNumber;
+        private final int numberOfTurn;
+        private final int maxPayload;
+        private final int numberOfProductType;
+        private final int numberOfWareHouse;
+        private final Map<Integer, Warehouse> warehouseMap;
+        private final Map<Integer, Product> productMap;
+        private final Map<Integer, Order> orderMap;
+
+        Input(int rowNumber, int columnNumber, int droneNumber, int numberOfTurn, int maxPayload,
+              int numberOfProductType, int numberOfWareHouse, Map<Integer, Warehouse> warehouseMap,
+              Map<Integer, Product> productMap, Map<Integer, Order> orderMap) {
+            this.rowNumber = rowNumber;
+            this.columnNumber = columnNumber;
+            this.droneNumber = droneNumber;
+            this.numberOfTurn = numberOfTurn;
+            this.maxPayload = maxPayload;
+            this.numberOfProductType = numberOfProductType;
+            this.numberOfWareHouse = numberOfWareHouse;
+            this.warehouseMap = warehouseMap;
+            this.productMap = productMap;
+            this.orderMap = orderMap;
+        }
 
         public static Input fromScanner(Scanner scanner) {
             // Map info
-            rowNumber = scanner.nextInt();
-            columnNumber = scanner.nextInt();
-            droneNumber = scanner.nextInt();
-            numberOfTurn = scanner.nextInt();
-            maxPayload = scanner.nextInt();
+            int rowNumber = scanner.nextInt();
+            int columnNumber = scanner.nextInt();
+            int droneNumber = scanner.nextInt();
+            int numberOfTurn = scanner.nextInt();
+            int maxPayload = scanner.nextInt();
             scanner.nextLine();
+
             // Products
-            numberOfProductType = scanner.nextInt();
+            int numberOfProductType = scanner.nextInt();
             scanner.nextLine();
-            for (int i=0; i<numberOfProductType; i++){
+            Map<Integer, Product> productMap = new HashMap<>();
+            for (int i = 0; i < numberOfProductType; i++) {
                 productMap.put(i, parseProductType(scanner, i));
             }
             scanner.nextLine();
+
             // Warehouses
-            numberOfWareHouse = scanner.nextInt();
+            int numberOfWareHouse = scanner.nextInt();
             scanner.nextLine();
-            for (int i =0; i< numberOfWareHouse; i++){
-                warehouseMap.put(i, parseWareHouse(scanner,i));
+            Map<Integer, Warehouse> warehouseMap = new HashMap<>();
+            for (int i = 0; i < numberOfWareHouse; i++) {
+                warehouseMap.put(i, parseWareHouse(scanner, i, numberOfProductType, productMap));
             }
+
             //Commands
             int numberOfOrder = scanner.nextInt();
             scanner.nextLine();
-            for (int i=0; i< numberOfOrder; i++){
+            Map<Integer, Order> orderMap = new HashMap<>();
+            for (int i = 0; i < numberOfOrder; i++) {
                 orderMap.put(i, parseOrder(scanner, i));
             }
 
-            // I GIVE UP
-            return null;
+            return new Input(rowNumber, columnNumber, droneNumber, numberOfTurn,
+                    maxPayload, numberOfProductType,
+                    numberOfWareHouse,
+                    warehouseMap, productMap, orderMap);
         }
 
         private static Product parseProductType(Scanner scanner, int id){
@@ -60,7 +78,8 @@ public class Qualification {
             return product;
         }
 
-        private static Warehouse parseWareHouse(Scanner scanner, int id){
+        private static Warehouse parseWareHouse(
+                Scanner scanner, int id, int numberOfProductType, Map<Integer, Product> productMap){
             int line = scanner.nextInt();
             int column = scanner.nextInt();
             scanner.nextLine();
@@ -83,50 +102,6 @@ public class Qualification {
             }
             scanner.nextLine();
             return new Order(id, line, column);
-        }
-
-        public static Map<Integer, Product> getProductMap() {
-            return productMap;
-        }
-
-        public static Map<Integer, Warehouse> getWarehouseMap() {
-            return warehouseMap;
-        }
-
-        public static Map<Integer, Order> getOrderMap() {
-            return orderMap;
-        }
-
-        public static int getNumberOfCommand() {
-            return numberOfCommand;
-        }
-
-        public static int getNumberOfWareHouse() {
-            return numberOfWareHouse;
-        }
-
-        public static int getNumberOfProductType() {
-            return numberOfProductType;
-        }
-
-        public static int getNumberOfTurn() {
-            return numberOfTurn;
-        }
-
-        public static int getMaxPayload() {
-            return maxPayload;
-        }
-
-        public static int getDroneNumber() {
-            return droneNumber;
-        }
-
-        public static int getRowNumber() {
-            return rowNumber;
-        }
-
-        public static int getColumnNumber() {
-            return columnNumber;
         }
     }
 

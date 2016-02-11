@@ -1,5 +1,7 @@
 package com.sevendragons.hashcode2016.qualification;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -427,11 +429,11 @@ public class Qualification {
         return (int) Math.ceil(Math.sqrt(rowDiff * rowDiff + colDiff * colDiff));
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         String inputPath = args[0];
-        String outputPath = args[1];
+//        String outputPath = args[1];
 
-        Input input = parseInput(new Scanner(inputPath));
+        Input input = parseInput(new Scanner(new File(inputPath)));
         Output output = solve(input);
         printOutput(output);
     }

@@ -49,7 +49,7 @@ public class Qualification {
         int getCol();
     }
 
-    abstract static class AbstractMapItem {
+    abstract static class AbstractMapItem implements MapItem {
         int id;
         int row;
         int col;
@@ -149,12 +149,28 @@ public class Qualification {
     int[][] order2order;
     int[][] order2warehouse;
 
-    int[][] createMatrix(Map<Integer, MapItem> mapItems) {
-        return null;
+    static int[][] createMatrix(Map<Integer, MapItem> mapItems) {
+        int dim = mapItems.size();
+        int[][] matrix = new int[dim][];
+        for (int i = 0; i < dim; ++i) {
+            matrix[i] = new int[dim];
+        }
+
+        for (int i = 0; i < dim; ++i) {
+            for (int j = i + 1; j < dim; ++j) {
+                int distance = calculateDistance(mapItems.get(i), mapItems.get(j));
+                matrix[i][j] = distance;
+                matrix[j][i] = distance;
+            }
+        }
+
+        return matrix;
     }
 
-    int calculateDistance(MapItem item1, MapItem item2) {
-        return 0;
+    static int calculateDistance(MapItem item1, MapItem item2) {
+        int rowDiff = Math.abs(item1.getRow() - item2.getRow());
+        int colDiff = Math.abs(item1.getCol() - item2.getCol());
+        return (int) Math.ceil(Math.sqrt(rowDiff * rowDiff + colDiff * colDiff));
     }
 
     public static void main(String[] args) {

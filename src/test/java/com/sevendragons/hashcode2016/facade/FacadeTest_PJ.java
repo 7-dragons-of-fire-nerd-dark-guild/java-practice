@@ -50,6 +50,67 @@ public class FacadeTest_PJ {
         assertEquals(10, facade.getCornerSumGrid()[0][0]);
     }
 
+    @Test
+    public void testInstructionsApplications(){
+        int[][] grid = new  int[5][3];
+        int[][] originalGrid = {
+                {0,1,0},
+                {0,1,0},
+                {1,1,1},
+                {1,1,1},
+                {1,1,1}
+        };
+        InstructionSet instruction1 = new InstructionSet(InstructionSet.TYPE.LINE_VERTICAL, 5, 0, 1, 5, 1);
+        InstructionSet instruction2 = new InstructionSet(InstructionSet.TYPE.SQUARE, 3, 2, 0, 9, 1);
+        Facade_PJ_Utils.applyInstruction(instruction1, originalGrid, grid);
+        Facade_PJ_Utils.applyInstruction(instruction2, originalGrid, grid);
+        assertArrayEquals(originalGrid[0],grid[0]);
+        assertArrayEquals(originalGrid[1],grid[1]);
+        assertArrayEquals(originalGrid[2],grid[2]);
+    }
+
+    @Test
+    public void testBestSquareSize(){
+        int[][] originalGrid = {
+                {0,1,0},
+                {0,1,0},
+                {1,1,1},
+                {1,1,1},
+                {1,1,1}
+        };
+        int[][] sumGrid = Facade_PJ_Utils.computeSumCornerMatrixFromVerticalSum(Facade_PJ_Utils.computeSumMatrixVertical(originalGrid));
+        InstructionSet[][] bestRankingInstructions = new InstructionSet[5][3];
+        bestRankingInstructions[4][2] = Facade_PJ_Utils.computeBestInstruction(4,2, InstructionSet.TYPE.SQUARE, sumGrid, bestRankingInstructions);
+        assertEquals(1, bestRankingInstructions[4][2].getSize());
+        bestRankingInstructions[4][1] = Facade_PJ_Utils.computeBestInstruction(4,1, InstructionSet.TYPE.SQUARE, sumGrid, bestRankingInstructions);
+        bestRankingInstructions[4][0] = Facade_PJ_Utils.computeBestInstruction(4,0, InstructionSet.TYPE.SQUARE, sumGrid, bestRankingInstructions);
+        bestRankingInstructions[3][2] = Facade_PJ_Utils.computeBestInstruction(3,2, InstructionSet.TYPE.SQUARE, sumGrid, bestRankingInstructions);
+        bestRankingInstructions[3][1] = Facade_PJ_Utils.computeBestInstruction(3,1, InstructionSet.TYPE.SQUARE, sumGrid, bestRankingInstructions);
+        bestRankingInstructions[3][0] = Facade_PJ_Utils.computeBestInstruction(3,0, InstructionSet.TYPE.SQUARE, sumGrid, bestRankingInstructions);
+        bestRankingInstructions[2][2] = Facade_PJ_Utils.computeBestInstruction(2,2, InstructionSet.TYPE.SQUARE, sumGrid, bestRankingInstructions);
+        bestRankingInstructions[2][1] = Facade_PJ_Utils.computeBestInstruction(2,1, InstructionSet.TYPE.SQUARE, sumGrid, bestRankingInstructions);
+        bestRankingInstructions[2][0] = Facade_PJ_Utils.computeBestInstruction(2,0, InstructionSet.TYPE.SQUARE, sumGrid, bestRankingInstructions);
+        assertEquals(3, bestRankingInstructions[2][0].getSize());
+    }
+
+    @Test
+    public void testInstructionsRankingMatrix(){
+        int[][] originalGrid = {
+                {0,1,0},
+                {0,1,0},
+                {1,1,1},
+                {1,1,1},
+                {1,1,1}
+        };
+        int[][] sumGrid = Facade_PJ_Utils.computeSumCornerMatrixFromVerticalSum(Facade_PJ_Utils.computeSumMatrixVertical(originalGrid));
+        InstructionSet[][] instructions = Facade_PJ_Utils.generateInstructionsRanking(sumGrid);
+        assertEquals(InstructionSet.TYPE.SQUARE, instructions[2][0].getType());
+        assertEquals(3, instructions[2][0].getSize());
+//        assertEquals(InstructionSet.TYPE.LINE_VERTICAL, instructions[0][1].getType());
+    }
+
+
+
 //    @Test
 //    public void testSolution() {
 //        Facade_PJ facade = new Facade_PJ(new Scanner(exampleGrid1));

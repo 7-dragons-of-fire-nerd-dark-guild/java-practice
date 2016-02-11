@@ -105,9 +105,9 @@ public class Facade_PJ_Utils {
      */
     private static int getCellsInArea(int i, int j, int width, int height, CELL_TYPE cellType, int[][] cornerSumGrid){
         int cellsInArea = getCellsCountToBottomRight(i, j, cellType, cornerSumGrid)
-                - getCellsCountToBottomRight(i+height, j, cellType, cornerSumGrid)
-                - getCellsCountToBottomRight(i, j+width,  cellType, cornerSumGrid)
-                + getCellsCountToBottomRight(i+height, j+width, cellType, cornerSumGrid);
+                - getCellsCountToBottomRight(i + height, j, cellType, cornerSumGrid)
+                - getCellsCountToBottomRight(i, j + width,  cellType, cornerSumGrid)
+                + getCellsCountToBottomRight(i + height, j + width, cellType, cornerSumGrid);
         return cellsInArea;
     }
 
@@ -123,7 +123,7 @@ public class Facade_PJ_Utils {
     private static int getCellsCountToBottomRight(int i, int j, CELL_TYPE cellType, int[][] cornerSumGrid){
         int lines = cornerSumGrid.length;
         int columns = cornerSumGrid[0].length;
-        if (i >= lines || j >= lines) {
+        if (i >= lines || j >= columns) {
             return 0;
         }
         if (CELL_TYPE.EMPTY.equals(cellType)){
@@ -227,11 +227,11 @@ public class Facade_PJ_Utils {
      * @param resultGrid the Grid where to apply instructions
      * @return the number of cells that the instructions has affected
      */
-    private static int applyInstruction(InstructionSet instruction, int[][] originalGrid, int[][] resultGrid){
+    public static int applyInstruction(InstructionSet instruction, int[][] originalGrid, int[][] resultGrid){
         int cellCovered = 0;
         if (!InstructionSet.TYPE.NOTHING.equals(instruction.getType())){
             for (int i = instruction.getLine(); i < instruction.getLine() + instruction.getHeigth(); i++){
-                for (int j = instruction.getCells_covered(); j < instruction.getColumn() + instruction.getWidth(); j++){
+                for (int j = instruction.getColumn(); j < instruction.getColumn() + instruction.getWidth(); j++){
                     if (resultGrid[i][j] == 0 && originalGrid[i][j] == 1){
                         if (LOG_COVERAGE_ONLY_CELL_TO_PAINT){
                             cellCovered ++;
@@ -337,7 +337,7 @@ public class Facade_PJ_Utils {
      * @param bestRankedInstructionGrid already computed best instructions for each coordinates inside the area
      * @return the instruction type with the best size to minimize number of instructions
      */
-    private static InstructionSet computeBestInstruction(int i, int j, InstructionSet.TYPE type, int[][] cornerSumGrid,
+    public static InstructionSet computeBestInstruction(int i, int j, InstructionSet.TYPE type, int[][] cornerSumGrid,
                                                   InstructionSet[][] bestRankedInstructionGrid){
         SortedSet<InstructionSet> computedInstructions = new TreeSet<>(numberInstructionsComparator);
         int lines = cornerSumGrid.length;
@@ -378,7 +378,12 @@ public class Facade_PJ_Utils {
             instructionsRank += instructionsBottom != null ? instructionsBottom.getNumberOfInstructions() : 0;
             instructionsRank -= instructionsUnion != null ? instructionsUnion.getNumberOfInstructions() : 0;
 
-            if (numberOfCoveredCells != 0 || !InstructionSet.TYPE.NOTHING.equals(type)){
+            if (InstructionSet.TYPE.NOTHING.equals(type)){
+                if (numberOfCoveredCells == 0 ){
+                    computedInstructions.add(new InstructionSet(type, size, i, j, numberOfCoveredCells, instructionsRank));
+                }
+            }
+            else{
                 computedInstructions.add(new InstructionSet(type, size, i, j, numberOfCoveredCells, instructionsRank));
             }
         }

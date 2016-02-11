@@ -1,8 +1,12 @@
 package com.sevendragons.hashcode2016.qualification;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
 
 public class Qualification {
 
@@ -463,7 +467,21 @@ public class Qualification {
     }
 
     public static void printOutput(Output output) {
-        // TODO
+        System.out.println(output.commands.size());
+        for (Command command : output.commands) {
+            if (command.tag == 'D') {
+                DeliverCommand deliverCommand = (DeliverCommand) command;
+                for (Product product : command.drone.products.products.keySet()) {
+                    //System.out.println("%d %c %d %d", deliverCommand.drone.id, deliverCommand.tag, product.id );
+                }
+            }
+            if (command.tag == 'L') {
+                LoadCommand loadCommand = (LoadCommand) command;
+                for (Product product : command.drone.products.products.keySet()) {
+                    //System.out.println("%d %c %d %d", loadCommand.drone.id, loadCommand.tag, loadCommand.warehouse.id, product.);
+                }
+            }
+        }
     }
 
 }

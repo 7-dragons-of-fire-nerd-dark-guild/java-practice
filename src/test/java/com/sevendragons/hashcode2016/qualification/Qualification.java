@@ -247,20 +247,39 @@ public class Qualification {
             return (maxWeight - currentWeigth) / product.weight;
         }
 
-        void unload(Order order) {
+
+        public void deliver(Order order) {
             if (!order.completed) {
                 for (Map.Entry<Product, Integer> entryFromProduct : products.products.entrySet()) {
                     for (Map.Entry<Product, Integer> entryFromOrder : order.products.products.entrySet()) {
                         if (entryFromOrder.getKey().id == entryFromProduct.getKey().id) {
+                            int valueToRemove = 0;
+                            if(entryFromOrder.getValue()>entryFromProduct.getValue()){
+                                valueToRemove = entryFromProduct.getValue()-entryFromProduct.getValue();
+                            }else{
+                                valueToRemove=entryFromProduct.getValue()-entryFromOrder.getValue();
+                            }
+                            products.products.replace(entryFromProduct.getKey(),entryFromProduct.getValue(),valueToRemove);
+                            order.products.products.replace(entryFromOrder.getKey(),entryFromOrder.getValue(),valueToRemove);
 
                         }
                     }
                 }
             }
+            checkCompleted(order);
         }
 
-        void deliver(Order order, Products products) {
+        public void checkCompleted(Order order) {
+            Map<Product, Integer> products = order.products.products;
 
+            Collection<Integer> values = products.values();
+            boolean isCompleted = true;
+            for (int value: values){
+                if (value>0){
+                    isCompleted = false;
+                }
+            }
+            order.completed = isCompleted;
 
         }
 
@@ -444,7 +463,7 @@ public class Qualification {
             pivot.load(warehouse, products);
             commands.add(new LoadCommand(pivot, warehouse, products));
 
-            pivot.deliver(order, products);
+            pivot.deliver(order);
             commands.add(new DeliverCommand(pivot, warehouse, products));
         }
 

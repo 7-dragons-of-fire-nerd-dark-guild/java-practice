@@ -1,6 +1,7 @@
 package com.sevendragons.hashcode2016.qualification;
 
 import com.sevendragons.hashcode2016.qualification.Qualification.AbstractMapItem;
+import com.sevendragons.hashcode2016.qualification.pj.Order;
 import org.junit.Test;
 
 import java.util.*;
@@ -81,6 +82,33 @@ public class QualificationTest_Pierre {
         map.put(new Qualification.Product(1,10),2);
         assertEquals(30,drone.currentWeight());
 
+
+    }
+
+    @Test
+    public void testDeliver() throws Exception {
+        Qualification.Drone drone = new Qualification.Drone(1, 1, 1, 50);
+        Map map = new HashMap<>();
+        map.put(new Qualification.Product(1,10),1);
+        drone.products = new Qualification.Products(map);
+
+        Qualification.Order order = new Qualification.Order(1,1,1);
+        order.products = new Qualification.Products(map);
+        drone.deliver(order);
+        assertEquals(true,order.completed);
+    }
+
+    @Test
+    public void testCheckCompleted() throws Exception {
+        Map map = new HashMap<>();
+        map.put(new Qualification.Product(1,0),0);
+        Qualification.Order order = new Qualification.Order(1,1,1);
+        order.products = new Qualification.Products(map);
+        new Qualification.Drone(1, 1, 1, 50).checkCompleted(order);
+        assertEquals(true,order.completed);
+        map.put(new Qualification.Product(1,0),10);
+        new Qualification.Drone(1, 1, 1, 50).checkCompleted(order);
+        assertEquals(false,order.completed);
 
     }
 }

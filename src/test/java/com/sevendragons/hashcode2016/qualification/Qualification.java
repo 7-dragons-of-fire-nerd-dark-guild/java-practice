@@ -218,7 +218,7 @@ public class Qualification {
 
         }
 
-        void unload(Order order, Products products) {
+        void deliver(Order order, Products products) {
 
         }
 
@@ -370,7 +370,7 @@ public class Qualification {
             pivot.load(warehouse, products);
             commands.add(new LoadCommand(pivot, warehouse, products));
 
-            pivot.unload(order, products);
+            pivot.deliver(order, products);
             commands.add(new DeliverCommand(pivot, warehouse, products));
         }
 

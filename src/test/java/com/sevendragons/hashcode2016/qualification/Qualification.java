@@ -135,12 +135,6 @@ public class Qualification {
         Products(Map<Product, Integer> products) {
             this.products = products;
         }
-
-        public static Products fromOrder(Order order) {
-            // TODO
-            return new Products(Collections.emptyMap());
-        }
-
     }
 
     static class Product {
@@ -429,7 +423,7 @@ public class Qualification {
             Order order = pair.first;
             Warehouse warehouse = pair.second;
 
-            Products products = Products.fromOrder(order);
+            Products products = order.products;
 
             pivot.load(warehouse, products);
             commands.add(new LoadCommand(pivot, warehouse, products));

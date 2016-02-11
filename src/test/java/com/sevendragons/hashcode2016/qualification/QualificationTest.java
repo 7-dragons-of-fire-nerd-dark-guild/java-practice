@@ -2,6 +2,7 @@ package com.sevendragons.hashcode2016.qualification;
 
 import com.sevendragons.hashcode2016.qualification.Qualification.MapItem;
 import com.sevendragons.hashcode2016.qualification.Qualification.Order;
+import com.sevendragons.hashcode2016.qualification.Qualification.Warehouse;
 import org.junit.Test;
 
 import java.util.*;
@@ -44,7 +45,7 @@ public class QualificationTest {
         orderMap.put(0, new Order(0, 1, 1));
         orderMap.put(1, new Order(1, 3, 4));
 
-        int[][] matrix = Qualification.createMatrix(orderMap);
+        int[][] matrix = Qualification.createMatrix(orderMap, orderMap);
         int[][] expected = {{0, 4}, {4, 0}};
         assertArrayEquals(expected[0], matrix[0]);
         assertArrayEquals(expected[1], matrix[1]);
@@ -57,7 +58,7 @@ public class QualificationTest {
         orderMap.put(1, new Order(1, 3, 4));
         orderMap.put(2, new Order(2, 4, 5));
 
-        int[][] matrix = Qualification.createMatrix(orderMap);
+        int[][] matrix = Qualification.createMatrix(orderMap, orderMap);
         int[][] expected = {
                 {0, 4, 5},
                 {4, 0, 2},
@@ -66,6 +67,27 @@ public class QualificationTest {
         assertArrayEquals(expected[0], matrix[0]);
         assertArrayEquals(expected[1], matrix[1]);
         assertArrayEquals(expected[2], matrix[2]);
+    }
+
+    @Test
+    public void test_createMatrix_2x3() {
+        Map<Integer, MapItem> orderMap = new HashMap<>();
+        orderMap.put(0, new Order(0, 1, 1));
+        orderMap.put(1, new Order(1, 3, 4));
+
+        Map<Integer, MapItem> warehouseMap = new HashMap<>();
+        warehouseMap.put(0, new Warehouse(0, 2, 2, new Qualification.Products(Collections.emptyMap())));
+        warehouseMap.put(1, new Warehouse(1, 4, 5, new Qualification.Products(Collections.emptyMap())));
+        warehouseMap.put(2, new Warehouse(2, 6, 7, new Qualification.Products(Collections.emptyMap())));
+
+        int[][] matrix = Qualification.createMatrix(orderMap, warehouseMap);
+        // note: not really tested....
+        int[][] expected = {
+                {2, 5, 8},
+                {3, 2, 5}
+        };
+        assertArrayEquals(expected[0], matrix[0]);
+        assertArrayEquals(expected[1], matrix[1]);
     }
 
     @Test

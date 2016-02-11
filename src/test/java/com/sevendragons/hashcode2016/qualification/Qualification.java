@@ -285,18 +285,26 @@ public class Qualification {
     int[][] order2order;
     int[][] order2warehouse;
 
-    static int[][] createMatrix(Map<Integer, MapItem> mapItems) {
-        int dim = mapItems.size();
-        int[][] matrix = new int[dim][];
-        for (int i = 0; i < dim; ++i) {
-            matrix[i] = new int[dim];
+    public Qualification(Input input) {
+        order2order = createMatrix(orderMap, orderMap);
+        warehouse2warehouse = createMatrix(warehouseMap, warehouseMap);
+        order2warehouse = createMatrix(orderMap, warehouseMap);
+    }
+
+    static int[][] createMatrix(Map<Integer, ? extends MapItem> from, Map<Integer, ? extends MapItem> to) {
+        int fromDim = from.size();
+        int toDim = to.size();
+
+        int[][] matrix = new int[fromDim][];
+        for (int i = 0; i < fromDim; ++i) {
+            matrix[i] = new int[toDim];
         }
 
-        for (int i = 0; i < dim; ++i) {
-            for (int j = i + 1; j < dim; ++j) {
-                int distance = calculateDistance(mapItems.get(i), mapItems.get(j));
+        for (int i = 0; i < fromDim; ++i) {
+            for (int j = 0; j < toDim; ++j) {
+                int distance = calculateDistance(from.get(i), to.get(j));
                 matrix[i][j] = distance;
-                matrix[j][i] = distance;
+                //matrix[j][i] = distance;
             }
         }
 
@@ -323,6 +331,7 @@ public class Qualification {
     }
 
     public static Output solve(Input input) {
+        Qualification system = new Qualification(input);
         return null;
     }
 

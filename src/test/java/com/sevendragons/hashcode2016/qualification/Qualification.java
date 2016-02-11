@@ -211,19 +211,63 @@ public class Qualification {
         }
 
         int calcDistanceToWarehouse(Warehouse warehouse) {
-            return 0;
+            return calculateDistance((MapItem)this,(MapItem)warehouse);
+
         }
 
-        int calcDistanceToOrder(Order warehouse) {
-            return 0;
+        int calcDistanceToOrder(Order order) {
+            return calculateDistance((MapItem)this,(MapItem)order);
         }
 
         void load(Warehouse warehouse, Products products) {
+            Map<Product, Integer> products1 = products.products;
+
+            for(Map.Entry<Product,Integer> productIntegerEntry : products1.entrySet()){
+                for(Map.Entry<Product, Integer> productIntegerEntryFromWarehouse : warehouse.products.products.entrySet()){
+                    if(productIntegerEntry.getKey().id == productIntegerEntryFromWarehouse.getKey().id){
+                        int number = calculateHowMuchCanLoad(productIntegerEntryFromWarehouse.getKey());
+                        int loadnumber;
+                        if(productIntegerEntryFromWarehouse.getValue()>number){
+                            loadnumber = number;
+                        }else {
+                            loadnumber = productIntegerEntryFromWarehouse.getValue();
+                        }
+                        this.products.products.put(productIntegerEntryFromWarehouse.getKey(),this.products.products.get(productIntegerEntryFromWarehouse.getKey())+loadnumber);
+                        warehouse.products.products.replace(productIntegerEntryFromWarehouse.getKey(),productIntegerEntryFromWarehouse.getValue()-loadnumber);
+                    }
+                }
+            }
+        }
+
+        public int calculateHowMuchCanLoad(Product product) {
+            int currentWeigth = currentWeight();
+            return (maxWeight - currentWeigth) / product.weight;
+        }
+
+        void unload(Order order, Products products) {
+            if(!order.completed){
+                for (Map.Entry<Product,Integer> entryFromProduct : products.products.entrySet()){
+                    for (Map.Entry<Product,Integer> entryFromOrder : order.products.products.entrySet()){
+                        if(entryFromOrder.getKey().id == entryFromProduct.getKey().id){
+        void deliver(Order order, Products products) {
+
+                        }
+                    }
+                }
+            }
 
         }
 
-        void deliver(Order order, Products products) {
-
+        int currentWeight(){
+            if(products == null || products.products == null || products.products.isEmpty()){
+                return 0;
+            }
+            Set<Map.Entry<Product, Integer>> entries = products.products.entrySet();
+            int weight = 0;
+            for (Map.Entry<Product,Integer> entry : entries){
+                    weight +=entry.getKey().weight*entry.getValue();
+            }
+            return weight;
         }
 
         Pair<Order, Warehouse> findNextOrderWarehouse() {

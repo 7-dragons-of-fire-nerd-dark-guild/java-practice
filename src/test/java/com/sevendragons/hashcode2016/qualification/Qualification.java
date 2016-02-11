@@ -81,9 +81,7 @@ public class Qualification {
         }
 
         private static Product parseProductType(Scanner scanner, int id){
-            Product product = new Product(id, scanner.nextInt());
-            scanner.nextLine();
-            return product;
+            return new Product(id, scanner.nextInt());
         }
 
         private static Warehouse parseWareHouse(

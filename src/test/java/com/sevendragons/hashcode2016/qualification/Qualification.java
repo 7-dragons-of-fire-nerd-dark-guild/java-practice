@@ -260,12 +260,18 @@ public class Qualification {
     int[][] order2order;
     int[][] order2warehouse;
 
+    Map<Integer, Drone> droneMap = new HashMap<>();
+
     public Qualification(Input input) {
         warehouseMap.putAll(input.warehouseMap);
         orderMap.putAll(input.orderMap);
         warehouse2warehouse = createMatrix(warehouseMap, warehouseMap);
         order2order = createMatrix(orderMap, orderMap);
         order2warehouse = createMatrix(orderMap, warehouseMap);
+
+        for (int i = 0; i < input.droneNumber; ++i) {
+            droneMap.put(i, new Drone(i, 0, 0, input.maxPayload));
+        }
     }
 
     static int[][] createMatrix(Map<Integer, ? extends MapItem> from, Map<Integer, ? extends MapItem> to) {

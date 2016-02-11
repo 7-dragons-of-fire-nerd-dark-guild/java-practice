@@ -254,15 +254,17 @@ public class Qualification {
     }
 
     static Map<Integer, Warehouse> warehouseMap = new HashMap<>();
-    Map<Integer, Order> orderMap = new HashMap<>();
+    static Map<Integer, Order> orderMap = new HashMap<>();
 
     int[][] warehouse2warehouse;
     int[][] order2order;
     int[][] order2warehouse;
 
     public Qualification(Input input) {
-        order2order = createMatrix(orderMap, orderMap);
+        warehouseMap.putAll(input.warehouseMap);
+        orderMap.putAll(input.orderMap);
         warehouse2warehouse = createMatrix(warehouseMap, warehouseMap);
+        order2order = createMatrix(orderMap, orderMap);
         order2warehouse = createMatrix(orderMap, warehouseMap);
     }
 

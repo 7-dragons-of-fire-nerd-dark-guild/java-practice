@@ -125,6 +125,11 @@ public class Qualification {
         Products(Map<Product, Integer> products) {
             this.products = products;
         }
+
+        public static Products fromOrder(Order order) {
+            // TODO
+            return new Products(Collections.emptyMap());
+        }
     }
 
     static class Product {
@@ -254,10 +259,10 @@ public class Qualification {
     }
 
     abstract static class Command {
-        final int drone;
+        final Drone drone;
         final char tag;
 
-        Command(int drone, char tag) {
+        Command(Drone drone, char tag) {
             this.drone = drone;
             this.tag = tag;
         }
@@ -267,7 +272,7 @@ public class Qualification {
         final Warehouse warehouse;
         final Products products;
 
-        LoadDeliverCommand(int drone, char tag, Warehouse warehouse, Products products) {
+        LoadDeliverCommand(Drone drone, char tag, Warehouse warehouse, Products products) {
             super(drone, tag);
             this.warehouse = warehouse;
             this.products = products;
@@ -275,13 +280,13 @@ public class Qualification {
     }
 
     static class LoadCommand extends LoadDeliverCommand {
-        LoadCommand(int drone, Warehouse warehouse, Products products) {
+        LoadCommand(Drone drone, Warehouse warehouse, Products products) {
             super(drone, 'L', warehouse, products);
         }
     }
 
     static class DeliverCommand extends LoadDeliverCommand {
-        DeliverCommand(int drone, Warehouse warehouse, Products products) {
+        DeliverCommand(Drone drone, Warehouse warehouse, Products products) {
             super(drone, 'D', warehouse, products);
         }
     }
@@ -351,17 +356,23 @@ public class Qualification {
 
         Drone pivot = system.droneMap.get(0);
 
-        List<MapItem> targets = new ArrayList<>();
+        List<Command> commands = new ArrayList<>();
         while (true) {
             Pair<Order, Warehouse> pair = pivot.findNextOrderWarehouse();
             if (pair == null) {
                 break;
             }
-            targets.add(pair.second);
-            targets.add(pair.first);
+            Order order = pair.first;
+            Warehouse warehouse = pair.second;
+
+            Products products = Products.fromOrder(order);
+
+            pivot.load(warehouse, products);
+            commands.add(new LoadCommand(pivot, warehouse, products));
+
+            pivot.unload(order, products);
+            commands.add(new DeliverCommand(pivot, warehouse, products));
         }
-
-
 
         return null;
     }

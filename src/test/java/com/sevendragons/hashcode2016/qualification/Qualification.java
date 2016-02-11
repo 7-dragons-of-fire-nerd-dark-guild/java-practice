@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Qualification {
 
@@ -140,9 +141,6 @@ public class Qualification {
             return new Products(Collections.emptyMap());
         }
 
-        public int getWeight() {
-            return products.values().stream().mapToInt(Integer::intValue).sum();
-        }
     }
 
     static class Product {
@@ -282,24 +280,12 @@ public class Qualification {
             return weight;
         }
 
-        boolean canCarryThis (int more) {
-            return products.getWeight() + more < maxWeight;
-        }
-
         Pair<Order, Warehouse> findNextOrderWarehouse() {
 
             Warehouse nextWarehouse = null;
             Order nextOrder = null;
 
-            int distanceMin = -1;
-            for (Warehouse warehouse : warehouseMap.values()) {
-                int distanceToWarehouse = calcDistanceToWarehouse(warehouse);
-                if (distanceMin == -1 || distanceToWarehouse < distanceMin) {
-                    distanceMin = distanceToWarehouse;
-                }
-            }
-
-            calculateDistance(nextOrder, nextWarehouse);
+            // TODO
 
             return new Pair<>(nextOrder, nextWarehouse);
         }

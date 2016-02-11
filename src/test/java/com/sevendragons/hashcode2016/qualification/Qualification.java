@@ -106,7 +106,11 @@ public class Qualification {
     }
 
     static class Output {
+        private final List<Command> commands;
 
+        public Output(List<Command> commands) {
+            this.commands = commands;
+        }
     }
 
     static class Pair<T, U> {
@@ -374,11 +378,11 @@ public class Qualification {
             commands.add(new DeliverCommand(pivot, warehouse, products));
         }
 
-        return null;
+        return new Output(commands);
     }
 
     public static void printOutput(Output output) {
-
+        // TODO
     }
 
 }

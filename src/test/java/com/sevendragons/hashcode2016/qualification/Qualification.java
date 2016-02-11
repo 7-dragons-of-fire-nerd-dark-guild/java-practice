@@ -83,7 +83,16 @@ public class Qualification {
 
         // remove from warehouse
         void load(Product product, int quantity) {
+            if (products.products.containsKey(product)) {
+                products.products.put(product, products.products.get(product) - quantity);
+                if (products.products.get(product) <= 0) {
+                    products.products.remove(product);
+                }
+            }
+        }
 
+        int getQuantity (Product product) {
+            return products.products.get(product) != null ? products.products.get(product) : 0;
         }
     }
 

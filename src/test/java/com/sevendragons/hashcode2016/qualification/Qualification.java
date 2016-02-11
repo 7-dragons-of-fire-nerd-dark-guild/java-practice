@@ -253,6 +253,39 @@ public class Qualification {
         }
     }
 
+    abstract static class Command {
+        final int drone;
+        final char tag;
+
+        Command(int drone, char tag) {
+            this.drone = drone;
+            this.tag = tag;
+        }
+    }
+
+    abstract static class LoadDeliverCommand extends Command {
+        final Warehouse warehouse;
+        final Products products;
+
+        LoadDeliverCommand(int drone, char tag, Warehouse warehouse, Products products) {
+            super(drone, tag);
+            this.warehouse = warehouse;
+            this.products = products;
+        }
+    }
+
+    static class LoadCommand extends LoadDeliverCommand {
+        LoadCommand(int drone, Warehouse warehouse, Products products) {
+            super(drone, 'L', warehouse, products);
+        }
+    }
+
+    static class DeliverCommand extends LoadDeliverCommand {
+        DeliverCommand(int drone, Warehouse warehouse, Products products) {
+            super(drone, 'D', warehouse, products);
+        }
+    }
+
     static Map<Integer, Warehouse> warehouseMap = new HashMap<>();
     static Map<Integer, Order> orderMap = new HashMap<>();
 
@@ -315,6 +348,21 @@ public class Qualification {
 
     public static Output solve(Input input) {
         Qualification system = new Qualification(input);
+
+        Drone pivot = system.droneMap.get(0);
+
+        List<MapItem> targets = new ArrayList<>();
+        while (true) {
+            Pair<Order, Warehouse> pair = pivot.findNextOrderWarehouse();
+            if (pair == null) {
+                break;
+            }
+            targets.add(pair.second);
+            targets.add(pair.first);
+        }
+
+
+
         return null;
     }
 

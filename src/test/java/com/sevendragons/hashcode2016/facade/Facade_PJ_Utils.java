@@ -368,15 +368,15 @@ public class Facade_PJ_Utils {
             int numberOfCoveredCells = getCellsInArea(i, j, width, height, CELL_TYPE.FULL, cornerSumGrid);
             InstructionSet instructionsRight = getBestInstruction(i, j + width, bestRankedInstructionGrid);
             InstructionSet instructionsBottom = getBestInstruction(i + height, j, bestRankedInstructionGrid);
-            InstructionSet instructionsUnion = getBestInstruction(i + width, j + height, bestRankedInstructionGrid);
+            //InstructionSet instructionsUnion = getBestInstruction(i + width, j + height, bestRankedInstructionGrid);
             int instructionsRank = 0;
             if (!InstructionSet.TYPE.NOTHING.equals(type)){
                 instructionsRank += 1;
+                instructionsRank += numberOfEmptyCells;
             }
-            instructionsRank += numberOfEmptyCells;
             instructionsRank += instructionsRight != null ? instructionsRight.getNumberOfInstructions() : 0;
             instructionsRank += instructionsBottom != null ? instructionsBottom.getNumberOfInstructions() : 0;
-            instructionsRank -= instructionsUnion != null ? instructionsUnion.getNumberOfInstructions() : 0;
+            //instructionsRank -= instructionsUnion != null ? instructionsUnion.getNumberOfInstructions() : 0;
 
             if (InstructionSet.TYPE.NOTHING.equals(type)){
                 if (numberOfCoveredCells == 0 ){

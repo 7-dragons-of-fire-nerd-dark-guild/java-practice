@@ -1,4 +1,4 @@
-package com.sevendragons.hashcode2016.qualification;
+package com.sevendragons.hashcode2016.qualification.pj;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -253,17 +253,20 @@ public class Qualification {
             return (maxWeight - currentWeigth) / product.weight;
         }
 
-        void unload(Order order, Products products) {
-            if(!order.completed){
-                for (Map.Entry<Product,Integer> entryFromProduct : products.products.entrySet()){
-                    for (Map.Entry<Product,Integer> entryFromOrder : order.products.products.entrySet()){
-                        if(entryFromOrder.getKey().id == entryFromProduct.getKey().id){
-        void deliver(Order order, Products products) {
+        void unload(Order order) {
+            if (!order.completed) {
+                for (Map.Entry<Product, Integer> entryFromProduct : products.products.entrySet()) {
+                    for (Map.Entry<Product, Integer> entryFromOrder : order.products.products.entrySet()) {
+                        if (entryFromOrder.getKey().id == entryFromProduct.getKey().id) {
 
                         }
                     }
                 }
             }
+        }
+
+        void deliver(Order order, Products products) {
+
 
         }
 

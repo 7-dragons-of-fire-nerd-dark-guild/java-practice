@@ -21,6 +21,7 @@ public class Qualification {
 
         Input input = parseInput(new Scanner(inputPath));
         Output output = solve(input);
+        printOutput(output);
     }
 
     public static Input parseInput(Scanner scanner) {
@@ -29,6 +30,10 @@ public class Qualification {
 
     public static Output solve(Input input) {
         return null;
+    }
+
+    public static void printOutput(Output output) {
+
     }
 
 }

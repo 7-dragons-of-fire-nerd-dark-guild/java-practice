@@ -21,7 +21,7 @@ public class Qualification {
         private static Map<Integer, Order> orderMap = new HashMap<>();
         private static int numberOfCommand;
 
-        public static void fromScanner(Scanner scanner) {
+        public static Input fromScanner(Scanner scanner) {
             // Map info
             rowNumber = scanner.nextInt();
             columnNumber = scanner.nextInt();
@@ -48,6 +48,9 @@ public class Qualification {
             for (int i=0; i< numberOfOrder; i++){
                 orderMap.put(i, parseOrder(scanner, i));
             }
+
+            // I GIVE UP
+            return null;
         }
 
         private static Product parseProductType(Scanner scanner, int id){

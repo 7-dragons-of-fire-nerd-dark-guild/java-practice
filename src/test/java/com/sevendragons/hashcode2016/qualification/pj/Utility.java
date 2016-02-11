@@ -5,5 +5,4 @@ package com.sevendragons.hashcode2016.qualification.pj;
  */
 public class Utility {
 
-    public static
 }

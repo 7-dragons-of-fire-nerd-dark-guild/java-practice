@@ -12,16 +12,16 @@ public class Qualification {
 
     static class Input {
 
-        private final int rowNumber;
-        private final int columnNumber;
-        private final int droneNumber;
-        private final int numberOfTurn;
-        private final int maxPayload;
-        private final int numberOfProductType;
-        private final int numberOfWareHouse;
-        private final Map<Integer, Warehouse> warehouseMap;
-        private final Map<Integer, Product> productMap;
-        private final Map<Integer, Order> orderMap;
+        public final int rowNumber;
+        public final int columnNumber;
+        public final int droneNumber;
+        public final int numberOfTurn;
+        public final int maxPayload;
+        public final int numberOfProductType;
+        public final int numberOfWareHouse;
+        public final Map<Integer, Warehouse> warehouseMap;
+        public final Map<Integer, Product> productMap;
+        public final Map<Integer, Order> orderMap;
 
         Input(int rowNumber, int columnNumber, int droneNumber, int numberOfTurn, int maxPayload,
               int numberOfProductType, int numberOfWareHouse, Map<Integer, Warehouse> warehouseMap,

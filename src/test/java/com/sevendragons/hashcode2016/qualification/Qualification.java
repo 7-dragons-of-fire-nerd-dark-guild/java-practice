@@ -1,6 +1,11 @@
 package com.sevendragons.hashcode2016.qualification;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
 public class Qualification {
 
@@ -133,6 +138,10 @@ public class Qualification {
         public static Products fromOrder(Order order) {
             // TODO
             return new Products(Collections.emptyMap());
+        }
+
+        public int getWeight() {
+            return products.values().stream().mapToInt(Integer::intValue).sum();
         }
     }
 
@@ -270,8 +279,26 @@ public class Qualification {
             return weight;
         }
 
+        boolean canCarryThis (int more) {
+            return products.getWeight() + more < maxWeight;
+        }
+
         Pair<Order, Warehouse> findNextOrderWarehouse() {
-            return null;
+
+            Warehouse nextWarehouse = null;
+            Order nextOrder = null;
+
+            int distanceMin = -1;
+            for (Warehouse warehouse : warehouseMap.values()) {
+                int distanceToWarehouse = calcDistanceToWarehouse(warehouse);
+                if (distanceMin == -1 || distanceToWarehouse < distanceMin) {
+                    distanceMin = distanceToWarehouse;
+                }
+            }
+
+            calculateDistance(nextOrder, nextWarehouse);
+
+            return new Pair<>(nextOrder, nextWarehouse);
         }
 
     }

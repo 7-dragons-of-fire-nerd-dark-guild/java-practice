@@ -1,9 +1,10 @@
 package com.sevendragons.hashcode2016.qualification;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.*;
 
 public class Qualification {
 
@@ -256,11 +257,28 @@ public class Qualification {
         }
 
         List<Warehouse> findWarehouses() {
-            return Collections.emptyList();
+
+            List<Warehouse> warehouses = new ArrayList<>();
+
+            for (Warehouse warehouse : warehouseMap.values()) {
+                boolean satisfying = true;
+                for (Product product : products.products.keySet()) {
+                    if (warehouse.getQuantity(product) < products.products.get(product)) {
+                        satisfying = false;
+                    }
+                }
+                if (satisfying) {
+                    warehouses.add(warehouse);
+                    // Only one warehouse for now
+                    break;
+                }
+            }
+
+            return warehouses;
         }
     }
 
-    Map<Integer, Warehouse> warehouseMap = new HashMap<>();
+    static Map<Integer, Warehouse> warehouseMap = new HashMap<>();
     Map<Integer, Order> orderMap = new HashMap<>();
 
     int[][] warehouse2warehouse;

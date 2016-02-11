@@ -1,7 +1,5 @@
 package com.sevendragons.hashcode2016.qualification;
 
-import com.sun.tools.javac.util.Pair;
-
 import java.util.*;
 
 public class Qualification {
@@ -15,6 +13,16 @@ public class Qualification {
 
     static class Output {
 
+    }
+
+    static class Pair<T, U> {
+        final T first;
+        final U second;
+
+        Pair(T first, U second) {
+            this.first = first;
+            this.second = second;
+        }
     }
 
     static class Products {

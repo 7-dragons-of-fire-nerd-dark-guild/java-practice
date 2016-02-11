@@ -256,9 +256,9 @@ public class Qualification {
     static Map<Integer, Warehouse> warehouseMap = new HashMap<>();
     static Map<Integer, Order> orderMap = new HashMap<>();
 
-    int[][] warehouse2warehouse;
-    int[][] order2order;
-    int[][] order2warehouse;
+    static int[][] warehouse2warehouse;
+    static int[][] order2order;
+    static int[][] order2warehouse;
 
     Map<Integer, Drone> droneMap = new HashMap<>();
 

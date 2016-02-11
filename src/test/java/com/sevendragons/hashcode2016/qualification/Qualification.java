@@ -471,14 +471,19 @@ public class Qualification {
         for (Command command : output.commands) {
             if (command.tag == 'D') {
                 DeliverCommand deliverCommand = (DeliverCommand) command;
-                for (Product product : command.drone.products.products.keySet()) {
-                    //System.out.println("%d %c %d %d", deliverCommand.drone.id, deliverCommand.tag, product.id );
+                for (Map.Entry<Product, Integer> entry : command.drone.products.products.entrySet()) {
+                    Product product = entry.getKey();
+                    int quantity = entry.getValue();
+                    System.out.printf("%d %c %d %d\n", deliverCommand.drone.id, deliverCommand.tag,
+                            quantity, product.id);
                 }
             }
             if (command.tag == 'L') {
-                LoadCommand loadCommand = (LoadCommand) command;
-                for (Product product : command.drone.products.products.keySet()) {
-                    //System.out.println("%d %c %d %d", loadCommand.drone.id, loadCommand.tag, loadCommand.warehouse.id, product.);
+                for (Map.Entry<Product, Integer> entry : command.drone.products.products.entrySet()) {
+                    Product product = entry.getKey();
+                    int quantity = entry.getValue();
+                    System.out.printf("%d %c %d %d\n", command.drone.id, command.tag,
+                            quantity, product.id);
                 }
             }
         }

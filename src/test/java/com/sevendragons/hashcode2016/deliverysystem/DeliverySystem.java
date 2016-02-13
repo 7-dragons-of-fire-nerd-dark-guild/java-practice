@@ -24,15 +24,6 @@ public class DeliverySystem {
     Map<Integer, Drone> droneMap = new HashMap<>();
 
     public DeliverySystem(Input input) {
-        warehouseMap.putAll(input.warehouseMap);
-        orderMap.putAll(input.orderMap);
-        warehouse2warehouse = createMatrix(warehouseMap, warehouseMap);
-        order2order = createMatrix(orderMap, orderMap);
-        order2warehouse = createMatrix(orderMap, warehouseMap);
-
-        for (int i = 0; i < input.droneNumber; ++i) {
-            droneMap.put(i, new Drone(i, 0, 0, input.maxPayload));
-        }
     }
 
     static int[][] createMatrix(Map<Integer, ? extends MapItem> from, Map<Integer, ? extends MapItem> to) {
@@ -80,22 +71,6 @@ public class DeliverySystem {
         Drone pivot = system.droneMap.get(0);
 
         List<Command> commands = new ArrayList<>();
-        while (true) {
-            Pair<Order, Warehouse> pair = pivot.findNextOrderWarehouse();
-            if (pair == null) {
-                break;
-            }
-            Order order = pair.first;
-            Warehouse warehouse = pair.second;
-
-            Pack pack = order.pack;
-
-            pivot.load(warehouse, pack);
-            commands.add(new LoadCommand(pivot, warehouse, pack));
-
-            pivot.deliver(order);
-            commands.add(new DeliverCommand(pivot, warehouse, pack));
-        }
 
         return new Output(commands);
     }
@@ -103,23 +78,12 @@ public class DeliverySystem {
     public static void printOutput(Output output) {
         System.out.println(output.commands.size());
         for (Command command : output.commands) {
-            if (command.tag == 'D') {
-                DeliverCommand deliverCommand = (DeliverCommand) command;
-                for (Map.Entry<Product, Integer> entry : command.drone.pack.products.entrySet()) {
-                    Product product = entry.getKey();
-                    int quantity = entry.getValue();
-                    System.out.printf("%d %c %d %d\n", deliverCommand.drone.id, deliverCommand.tag,
-                            quantity, product.id);
-                }
-            }
-            if (command.tag == 'L') {
-                for (Map.Entry<Product, Integer> entry : command.drone.pack.products.entrySet()) {
-                    Product product = entry.getKey();
-                    int quantity = entry.getValue();
-                    System.out.printf("%d %c %d %d\n", command.drone.id, command.tag,
-                            quantity, product.id);
-                }
-            }
+//            for (Map.Entry<Product, Integer> entry : command.drone.pack.products.entrySet()) {
+//                Product product = entry.getKey();
+//                int quantity = entry.getValue();
+//                System.out.printf("%d %c %d %d\n", command.drone.id, command.tag,
+//                        quantity, product.id);
+//            }
         }
     }
 

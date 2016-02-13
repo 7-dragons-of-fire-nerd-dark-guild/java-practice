@@ -2,6 +2,7 @@ package com.sevendragons.hashcode2016.deliverysystem;
 
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 import static org.junit.Assert.assertEquals;
@@ -31,15 +32,20 @@ public class InputTest {
 
         Input input = Input.fromScanner(new Scanner(text));
 
-        assertEquals(2, input.warehouseMap.size());
-        assertEquals(5, input.warehouseMap.get(1).row);
-        assertEquals(5, input.warehouseMap.get(1).col);
+        assertEquals(3, input.drones.size());
 
-        assertEquals(3, input.orderMap.size());
-        assertEquals(5, input.orderMap.get(2).row);
-        assertEquals(6, input.orderMap.get(2).col);
-        // NPE
-        //        assertEquals(1, input.orderMap.get(2).products.products.size());
+        assertEquals(2, input.warehouses.size());
+        assertEquals(new Warehouse(0, 0, 0, Pack.fromCounts(5, 1, 0)), input.warehouses.get(0));
+        assertEquals(new Warehouse(1, 5, 5, Pack.fromCounts(0, 10, 2)), input.warehouses.get(1));
+
+        assertEquals(3, input.products.size());
+        assertEquals(
+                Arrays.asList(
+                        new Product(0, 100),
+                        new Product(1, 5),
+                        new Product(2, 450)
+                ), input.products
+        );
     }
 
 }

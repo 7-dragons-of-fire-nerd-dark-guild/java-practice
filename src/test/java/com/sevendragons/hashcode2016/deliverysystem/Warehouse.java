@@ -1,24 +1,69 @@
 package com.sevendragons.hashcode2016.deliverysystem;
 
-public class Warehouse extends AbstractMapItem {
+public class Warehouse implements MapItem {
+
+    final int id;
+    final int row;
+    final int col;
     final Pack pack;
 
     Warehouse(int id, int row, int col, Pack pack) {
-        super(id, row, col);
+        this.id = id;
+        this.row = row;
+        this.col = col;
         this.pack = pack;
     }
 
-    // remove from warehouse
-    void load(Product product, int quantity) {
-        if (pack.products.containsKey(product)) {
-            pack.products.put(product, pack.products.get(product) - quantity);
-            if (pack.products.get(product) <= 0) {
-                pack.products.remove(product);
-            }
-        }
+    @Override
+    public int getId() {
+        return id;
     }
 
-    int getQuantity (Product product) {
-        return pack.products.get(product) != null ? pack.products.get(product) : 0;
+    @Override
+    public int getRow() {
+        return row;
+    }
+
+    @Override
+    public int getCol() {
+        return col;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Warehouse warehouse = (Warehouse) o;
+
+        if (id != warehouse.id) {
+            return false;
+        }
+        if (row != warehouse.row) {
+            return false;
+        }
+        if (col != warehouse.col) {
+            return false;
+        }
+        return pack.equals(warehouse.pack);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + row;
+        result = 31 * result + col;
+        result = 31 * result + pack.hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s %s %s", id, row, col, pack);
     }
 }

@@ -37,8 +37,9 @@ public class DeliverySystemTest {
     @Test
     public void test_createMatrix_2x2() {
         Map<Integer, MapItem> orderMap = new HashMap<>();
-        orderMap.put(0, new Order(0, 1, 1));
-        orderMap.put(1, new Order(1, 3, 4));
+        Pack pack = new Pack(0);
+        orderMap.put(0, new Order(0, 1, 1, pack));
+        orderMap.put(1, new Order(1, 3, 4, pack));
 
         int[][] matrix = DeliverySystem.createMatrix(orderMap, orderMap);
         int[][] expected = {{0, 4}, {4, 0}};
@@ -49,9 +50,10 @@ public class DeliverySystemTest {
     @Test
     public void test_createMatrix_3x3() {
         Map<Integer, MapItem> orderMap = new HashMap<>();
-        orderMap.put(0, new Order(0, 1, 1));
-        orderMap.put(1, new Order(1, 3, 4));
-        orderMap.put(2, new Order(2, 4, 5));
+        Pack pack = new Pack(0);
+        orderMap.put(0, new Order(0, 1, 1, pack));
+        orderMap.put(1, new Order(1, 3, 4, pack));
+        orderMap.put(2, new Order(2, 4, 5, pack));
 
         int[][] matrix = DeliverySystem.createMatrix(orderMap, orderMap);
         int[][] expected = {
@@ -67,13 +69,14 @@ public class DeliverySystemTest {
     @Test
     public void test_createMatrix_2x3() {
         Map<Integer, MapItem> orderMap = new HashMap<>();
-        orderMap.put(0, new Order(0, 1, 1));
-        orderMap.put(1, new Order(1, 3, 4));
+        Pack pack = new Pack(0);
+        orderMap.put(0, new Order(0, 1, 1, pack));
+        orderMap.put(1, new Order(1, 3, 4, pack));
 
         Map<Integer, MapItem> warehouseMap = new HashMap<>();
-        warehouseMap.put(0, new Warehouse(0, 2, 2, new Pack(Collections.emptyMap())));
-        warehouseMap.put(1, new Warehouse(1, 4, 5, new Pack(Collections.emptyMap())));
-        warehouseMap.put(2, new Warehouse(2, 6, 7, new Pack(Collections.emptyMap())));
+        warehouseMap.put(0, new Warehouse(0, 2, 2, pack));
+        warehouseMap.put(1, new Warehouse(1, 4, 5, pack));
+        warehouseMap.put(2, new Warehouse(2, 6, 7, pack));
 
         int[][] matrix = DeliverySystem.createMatrix(orderMap, warehouseMap);
         // note: not really tested....
@@ -87,11 +90,13 @@ public class DeliverySystemTest {
 
     @Test
     public void test_calculateDistance() {
+        Pack pack = new Pack(0);
+
         // root(2*2 + 3*3) -> root(13)
-        assertEquals(4, DeliverySystem.calculateDistance(new Order(0, 1, 1), new Order(0, 3, 4)));
+        assertEquals(4, DeliverySystem.calculateDistance(new Order(0, 1, 1, pack), new Order(0, 3, 4, pack)));
         // root(3*3 + 3*3) -> root(18)
-        assertEquals(5, DeliverySystem.calculateDistance(new Order(0, 0, 1), new Order(0, 3, 4)));
+        assertEquals(5, DeliverySystem.calculateDistance(new Order(0, 0, 1, pack), new Order(0, 3, 4, pack)));
         // root(3*3 + 4*4) -> root(25)
-        assertEquals(5, DeliverySystem.calculateDistance(new Order(0, 0, 1), new Order(0, 3, 5)));
+        assertEquals(5, DeliverySystem.calculateDistance(new Order(0, 0, 1, pack), new Order(0, 3, 5, pack)));
     }
 }

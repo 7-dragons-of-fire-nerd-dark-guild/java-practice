@@ -55,24 +55,9 @@ public class DeliverySystem {
 
     public static void writeOutput(File file, Output output) throws IOException {
         try (FileWriter writer = new FileWriter(file)) {
-            for (String line : generateOutputLines(output.commands)) {
+            for (String line : output.toOutputLines()) {
                 writer.append(line);
             }
         }
-    }
-
-    public static List<String> generateOutputLines(List<Command> commands) {
-        int lineCount = 0;
-
-        LinkedList<String> lines = new LinkedList<>();
-        for (Command command : commands) {
-            List<String> outputLines = command.generateOutputLines();
-            for (String line : outputLines) {
-                lines.add(line);
-            }
-            lineCount += outputLines.size();
-        }
-        lines.addFirst(lineCount + "\n");
-        return lines;
     }
 }

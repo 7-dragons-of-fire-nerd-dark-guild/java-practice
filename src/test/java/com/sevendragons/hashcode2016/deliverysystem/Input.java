@@ -85,7 +85,7 @@ public class Input {
         return new Input(rows, cols, turns, maxPayload, drones, products, warehouses, orders);
     }
 
-    public static Input fromFile(String filename) throws FileNotFoundException {
+    public static Input fromResource(String filename) throws FileNotFoundException {
         Scanner scanner = new Scanner(new File("src/main/resources/delivery-system", filename));
         return fromScanner(scanner);
     }

@@ -1,5 +1,7 @@
 package com.sevendragons.hashcode2016.deliverysystem;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Input {
@@ -81,5 +83,10 @@ public class Input {
         }
 
         return new Input(rows, cols, turns, maxPayload, drones, products, warehouses, orders);
+    }
+
+    public static Input fromFile(String filename) throws FileNotFoundException {
+        Scanner scanner = new Scanner(new File("src/main/resources/delivery-system", filename));
+        return fromScanner(scanner);
     }
 }

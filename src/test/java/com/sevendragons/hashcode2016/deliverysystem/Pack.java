@@ -22,6 +22,21 @@ public class Pack {
         return new Pack(productCounts);
     }
 
+    public static final Pack EMPTY = Pack.fromCounts();
+
+    public Pack copy() {
+        return new Pack(productCounts.clone());
+    }
+
+    public boolean isEmpty() {
+        for (int count : productCounts) {
+            if (count > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

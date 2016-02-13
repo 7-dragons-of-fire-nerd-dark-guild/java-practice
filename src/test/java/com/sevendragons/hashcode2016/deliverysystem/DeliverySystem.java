@@ -76,15 +76,24 @@ public class DeliverySystem {
     }
 
     public static void printOutput(Output output) {
-        System.out.println(output.commands.size());
-        for (Command command : output.commands) {
-//            for (Map.Entry<Product, Integer> entry : command.drone.pack.products.entrySet()) {
-//                Product product = entry.getKey();
-//                int quantity = entry.getValue();
-//                System.out.printf("%d %c %d %d\n", command.drone.id, command.tag,
-//                        quantity, product.id);
-//            }
+        for (String line : generateOutputLines(output.commands)) {
+            System.out.println(line);
         }
+    }
+
+    public static List<String> generateOutputLines(List<Command> commands) {
+        int lineCount = 0;
+
+        LinkedList<String> lines = new LinkedList<>();
+        for (Command command : commands) {
+            List<String> outputLines = command.generateOutputLines();
+            for (String line : outputLines) {
+                lines.add(line);
+            }
+            lineCount += outputLines.size();
+        }
+        lines.addFirst(lineCount + "\n");
+        return lines;
     }
 
 }

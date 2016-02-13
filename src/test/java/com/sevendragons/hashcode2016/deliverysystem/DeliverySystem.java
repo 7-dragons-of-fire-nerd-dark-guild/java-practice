@@ -1,7 +1,8 @@
 package com.sevendragons.hashcode2016.deliverysystem;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class DeliverySystem {
@@ -52,13 +53,13 @@ public class DeliverySystem {
         return (int) Math.ceil(Math.sqrt(rowDiff * rowDiff + colDiff * colDiff));
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
         String inputPath = args[0];
-//        String outputPath = args[1];
+        String outputPath = args[1];
 
         Input input = parseInput(new Scanner(new File(inputPath)));
         Output output = solve(input);
-        printOutput(output);
+        writeOutput(new File(outputPath), output);
     }
 
     public static Input parseInput(Scanner scanner) {
@@ -75,9 +76,11 @@ public class DeliverySystem {
         return new Output(commands);
     }
 
-    public static void printOutput(Output output) {
-        for (String line : generateOutputLines(output.commands)) {
-            System.out.println(line);
+    public static void writeOutput(File file, Output output) throws IOException {
+        try (FileWriter writer = new FileWriter(file)) {
+            for (String line : generateOutputLines(output.commands)) {
+                writer.append(line);
+            }
         }
     }
 

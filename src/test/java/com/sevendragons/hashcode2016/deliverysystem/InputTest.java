@@ -46,6 +46,14 @@ public class InputTest {
                         new Product(2, 450)
                 ), input.products
         );
+
+        assertEquals(
+                Arrays.asList(
+                        new Order(0, 1, 1, Pack.fromCounts(1, 0, 1)),
+                        new Order(1, 3, 3, Pack.fromCounts(3, 0, 0)),
+                        new Order(2, 5, 6, Pack.fromCounts(0, 0, 1))
+                ), input.orders
+        );
     }
 
 }

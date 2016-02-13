@@ -1,6 +1,7 @@
 package com.sevendragons.hashcode2016.deliverysystem;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
@@ -8,7 +9,7 @@ import java.util.*;
 public class DeliverySystem {
 
     public static class Output {
-        private final List<Command> commands;
+        final List<Command> commands;
 
         public Output(List<Command> commands) {
             this.commands = commands;
@@ -23,9 +24,6 @@ public class DeliverySystem {
     static int[][] order2warehouse;
 
     Map<Integer, Drone> droneMap = new HashMap<>();
-
-    public DeliverySystem(Input input) {
-    }
 
     static int[][] createMatrix(Map<Integer, ? extends MapItem> from, Map<Integer, ? extends MapItem> to) {
         int fromDim = from.size();
@@ -53,27 +51,14 @@ public class DeliverySystem {
         return (int) Math.ceil(Math.sqrt(rowDiff * rowDiff + colDiff * colDiff));
     }
 
-    public static void main(String[] args) throws IOException {
-        String inputPath = args[0];
-        String outputPath = args[1];
+    public static Input parseInput(String inputPath) throws FileNotFoundException {
+        return Input.fromScanner(new Scanner(new File(inputPath)));
+    }
 
-        Input input = parseInput(new Scanner(new File(inputPath)));
-        Output output = solve(input);
+    public static void solveAndWriteOutput(String inputPath, String outputPath, Solver solver) throws IOException {
+        Input input = parseInput(inputPath);
+        Output output = solver.solve(input);
         writeOutput(new File(outputPath), output);
-    }
-
-    public static Input parseInput(Scanner scanner) {
-        return Input.fromScanner(scanner);
-    }
-
-    public static Output solve(Input input) {
-        DeliverySystem system = new DeliverySystem(input);
-
-        Drone pivot = system.droneMap.get(0);
-
-        List<Command> commands = new ArrayList<>();
-
-        return new Output(commands);
     }
 
     public static void writeOutput(File file, Output output) throws IOException {
@@ -98,5 +83,4 @@ public class DeliverySystem {
         lines.addFirst(lineCount + "\n");
         return lines;
     }
-
 }

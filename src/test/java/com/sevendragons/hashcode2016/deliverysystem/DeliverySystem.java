@@ -8,14 +8,6 @@ import java.util.*;
 
 public class DeliverySystem {
 
-    public static class Output {
-        final List<Command> commands;
-
-        public Output(List<Command> commands) {
-            this.commands = commands;
-        }
-    }
-
     static Map<Integer, Warehouse> warehouseMap = new HashMap<>();
     static Map<Integer, Order> orderMap = new HashMap<>();
 

@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class PrimitiveSolver1 implements Solver {
     @Override
-    public DeliverySystem.Output solve(Input input) {
+    public Output solve(Input input) {
         Drone drone = input.drones.get(0);
         Order order = input.orders.get(0);
         WarehouseAndPack warehouseAndPack = findWarehouseAndPack(drone, order, input.warehouses);
@@ -21,7 +21,7 @@ public class PrimitiveSolver1 implements Solver {
                 new LoadCommand(drone, warehouseAndPack.warehouse, pack),
                 new DeliverCommand(drone, order, pack)
         );
-        return new DeliverySystem.Output(commands);
+        return new Output(commands);
     }
 
     static class WarehouseAndPack {

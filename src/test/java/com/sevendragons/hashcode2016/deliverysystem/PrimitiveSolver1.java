@@ -14,11 +14,13 @@ public class PrimitiveSolver1 implements Solver {
     public Output solve(Input input) {
         Drone drone = input.drones.get(0);
         Order order = input.orders.get(0);
+
         WarehouseAndPack warehouseAndPack = findWarehouseAndPack(drone, order, input.warehouses);
-        Pack pack = createBestEffortPack(drone, order, warehouseAndPack.warehouse);
+        Warehouse warehouse = warehouseAndPack.warehouse;
+        Pack pack = warehouseAndPack.pack;
 
         List<Command> commands = Arrays.asList(
-                new LoadCommand(drone, warehouseAndPack.warehouse, pack),
+                new LoadCommand(drone, warehouse, pack),
                 new DeliverCommand(drone, order, pack)
         );
         return new Output(commands);
@@ -41,10 +43,6 @@ public class PrimitiveSolver1 implements Solver {
                 return new WarehouseAndPack(warehouse, partialPack);
             }
         }
-        return null;
-    }
-
-    public Pack createBestEffortPack(Drone drone, Order order, Warehouse warehouse) {
         return null;
     }
 }

@@ -15,4 +15,9 @@ public class Drone extends AbstractMapItem {
     public int calculateCapacityFor(Product product) {
         return (maxPayload - pack.getWeight()) / product.weight;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s %s %s %s", id, row, col, maxPayload, pack);
+    }
 }

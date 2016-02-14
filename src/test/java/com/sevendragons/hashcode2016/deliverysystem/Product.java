@@ -1,8 +1,8 @@
 package com.sevendragons.hashcode2016.deliverysystem;
 
 public class Product {
-    final int id;
-    final int weight;
+    public final int id;
+    public final int weight;
 
     public Product(int id, int weight) {
         this.id = id;

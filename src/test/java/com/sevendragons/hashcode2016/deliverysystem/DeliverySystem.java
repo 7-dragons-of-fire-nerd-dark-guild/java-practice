@@ -39,7 +39,7 @@ public class DeliverySystem {
         return matrix;
     }
 
-    static int calculateDistance(MapItem item1, MapItem item2) {
+    public static int calculateDistance(MapItem item1, MapItem item2) {
         int rowDiff = Math.abs(item1.getRow() - item2.getRow());
         int colDiff = Math.abs(item1.getCol() - item2.getCol());
         return (int) Math.ceil(Math.sqrt(rowDiff * rowDiff + colDiff * colDiff));

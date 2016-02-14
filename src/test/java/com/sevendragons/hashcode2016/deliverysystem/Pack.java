@@ -1,16 +1,19 @@
 package com.sevendragons.hashcode2016.deliverysystem;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Pack {
 
     private final Map<Product, Integer> items;
 
+    private static final Comparator<Product> PRODUCT_COMPARATOR =
+            (Comparator<Product>) (o1, o2) -> Integer.compare(o1.id, o2.id);
+
+    private static final Comparator<Item> ITEM_COMPARATOR =
+            (Comparator<Item>) (o1, o2) -> Integer.compare(o1.product.id, o2.product.id);
+
     public Pack() {
-        this.items = new HashMap<>();
+        this.items = new TreeMap<>(PRODUCT_COMPARATOR);
     }
 
     private Pack(Map<Product, Integer> items) {
@@ -71,7 +74,7 @@ public class Pack {
     }
 
     public Set<Item> getItems() {
-        Set<Item> set = new HashSet<>();
+        Set<Item> set = new TreeSet<>(ITEM_COMPARATOR);
         for (Product product : items.keySet()) {
             set.add(new Item(product));
         }

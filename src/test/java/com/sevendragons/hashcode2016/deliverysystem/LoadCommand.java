@@ -6,7 +6,7 @@ import java.util.List;
 public class LoadCommand extends LoadDeliverCommand {
     private final Warehouse warehouse;
 
-    LoadCommand(Drone drone, Warehouse warehouse, Pack pack) {
+    public LoadCommand(Drone drone, Warehouse warehouse, Pack pack) {
         super(drone, 'L', pack);
         this.warehouse = warehouse;
     }

@@ -1,5 +1,9 @@
-package com.sevendragons.hashcode2016.deliverysystem;
+package com.sevendragons.hashcode2016.deliverysystem.solver;
 
+import com.sevendragons.hashcode2016.deliverysystem.Drone;
+import com.sevendragons.hashcode2016.deliverysystem.Order;
+import com.sevendragons.hashcode2016.deliverysystem.Pack;
+import com.sevendragons.hashcode2016.deliverysystem.Warehouse;
 import org.junit.Test;
 
 import java.util.Arrays;

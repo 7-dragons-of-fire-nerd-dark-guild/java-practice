@@ -1,4 +1,6 @@
-package com.sevendragons.hashcode2016.deliverysystem;
+package com.sevendragons.hashcode2016.deliverysystem.solver;
+
+import com.sevendragons.hashcode2016.deliverysystem.*;
 
 import java.util.Arrays;
 import java.util.List;

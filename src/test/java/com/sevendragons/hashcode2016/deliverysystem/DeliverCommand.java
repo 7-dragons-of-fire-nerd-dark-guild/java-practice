@@ -6,7 +6,7 @@ import java.util.List;
 public class DeliverCommand extends LoadDeliverCommand {
     private final Order order;
 
-    DeliverCommand(Drone drone, Order order, Pack pack) {
+    public DeliverCommand(Drone drone, Order order, Pack pack) {
         super(drone, 'D', pack);
         this.order = order;
     }

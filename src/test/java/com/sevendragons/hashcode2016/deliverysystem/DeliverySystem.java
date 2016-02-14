@@ -1,5 +1,7 @@
 package com.sevendragons.hashcode2016.deliverysystem;
 
+import com.sevendragons.hashcode2016.deliverysystem.solver.Solver;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;

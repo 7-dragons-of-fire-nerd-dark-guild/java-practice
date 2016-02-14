@@ -7,7 +7,7 @@ public class Warehouse implements MapItem {
     final int col;
     final Pack pack;
 
-    Warehouse(int id, int row, int col, Pack pack) {
+    public Warehouse(int id, int row, int col, Pack pack) {
         this.id = id;
         this.row = row;
         this.col = col;

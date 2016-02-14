@@ -5,7 +5,7 @@ public class Order implements MapItem {
     final int id;
     final int row;
     final int col;
-    final Pack pack;
+    public final Pack pack;
 
     public Order(int id, int row, int col, Pack pack) {
         this.id = id;

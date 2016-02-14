@@ -37,6 +37,9 @@ public class WarehouseTest {
 
     @Test
     public void getPartialPack_should_return_partial_pack_when_drone_cannot_carry_more() {
+        Product product0 = new Product(0, 10);
+        Product product1 = new Product(1, 10);
+
         Pack pack = new Pack().add(product0, 3).add(product1, 3);
         Warehouse warehouse = new Warehouse(-1, -1, -1, pack.copy());
         Order order = new Order(-1, -1, -1, pack.copy());

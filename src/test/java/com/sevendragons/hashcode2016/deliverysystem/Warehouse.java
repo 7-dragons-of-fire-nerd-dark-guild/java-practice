@@ -26,6 +26,7 @@ public class Warehouse implements MapItem {
                 int availableCount = pack.getCount(product);
                 int count = Math.min(capacity, Math.min(requiredCount, availableCount));
                 partialPack.add(product, count);
+                drone.pack.add(product, count);
             }
         }
         return partialPack;

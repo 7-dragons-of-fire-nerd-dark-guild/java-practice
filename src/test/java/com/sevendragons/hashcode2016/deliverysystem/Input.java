@@ -42,11 +42,6 @@ public class Input {
             products.add(id, new Product(id, scanner.nextInt()));
         }
 
-        List<Drone> drones = new ArrayList<>();
-        for (int id = 0; id < droneCount; ++id) {
-            drones.add(new Drone(id, 0, 0, maxPayload, new Pack()));
-        }
-
         int warehouseCount = scanner.nextInt();
         List<Warehouse> warehouses = new ArrayList<>();
         for (int id = 0; id < warehouseCount; id++) {
@@ -61,6 +56,12 @@ public class Input {
 
             Warehouse warehouse = new Warehouse(id, row, col, pack);
             warehouses.add(warehouse);
+        }
+
+        List<Drone> drones = new ArrayList<>();
+        Warehouse warehouse = warehouses.get(0);
+        for (int id = 0; id < droneCount; ++id) {
+            drones.add(new Drone(id, warehouse.row, warehouse.col, maxPayload, new Pack()));
         }
 
         int orderCount = scanner.nextInt();

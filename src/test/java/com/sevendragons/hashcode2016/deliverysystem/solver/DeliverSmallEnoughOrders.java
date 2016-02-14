@@ -34,6 +34,8 @@ public class DeliverSmallEnoughOrders implements Solver {
                     new DeliverCommand(drone, order, pack)
             );
             commands.addAll(commands2);
+
+            warehouse.pack.sub(pack);
         }
         return new Output(commands);
     }

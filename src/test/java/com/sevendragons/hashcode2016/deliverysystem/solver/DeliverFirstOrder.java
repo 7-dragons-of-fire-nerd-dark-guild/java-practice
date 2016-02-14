@@ -11,7 +11,7 @@ import java.util.List;
  * 3. Load at the warehouse for the order
  * 4. Deliver for order
  */
-public class PrimitiveSolver1 implements Solver {
+public class DeliverFirstOrder implements Solver {
     @Override
     public Output solve(Input input) {
         Drone drone = input.drones.get(0);

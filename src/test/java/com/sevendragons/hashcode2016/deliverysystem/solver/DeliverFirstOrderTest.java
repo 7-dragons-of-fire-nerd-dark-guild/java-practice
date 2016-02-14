@@ -11,9 +11,9 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class PrimitiveSolver1Test {
+public class DeliverFirstOrderTest {
 
-    PrimitiveSolver1 solver = new PrimitiveSolver1();
+    DeliverFirstOrder solver = new DeliverFirstOrder();
     private Drone drone = new Drone(-1, -1, -1, -1, Pack.fromCounts(0, 0, 0));
 
     @Test
@@ -26,7 +26,7 @@ public class PrimitiveSolver1Test {
                 new Warehouse(1, -1, -1, pack.copy())
         );
 
-        PrimitiveSolver1.WarehouseAndPack warehouseAndPack = solver.findWarehouseAndPack(drone, order, warehouses);
+        DeliverFirstOrder.WarehouseAndPack warehouseAndPack = solver.findWarehouseAndPack(drone, order, warehouses);
         assertEquals(warehouses.get(1), warehouseAndPack.warehouse);
         assertEquals(pack, warehouseAndPack.pack);
     }
@@ -40,7 +40,7 @@ public class PrimitiveSolver1Test {
                 new Warehouse(1, -1, -1, Pack.fromCounts(1, 1, 0))
         );
 
-        PrimitiveSolver1.WarehouseAndPack warehouseAndPack = solver.findWarehouseAndPack(drone, order, warehouses);
+        DeliverFirstOrder.WarehouseAndPack warehouseAndPack = solver.findWarehouseAndPack(drone, order, warehouses);
         assertEquals(warehouses.get(1), warehouseAndPack.warehouse);
         assertEquals(Pack.fromCounts(0, 1, 0), warehouseAndPack.pack);
     }
@@ -54,7 +54,7 @@ public class PrimitiveSolver1Test {
                 new Warehouse(1, -1, -1, Pack.fromCounts(1, 0, 0))
         );
 
-        PrimitiveSolver1.WarehouseAndPack warehouseAndPack = solver.findWarehouseAndPack(drone, order, warehouses);
+        DeliverFirstOrder.WarehouseAndPack warehouseAndPack = solver.findWarehouseAndPack(drone, order, warehouses);
         assertEquals(null, warehouseAndPack);
     }
 }

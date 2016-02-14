@@ -12,12 +12,13 @@ import static org.junit.Assert.*;
 
 public class DeliverFirstOrderTest {
 
+    private final DeliverFirstOrder solver = new DeliverFirstOrder();
+
     private final Product product0 = new Product(0, 1);
     private final Product product1 = new Product(1, 10);
     private final Product product2 = new Product(2, 20);
     private final int maxPayload = new Pack().add(product0, product1, product2).getWeight();
 
-    private final DeliverFirstOrder solver = new DeliverFirstOrder();
     private final Drone drone = new Drone(-1, -1, -1, maxPayload, new Pack());
 
     @Test

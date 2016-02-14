@@ -14,8 +14,9 @@ public class DeliverCommand extends LoadDeliverCommand {
     @Override
     public List<String> generateOutputLines() {
         List<String> lines = new ArrayList<>();
-        for (int productId = 0; productId < pack.productCounts.length; ++productId) {
-            int count = pack.productCounts[productId];
+        for (Pack.Item item : pack.getItems()) {
+            int productId = item.product.id;
+            int count = item.getCount();
             if (count > 0) {
                 lines.add(String.format("%s %s %s %s %s\n", drone.id, tag, order.id, productId, count));
             }

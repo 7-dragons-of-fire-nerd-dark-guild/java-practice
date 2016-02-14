@@ -4,7 +4,7 @@ public class Product {
     final int id;
     final int weight;
 
-    Product(int id, int weight) {
+    public Product(int id, int weight) {
         this.id = id;
         this.weight = weight;
     }
@@ -32,5 +32,10 @@ public class Product {
         int result = id;
         result = 31 * result + weight;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s", id, weight);
     }
 }

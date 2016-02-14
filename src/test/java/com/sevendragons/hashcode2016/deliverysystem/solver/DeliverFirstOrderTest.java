@@ -1,9 +1,6 @@
 package com.sevendragons.hashcode2016.deliverysystem.solver;
 
-import com.sevendragons.hashcode2016.deliverysystem.Drone;
-import com.sevendragons.hashcode2016.deliverysystem.Order;
-import com.sevendragons.hashcode2016.deliverysystem.Pack;
-import com.sevendragons.hashcode2016.deliverysystem.Warehouse;
+import com.sevendragons.hashcode2016.deliverysystem.*;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -13,16 +10,21 @@ import static org.junit.Assert.*;
 
 public class DeliverFirstOrderTest {
 
-    DeliverFirstOrder solver = new DeliverFirstOrder();
-    private Drone drone = new Drone(-1, -1, -1, -1, Pack.fromCounts(0, 0, 0));
+    private final Product product0 = new Product(0, 1);
+    private final Product product1 = new Product(1, 10);
+    private final Product product2 = new Product(2, 20);
+    private final int maxPayload = new Pack().add(product0, product1, product2).getWeight();
+
+    private final DeliverFirstOrder solver = new DeliverFirstOrder();
+    private final Drone drone = new Drone(-1, -1, -1, maxPayload, new Pack());
 
     @Test
     public void findWarehouse_should_find_warehouse_when_warehouse_has_everything() {
-        Pack pack = Pack.fromCounts(0, 1, 1);
+        Pack pack = new Pack().add(product1, product2);
         Order order = new Order(-1, -1, -1, pack);
 
         List<Warehouse> warehouses = Arrays.asList(
-                new Warehouse(0, -1, -1, Pack.EMPTY),
+                new Warehouse(0, -1, -1, new Pack()),
                 new Warehouse(1, -1, -1, pack.copy())
         );
 
@@ -33,28 +35,30 @@ public class DeliverFirstOrderTest {
 
     @Test
     public void findWarehouse_should_find_warehouse_when_warehouse_has_some() {
-        Order order = new Order(-1, -1, -1, Pack.fromCounts(0, 1, 1));
+        Pack pack = new Pack().add(product1, product2);
+        Order order = new Order(-1, -1, -1, pack);
 
         List<Warehouse> warehouses = Arrays.asList(
-                new Warehouse(0, -1, -1, Pack.EMPTY),
-                new Warehouse(1, -1, -1, Pack.fromCounts(1, 1, 0))
+                new Warehouse(0, -1, -1, new Pack()),
+                new Warehouse(1, -1, -1, new Pack().add(product0, product1))
         );
 
         DeliverFirstOrder.WarehouseAndPack warehouseAndPack = solver.findWarehouseAndPack(drone, order, warehouses);
         assertEquals(warehouses.get(1), warehouseAndPack.warehouse);
-        assertEquals(Pack.fromCounts(0, 1, 0), warehouseAndPack.pack);
+        assertEquals(new Pack().add(product1).add(product2, 0), warehouseAndPack.pack);
     }
 
     @Test
     public void findWarehouse_should_find_none_when_warehouse_has_none() {
-        Order order = new Order(-1, -1, -1, Pack.fromCounts(0, 1, 1));
+        Order order = new Order(-1, -1, -1, new Pack().add(product1, product2));
 
         List<Warehouse> warehouses = Arrays.asList(
-                new Warehouse(0, -1, -1, Pack.EMPTY),
-                new Warehouse(1, -1, -1, Pack.fromCounts(1, 0, 0))
+                new Warehouse(0, -1, -1, new Pack()),
+                new Warehouse(1, -1, -1, new Pack().add(product0))
         );
 
         DeliverFirstOrder.WarehouseAndPack warehouseAndPack = solver.findWarehouseAndPack(drone, order, warehouses);
         assertEquals(null, warehouseAndPack);
     }
 }
+

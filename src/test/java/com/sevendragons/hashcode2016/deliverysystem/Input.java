@@ -44,7 +44,7 @@ public class Input {
 
         List<Drone> drones = new ArrayList<>();
         for (int id = 0; id < droneCount; ++id) {
-            drones.add(new Drone(id, 0, 0, maxPayload, new Pack(productTypeCount)));
+            drones.add(new Drone(id, 0, 0, maxPayload, new Pack()));
         }
 
         int warehouseCount = scanner.nextInt();
@@ -53,12 +53,10 @@ public class Input {
             int row = scanner.nextInt();
             int col = scanner.nextInt();
 
-            Pack pack = new Pack(productTypeCount);
+            Pack pack = new Pack();
             for (int productId = 0; productId < productTypeCount; ++productId) {
                 int count = scanner.nextInt();
-                if (count > 0) {
-                    pack.addProduct(productId, count);
-                }
+                pack.add(products.get(productId), count);
             }
 
             Warehouse warehouse = new Warehouse(id, row, col, pack);
@@ -71,11 +69,11 @@ public class Input {
             int row = scanner.nextInt();
             int col = scanner.nextInt();
 
-            Pack pack = new Pack(productTypeCount);
+            Pack pack = new Pack();
             int itemCount = scanner.nextInt();
             for (int count = 0; count < itemCount; ++count) {
                 int productId = scanner.nextInt();
-                pack.addProduct(productId, 1);
+                pack.add(products.get(productId));
             }
 
             Order order = new Order(id, row, col, pack);

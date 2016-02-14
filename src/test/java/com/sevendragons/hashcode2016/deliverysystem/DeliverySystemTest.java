@@ -37,7 +37,7 @@ public class DeliverySystemTest {
     @Test
     public void test_createMatrix_2x2() {
         Map<Integer, MapItem> orderMap = new HashMap<>();
-        Pack pack = new Pack(0);
+        Pack pack = new Pack();
         orderMap.put(0, new Order(0, 1, 1, pack));
         orderMap.put(1, new Order(1, 3, 4, pack));
 
@@ -50,7 +50,7 @@ public class DeliverySystemTest {
     @Test
     public void test_createMatrix_3x3() {
         Map<Integer, MapItem> orderMap = new HashMap<>();
-        Pack pack = new Pack(0);
+        Pack pack = new Pack();
         orderMap.put(0, new Order(0, 1, 1, pack));
         orderMap.put(1, new Order(1, 3, 4, pack));
         orderMap.put(2, new Order(2, 4, 5, pack));
@@ -69,7 +69,7 @@ public class DeliverySystemTest {
     @Test
     public void test_createMatrix_2x3() {
         Map<Integer, MapItem> orderMap = new HashMap<>();
-        Pack pack = new Pack(0);
+        Pack pack = new Pack();
         orderMap.put(0, new Order(0, 1, 1, pack));
         orderMap.put(1, new Order(1, 3, 4, pack));
 
@@ -90,7 +90,7 @@ public class DeliverySystemTest {
 
     @Test
     public void test_calculateDistance() {
-        Pack pack = new Pack(0);
+        Pack pack = new Pack();
 
         // root(2*2 + 3*3) -> root(13)
         assertEquals(4, DeliverySystem.calculateDistance(new Order(0, 1, 1, pack), new Order(0, 3, 4, pack)));

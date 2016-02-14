@@ -9,6 +9,10 @@ import static org.junit.Assert.*;
 
 public class OutputTest {
 
+    private final Product product0 = new Product(0, 1);
+    private final Product product1 = new Product(1, 10);
+    private final Product product2 = new Product(2, 20);
+
     @Test
     public void test_toOutputLines_example_1() {
         Drone drone0 = new Drone(0, -1, -1, -1, null);
@@ -20,15 +24,15 @@ public class OutputTest {
         Order order2 = new Order(2, -1, -1, null);
 
         List<Command> commands = Arrays.asList(
-                new LoadCommand(drone0, warehouse0, Pack.fromCounts(1, 1)),
-                new DeliverCommand(drone0, order0, Pack.fromCounts(1)),
-                new LoadCommand(drone0, warehouse1, Pack.fromCounts(0, 0, 1)),
-                new DeliverCommand(drone0, order0, Pack.fromCounts(0, 0, 1)),
+                new LoadCommand(drone0, warehouse0, new Pack().add(product0, product1)),
+                new DeliverCommand(drone0, order0, new Pack().add(product0)),
+                new LoadCommand(drone0, warehouse1, new Pack().add(product2)),
+                new DeliverCommand(drone0, order0, new Pack().add(product2)),
 
-                new LoadCommand(drone1, warehouse1, Pack.fromCounts(0, 0, 1)),
-                new DeliverCommand(drone1, order2, Pack.fromCounts(0, 0, 1)),
-                new LoadCommand(drone1, warehouse0, Pack.fromCounts(1)),
-                new DeliverCommand(drone1, order1, Pack.fromCounts(1))
+                new LoadCommand(drone1, warehouse1, new Pack().add(product2)),
+                new DeliverCommand(drone1, order2, new Pack().add(product2)),
+                new LoadCommand(drone1, warehouse0, new Pack().add(product0)),
+                new DeliverCommand(drone1, order1, new Pack().add(product0))
         );
 
         Output output = new Output(commands);

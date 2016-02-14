@@ -1,35 +1,85 @@
 package com.sevendragons.hashcode2016.deliverysystem;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class Pack {
 
-    final int[] productCounts;
+    private final Map<Product, Integer> items;
 
-    public Pack(int productTypeCount) {
-        this.productCounts = new int[productTypeCount];
+    public Pack() {
+        this.items = new HashMap<>();
     }
 
-    private Pack(int[] productCounts) {
-        this.productCounts = productCounts;
+    private Pack(Map<Product, Integer> items) {
+        this();
+        this.items.putAll(items);
     }
-
-    public void addProduct(int productId, int count) {
-        productCounts[productId] += count;
-    }
-
-    public static Pack fromCounts(int... productCounts) {
-        return new Pack(productCounts);
-    }
-
-    public static final Pack EMPTY = Pack.fromCounts();
 
     public Pack copy() {
-        return new Pack(productCounts.clone());
+        return new Pack(items);
+    }
+
+    public Pack add(Product... products) {
+        for (Product product : products) {
+            add(product, 1);
+        }
+        return this;
+    }
+
+    public Pack add(Product product, int count) {
+        items.put(product, items.getOrDefault(product, 0) + count);
+        return this;
+    }
+
+    public int getCount(Product product) {
+        return items.getOrDefault(product, 0);
+    }
+
+    private void setCount(Product product, int count) {
+        items.put(product, count);
+    }
+
+    public Pack sub(Pack pack) {
+        for (Item item : pack.getItems()) {
+            setCount(item.product, Math.max(0, getCount(item.product) - item.getCount()));
+        }
+        return this;
+    }
+
+    // TODO keep running count instead of recalculating every time
+    public int getWeight() {
+        int weight = 0;
+        for (Item item : getItems()) {
+            weight += item.product.weight * item.getCount();
+        }
+        return weight;
+    }
+
+    public class Item {
+        public final Product product;
+
+        public Item(Product product) {
+            this.product = product;
+        }
+
+        public int getCount() {
+            return items.getOrDefault(product, 0);
+        }
+    }
+
+    public Set<Item> getItems() {
+        Set<Item> set = new HashSet<>();
+        for (Product product : items.keySet()) {
+            set.add(new Item(product));
+        }
+        return set;
     }
 
     public boolean isEmpty() {
-        for (int count : productCounts) {
+        for (Integer count : items.values()) {
             if (count > 0) {
                 return false;
             }
@@ -48,17 +98,17 @@ public class Pack {
 
         Pack pack = (Pack) o;
 
-        return Arrays.equals(productCounts, pack.productCounts);
+        return items.equals(pack.items);
 
     }
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(productCounts);
+        return items.hashCode();
     }
 
     @Override
     public String toString() {
-        return Arrays.toString(productCounts);
+        return items.toString();
     }
 }

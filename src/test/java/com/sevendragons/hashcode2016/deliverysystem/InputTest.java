@@ -8,6 +8,11 @@ import java.util.Scanner;
 import static org.junit.Assert.assertEquals;
 
 public class InputTest {
+
+    private final Product product0 = new Product(0, 100);
+    private final Product product1 = new Product(1, 5);
+    private final Product product2 = new Product(2, 450);
+
     @Test
     public void test_example_1() {
         String text = "" +
@@ -35,8 +40,12 @@ public class InputTest {
         assertEquals(3, input.drones.size());
 
         assertEquals(2, input.warehouses.size());
-        assertEquals(new Warehouse(0, 0, 0, Pack.fromCounts(5, 1, 0)), input.warehouses.get(0));
-        assertEquals(new Warehouse(1, 5, 5, Pack.fromCounts(0, 10, 2)), input.warehouses.get(1));
+
+        Warehouse warehouse0 = new Warehouse(0, 0, 0, new Pack().add(product0, 5).add(product1).add(product2, 0));
+        assertEquals(warehouse0, input.warehouses.get(0));
+
+        Warehouse warehouse1 = new Warehouse(1, 5, 5, new Pack().add(product0, 0).add(product1, 10).add(product2, 2));
+        assertEquals(warehouse1, input.warehouses.get(1));
 
         assertEquals(3, input.products.size());
         assertEquals(
@@ -49,9 +58,9 @@ public class InputTest {
 
         assertEquals(
                 Arrays.asList(
-                        new Order(0, 1, 1, Pack.fromCounts(1, 0, 1)),
-                        new Order(1, 3, 3, Pack.fromCounts(3, 0, 0)),
-                        new Order(2, 5, 6, Pack.fromCounts(0, 0, 1))
+                        new Order(0, 1, 1, new Pack().add(product0, product2)),
+                        new Order(1, 3, 3, new Pack().add(product0, 3)),
+                        new Order(2, 5, 6, new Pack().add(product2))
                 ), input.orders
         );
     }

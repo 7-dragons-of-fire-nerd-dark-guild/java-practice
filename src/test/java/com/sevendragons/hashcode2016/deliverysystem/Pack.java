@@ -81,6 +81,10 @@ public class Pack {
         return set;
     }
 
+    public int calculateCapacityFor(Product product, int maxPayload) {
+        return (maxPayload - getWeight()) / product.weight;
+    }
+
     public boolean isEmpty() {
         for (Integer count : items.values()) {
             if (count > 0) {

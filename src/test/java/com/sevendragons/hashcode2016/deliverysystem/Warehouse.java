@@ -16,17 +16,18 @@ public class Warehouse implements MapItem {
 
     public Pack buildPartialPack(Order order, Drone drone) {
         Pack targetPack = order.pack.copy().sub(drone.pack);
+        Pack dronePack = drone.pack.copy();
 
         Pack partialPack = new Pack();
         for (Pack.Item item : targetPack.getItems()) {
             Product product = item.product;
-            int capacity = Math.min(item.getCount(), drone.calculateCapacityFor(product));
+            int capacity = Math.min(item.getCount(), dronePack.calculateCapacityFor(product, drone.maxPayload));
             if (capacity > 0) {
                 int requiredCount = item.getCount();
                 int availableCount = pack.getCount(product);
                 int count = Math.min(capacity, Math.min(requiredCount, availableCount));
                 partialPack.add(product, count);
-                drone.pack.add(product, count);
+                dronePack.add(product, count);
             }
         }
         return partialPack;

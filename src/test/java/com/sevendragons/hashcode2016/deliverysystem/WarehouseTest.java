@@ -46,4 +46,16 @@ public class WarehouseTest {
         Drone drone = new Drone(-1, -1, -1, product0.weight * 2, new Pack());
         assertEquals(new Pack().add(product0, 2), warehouse.buildPartialPack(order, drone));
     }
+
+    @Test
+    public void getPartialPack_should_not_mutate_drone_state() {
+        Product product = new Product(-1, 10);
+        Warehouse warehouse = new Warehouse(-1, -1, -1, new Pack().add(product, 10));
+        Order order = new Order(-1, -1, -1, new Pack().add(product));
+        Drone drone = new Drone(-1, -1, -1, product.weight, new Pack());
+
+        Pack pack0 = warehouse.buildPartialPack(order, drone);
+        Pack pack1 = warehouse.buildPartialPack(order, drone);
+        assertEquals(pack0, pack1);
+    }
 }

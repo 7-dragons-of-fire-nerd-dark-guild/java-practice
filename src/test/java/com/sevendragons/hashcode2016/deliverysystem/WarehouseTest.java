@@ -34,4 +34,13 @@ public class WarehouseTest {
         Drone drone = new Drone(-1, -1, -1, maxPayload, new Pack());
         assertEquals(new Pack().add(product0).add(product1, 3), warehouse.buildPartialPack(order, drone));
     }
+
+    @Test
+    public void getPartialPack_should_return_partial_pack_when_drone_cannot_carry_more() {
+        Pack pack = new Pack().add(product0, 3).add(product1, 3);
+        Warehouse warehouse = new Warehouse(-1, -1, -1, pack.copy());
+        Order order = new Order(-1, -1, -1, pack.copy());
+        Drone drone = new Drone(-1, -1, -1, product0.weight * 2, new Pack());
+        assertEquals(new Pack().add(product0, 2), warehouse.buildPartialPack(order, drone));
+    }
 }
